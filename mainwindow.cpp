@@ -27,7 +27,7 @@ void MainWindow::on_action_Open_triggered()
 
     if (filename.isNull())
     {
-        QMessageBox::warning(this, "Error", "Not a valid file");
+        return;
     }
 
     file = new NL::File(filename.toLocal8Bit().data());
