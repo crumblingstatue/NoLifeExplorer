@@ -18,7 +18,8 @@ private:
     void die();
     mpg123_handle* handle = nullptr;
     std::vector<unsigned char> buf;
-    const SoundItem* sitem;
+    const unsigned char* begin;
+    u_int32_t length;
 };
 
 #endif // SOUND_H

@@ -16,6 +16,8 @@ Sound::~Sound() {
 }
 
 void Sound::open(const SoundItem& item) {
+    begin = static_cast<const unsigned char*>(item.data);
+    length = item.length;
     stop();
     assert(mpg123_close(handle));
     assert(mpg123_open_feed(handle));
@@ -25,7 +27,6 @@ void Sound::open(const SoundItem& item) {
     assert(mpg123_getformat(handle, &rate, &channels, &encoding));
     buf.resize(mpg123_outblock(handle));
     initialize(channels, rate);
-    sitem = &item;
 }
 
 bool Sound::onGetData(Chunk &data)
@@ -41,7 +42,7 @@ void Sound::onSeek(sf::Time timeOffset)
 {
     off_t offset;
     mpg123_feedseek(handle, timeOffset.asSeconds(), SEEK_SET, &offset);
-    mpg123_feed(handle, (const unsigned char*)(sitem->data) + offset, sitem->length - offset);
+    mpg123_feed(handle, begin + offset, length - offset);
 }
 
 void Sound::assert(int result)
