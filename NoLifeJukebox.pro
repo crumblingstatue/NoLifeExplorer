@@ -21,4 +21,4 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
-LIBS += -lbass
+LIBS += -lsfml-audio -lsfml-system -lmpg123

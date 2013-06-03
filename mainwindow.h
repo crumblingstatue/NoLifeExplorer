@@ -3,7 +3,8 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
-#include <bass.h>
+#include <mpg123.h>
+#include <SFML/Audio.hpp>
 
 #include "NoLifeNx/NX.hpp"
 
@@ -12,6 +13,46 @@ struct SoundItem : public QStandardItem {
         QStandardItem(text) {}
     u_int32_t length;
     const void* data;
+};
+
+class Sound : public sf::SoundStream {
+public:
+    void open(const SoundItem& item) {
+        mpg123_delete(handle);
+        handle = mpg123_new(nullptr, nullptr);
+        if (!handle)
+        {
+            throw;
+        }
+        mpg123_open_feed(handle);
+        mpg123_feed(handle, (const unsigned char*)item.data, item.length);
+        long rate = 0;
+        int channels = 0, encoding  = 0;
+        if (mpg123_getformat(handle, &rate, &channels, &encoding) != MPG123_OK)
+        {
+            throw;
+        }
+        buf.resize(mpg123_outblock(handle));
+        initialize(channels, rate);
+    }
+private:
+
+    bool onGetData(Chunk &data)
+    {
+        size_t done;
+        mpg123_read(handle, buf.data(), buf.size(), &done);
+        data.samples = (sf::Int16 *)buf.data();
+        data.sampleCount = done / sizeof(sf::Int16);
+        return data.sampleCount > 0;
+    }
+
+    void onSeek(sf::Time timeOffset)
+    {
+        mpg123_seek(handle, timeOffset.asSeconds(), SEEK_SET);
+    }
+
+    mpg123_handle* handle = nullptr;
+    std::vector<unsigned char> buf;
 };
 
 namespace Ui {
@@ -35,7 +76,7 @@ private:
     Ui::MainWindow *ui;
     NL::File* file;
     QStandardItemModel model;
-    DWORD playing = 0;
+    Sound sound;
 };
 
 #endif // MAINWINDOW_H

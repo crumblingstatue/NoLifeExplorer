@@ -12,11 +12,15 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     file = nullptr;
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
-    BASS_Init(-1, 44100, 0, nullptr, 0);
+    if (mpg123_init() != MPG123_OK)
+    {
+        throw;
+    }
 }
 
 MainWindow::~MainWindow()
 {
+    mpg123_exit();
     delete file;
     delete ui;
 }
@@ -43,9 +47,8 @@ void MainWindow::handleItemClicked(QModelIndex index)
 {
     if (auto* item = dynamic_cast<SoundItem*>(model.itemFromIndex(index)))
     {
-        if (playing) BASS_ChannelStop(playing);
-        playing = BASS_StreamCreateFile(true, item->data, 0, item->length, BASS_SAMPLE_FLOAT | BASS_SAMPLE_LOOP);
-        BASS_ChannelPlay(playing, true);
+        sound.open(*item);
+        sound.play();
     }
 }
 
