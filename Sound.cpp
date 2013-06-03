@@ -25,7 +25,7 @@ void Sound::open(const SoundItem& item)
     stop();
     assert(mpg123_close(handle));
     assert(mpg123_open_feed(handle));
-    assert(mpg123_feed(handle, (const unsigned char*)item.data, item.length));
+    assert(mpg123_feed(handle, begin, length));
     long rate = 0;
     int channels = 0, encoding  = 0;
     assert(mpg123_getformat(handle, &rate, &channels, &encoding));
