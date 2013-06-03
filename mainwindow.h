@@ -17,15 +17,36 @@ struct SoundItem : public QStandardItem {
 
 class Sound : public sf::SoundStream {
 public:
-    void open(const SoundItem& item) {
-        mpg123_delete(handle);
+    Sound() {
+        if (mpg123_init() != MPG123_OK)
+        {
+            throw;
+        }
         handle = mpg123_new(nullptr, nullptr);
         if (!handle)
         {
             throw;
         }
-        mpg123_open_feed(handle);
-        mpg123_feed(handle, (const unsigned char*)item.data, item.length);
+    }
+
+    ~Sound() {
+        mpg123_delete(handle);
+    }
+
+    void open(const SoundItem& item) {
+        stop();
+        if (mpg123_close(handle) != MPG123_OK)
+        {
+            throw;
+        }
+        if (mpg123_open_feed(handle) != MPG123_OK)
+        {
+            throw;
+        }
+        if (mpg123_feed(handle, (const unsigned char*)item.data, item.length) != MPG123_OK)
+        {
+            throw;
+        }
         long rate = 0;
         int channels = 0, encoding  = 0;
         if (mpg123_getformat(handle, &rate, &channels, &encoding) != MPG123_OK)

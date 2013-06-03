@@ -12,10 +12,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     file = nullptr;
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
-    if (mpg123_init() != MPG123_OK)
-    {
-        throw;
-    }
 }
 
 MainWindow::~MainWindow()
