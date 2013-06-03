@@ -6,13 +6,14 @@
 #include <mpg123.h>
 #include <SFML/Audio.hpp>
 
-class Sound : public sf::SoundStream {
+class Sound : public sf::SoundStream
+{
 public:
     Sound();
     ~Sound();
     void open(const SoundItem& item);
 private:
-    bool onGetData(Chunk &data);
+    bool onGetData(Chunk& data);
     void onSeek(sf::Time timeOffset);
     void assert(int result);
     void die();

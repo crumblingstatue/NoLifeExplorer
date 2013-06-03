@@ -5,7 +5,7 @@
 #include <QMessageBox>
 #include <iostream>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
@@ -33,11 +33,11 @@ void MainWindow::on_action_Open_triggered()
 
     file = new NL::File(filename.toLocal8Bit().data());
     NL::Node sounds = file->Base()["Sound"];
+
     for (NL::Node n : sounds)
     {
         handleNode(n);
     }
-
 }
 
 void MainWindow::handleItemClicked(QModelIndex index)
@@ -49,21 +49,25 @@ void MainWindow::handleItemClicked(QModelIndex index)
     }
 }
 
-void MainWindow::handleNode(const NL::Node &node, QStandardItem* parent)
+void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
 {
-    auto parentItem = (parent? parent : model.invisibleRootItem());
+    auto parentItem = (parent ? parent : model.invisibleRootItem());
+
     switch (node.T())
     {
     case NL::Node::none:
     {
         QStandardItem* item = new QStandardItem(QString::fromStdString(node.Name()));
         parentItem->appendRow(item);
+
         for (NL::Node n : node)
         {
             handleNode(n, item);
         }
+
         break;
     }
+
     case NL::Node::audio:
     {
         auto item = new SoundItem(QString::fromStdString(node.Name()));
@@ -72,6 +76,7 @@ void MainWindow::handleNode(const NL::Node &node, QStandardItem* parent)
         parentItem->appendRow(item);
         break;
     }
+
     default:
         throw;
     }

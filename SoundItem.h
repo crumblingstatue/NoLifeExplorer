@@ -3,7 +3,8 @@
 
 #include <QStandardItem>
 
-struct SoundItem : public QStandardItem {
+struct SoundItem : public QStandardItem
+{
     SoundItem(const QString& text) :
         QStandardItem(text) {}
     u_int32_t length;

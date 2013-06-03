@@ -2,20 +2,24 @@
 
 #include <QDebug>
 
-Sound::Sound() {
+Sound::Sound()
+{
     assert(mpg123_init());
     handle = mpg123_new(nullptr, nullptr);
+
     if (!handle)
     {
         die();
     }
 }
 
-Sound::~Sound() {
+Sound::~Sound()
+{
     mpg123_delete(handle);
 }
 
-void Sound::open(const SoundItem& item) {
+void Sound::open(const SoundItem& item)
+{
     begin = static_cast<const unsigned char*>(item.data);
     length = item.length;
     stop();
@@ -29,11 +33,11 @@ void Sound::open(const SoundItem& item) {
     initialize(channels, rate);
 }
 
-bool Sound::onGetData(Chunk &data)
+bool Sound::onGetData(Chunk& data)
 {
     size_t done;
     mpg123_read(handle, buf.data(), buf.size(), &done);
-    data.samples = (sf::Int16 *)buf.data();
+    data.samples = (sf::Int16*)buf.data();
     data.sampleCount = done / sizeof(sf::Int16);
     return data.sampleCount > 0;
 }
