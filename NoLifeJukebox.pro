@@ -16,9 +16,12 @@ TEMPLATE = app
 SOURCES += main.cpp\
         mainwindow.cpp\
         NoLifeNx/NX.cpp\
-        NoLifeNx/lz4.cpp
+        NoLifeNx/lz4.cpp \
+    Sound.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    Sound.h \
+    SoundItem.h
 
 FORMS    += mainwindow.ui
 LIBS += -lsfml-audio -lsfml-system -lmpg123

@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     file = nullptr;
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
+    sound.setLoop(true);
 }
 
 MainWindow::~MainWindow()
@@ -76,4 +77,9 @@ void MainWindow::handleNode(const NL::Node &node, QStandardItem* parent)
     }
 
     ui->treeView->setModel(&model);
+}
+
+void MainWindow::on_actionLoop_toggled(bool arg1)
+{
+    sound.setLoop(arg1);
 }
