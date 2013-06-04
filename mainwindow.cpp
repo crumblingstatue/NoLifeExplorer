@@ -16,8 +16,8 @@ MainWindow::MainWindow(QWidget* parent) :
     sound.setLoop(true);
     ui->treeView->setVisible(false);
     timer = new QTimer;
-    timer->setInterval(1000);
-    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeOut()));
+    timer->setInterval(250);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
 }
 
 MainWindow::~MainWindow()
@@ -57,6 +57,8 @@ void MainWindow::handleItemClicked(QModelIndex index)
         ui->pushButton->setEnabled(true);
         ui->horizontalSlider->setEnabled(true);
         ui->label->setEnabled(true);
+        ui->horizontalSlider->setMaximum(sound.lengthTime.asMilliseconds());
+        updateTimeInfo();
         timer->start();
     }
 }
@@ -101,7 +103,8 @@ void MainWindow::on_actionLoop_toggled(bool arg1)
     sound.setLoop(arg1);
 }
 
-void MainWindow::onTimeOut()
+void MainWindow::updateTimeInfo()
 {
-    ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds()) + "/" + QString::number(sound.lengthTime.asSeconds()));
+    ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds(), 'f', 2) + "/" + QString::number(sound.lengthTime.asSeconds(), 'f', 2));
+    ui->horizontalSlider->setValue(sound.getPlayingOffset().asMilliseconds());
 }

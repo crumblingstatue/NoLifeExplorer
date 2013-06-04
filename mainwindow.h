@@ -27,7 +27,7 @@ private slots:
     void handleItemClicked(QModelIndex index);
 
     void on_actionLoop_toggled(bool arg1);
-    void onTimeOut();
+    void updateTimeInfo();
 
 private:
     void handleNode(const NL::Node& node, QStandardItem* parent = nullptr);
