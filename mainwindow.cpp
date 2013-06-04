@@ -120,6 +120,7 @@ void MainWindow::stop()
     ui->pushButton->setText("Play");
     ui->pushButton_2->setText("Pause");
     m_stopped = true;
+    nowPlaying->setText("Stopped " + currentItemTitle);
 }
 
 void MainWindow::on_pushButton_clicked()
@@ -162,12 +163,14 @@ void MainWindow::togglePaused()
         sound.play();
         ui->horizontalSlider->setEnabled(true);
         ui->pushButton_2->setText("Pause");
+        nowPlaying->setText("Now playing " + currentItemTitle);
     }
     else
     {
         sound.pause();
         ui->horizontalSlider->setEnabled(false);
         ui->pushButton_2->setText("Resume");
+        nowPlaying->setText("Paused " + currentItemTitle);
     }
 }
 
