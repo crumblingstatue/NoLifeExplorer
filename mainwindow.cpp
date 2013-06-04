@@ -103,6 +103,11 @@ void MainWindow::on_actionLoop_toggled(bool arg1)
 
 void MainWindow::updateTimeInfo()
 {
+    // Check if sound is stopped
+    if (sound.getStatus() == sf::SoundStream::Stopped)
+    {
+        stop();
+    }
     ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds(), 'f', 2) + "/" + QString::number(sound.lengthTime.asSeconds(), 'f', 2));
     ui->horizontalSlider->setValue(sound.getPlayingOffset().asMilliseconds());
 }
@@ -116,7 +121,6 @@ void MainWindow::stop()
 {
     ui->horizontalSlider->setEnabled(false);
     ui->pushButton_2->setEnabled(false);
-    sound.stop();
     ui->pushButton->setText("Play");
     ui->pushButton_2->setText("Pause");
     m_stopped = true;
@@ -127,6 +131,7 @@ void MainWindow::on_pushButton_clicked()
 {
     if (!stopped())
     {
+        sound.stop();
         stop();
     }
     else
