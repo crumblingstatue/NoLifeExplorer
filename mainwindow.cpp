@@ -3,8 +3,9 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
-#include <iostream>
+#include <sstream>
 #include <QDebug>
+#include <iomanip>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -108,7 +109,16 @@ void MainWindow::updateTimeInfo()
     {
         stop();
     }
-    ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds(), 'f', 2) + "/" + QString::number(sound.lengthTime.asSeconds(), 'f', 2));
+    int playingOffset = sound.getPlayingOffset().asSeconds();
+    int length = sound.lengthTime.asSeconds();
+    int oMinutes = playingOffset / 60;
+    int oSeconds = playingOffset % 60;
+    int lMinutes = length / 60;
+    int lSeconds = length % 60;
+    std::ostringstream ss;
+    ss << std::setfill('0');
+    ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / " << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
+    ui->label->setText(QString::fromStdString(ss.str()));
     ui->horizontalSlider->setValue(sound.getPlayingOffset().asMilliseconds());
 }
 
