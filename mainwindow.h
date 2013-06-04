@@ -28,10 +28,19 @@ private slots:
     void handleItemClicked(QModelIndex index);
 
     void on_actionLoop_toggled(bool arg1);
+
     void updateTimeInfo();
     void seek(int where);
+    void stop();
+    void play();
+    void togglePaused();
+
+    void on_pushButton_clicked();
+
+    void on_pushButton_2_clicked();
 
 private:
+    bool stopped();
     void handleNode(const NL::Node& node, QStandardItem* parent = nullptr);
     Ui::MainWindow* ui;
     NL::File* file;
@@ -40,6 +49,8 @@ private:
     bool m_looping = true;
     QTimer *timer;
     QLabel *nowPlaying;
+    bool m_stopped = true;
+    QString currentItemTitle;
 };
 
 #endif // MAINWINDOW_H

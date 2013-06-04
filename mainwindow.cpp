@@ -18,7 +18,7 @@ MainWindow::MainWindow(QWidget* parent) :
     timer = new QTimer;
     timer->setInterval(250);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
-    nowPlaying = new QLabel("NoLifeJukebox version SomethingSomething");
+    nowPlaying = new QLabel("NoLifeJukebox version 1.0");
     ui->statusBar->addWidget(nowPlaying);
     connect(ui->horizontalSlider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
 }
@@ -56,14 +56,8 @@ void MainWindow::handleItemClicked(QModelIndex index)
     if (auto* item = dynamic_cast<SoundItem*>(model.itemFromIndex(index)))
     {
         sound.open(*item);
-        sound.play();
-        ui->pushButton->setEnabled(true);
-        ui->horizontalSlider->setEnabled(true);
-        ui->label->setEnabled(true);
-        ui->horizontalSlider->setMaximum(sound.lengthTime.asMilliseconds());
-        updateTimeInfo();
-        timer->start();
-        nowPlaying->setText("Now playing " + item->text());
+        currentItemTitle = item->text();
+        play();
     }
 }
 
@@ -116,4 +110,68 @@ void MainWindow::updateTimeInfo()
 void MainWindow::seek(int where)
 {
     sound.setPlayingOffset(sf::milliseconds(where));
+}
+
+void MainWindow::stop()
+{
+    ui->horizontalSlider->setEnabled(false);
+    ui->pushButton_2->setEnabled(false);
+    sound.stop();
+    ui->pushButton->setText("Play");
+    ui->pushButton_2->setText("Pause");
+    m_stopped = true;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    if (!stopped())
+    {
+        stop();
+    }
+    else
+    {
+        play();
+    }
+}
+
+bool MainWindow::stopped()
+{
+    return m_stopped;
+}
+
+
+void MainWindow::play()
+{
+    sound.play();
+    ui->pushButton->setEnabled(true);
+    ui->pushButton_2->setEnabled(true);
+    ui->horizontalSlider->setEnabled(true);
+    ui->label->setEnabled(true);
+    ui->horizontalSlider->setMaximum(sound.lengthTime.asMilliseconds());
+    updateTimeInfo();
+    timer->start();
+    nowPlaying->setText("Now playing " + currentItemTitle);
+    m_stopped = false;
+    ui->pushButton->setText("Stop");
+}
+
+void MainWindow::togglePaused()
+{
+    if (sound.getStatus() == sf::SoundStream::Paused)
+    {
+        sound.play();
+        ui->horizontalSlider->setEnabled(true);
+        ui->pushButton_2->setText("Pause");
+    }
+    else
+    {
+        sound.pause();
+        ui->horizontalSlider->setEnabled(false);
+        ui->pushButton_2->setText("Resume");
+    }
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    togglePaused();
 }
