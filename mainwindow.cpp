@@ -4,6 +4,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 #include <iostream>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -13,6 +14,10 @@ MainWindow::MainWindow(QWidget* parent) :
     file = nullptr;
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
     sound.setLoop(true);
+    ui->treeView->setVisible(false);
+    timer = new QTimer;
+    timer->setInterval(1000);
+    connect(timer, SIGNAL(timeout()), this, SLOT(onTimeOut()));
 }
 
 MainWindow::~MainWindow()
@@ -38,6 +43,9 @@ void MainWindow::on_action_Open_triggered()
     {
         handleNode(n);
     }
+
+    ui->treeView->setVisible(true);
+    ui->treeView->setEnabled(true);
 }
 
 void MainWindow::handleItemClicked(QModelIndex index)
@@ -46,6 +54,10 @@ void MainWindow::handleItemClicked(QModelIndex index)
     {
         sound.open(*item);
         sound.play();
+        ui->pushButton->setEnabled(true);
+        ui->horizontalSlider->setEnabled(true);
+        ui->label->setEnabled(true);
+        timer->start();
     }
 }
 
@@ -87,4 +99,9 @@ void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
 void MainWindow::on_actionLoop_toggled(bool arg1)
 {
     sound.setLoop(arg1);
+}
+
+void MainWindow::onTimeOut()
+{
+    ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds()) + "/" + QString::number(sound.lengthTime.asSeconds()));
 }

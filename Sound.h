@@ -12,6 +12,7 @@ public:
     Sound();
     ~Sound();
     void open(const SoundItem& item);
+    sf::Time lengthTime;
 private:
     bool onGetData(Chunk& data);
     void onSeek(sf::Time timeOffset);

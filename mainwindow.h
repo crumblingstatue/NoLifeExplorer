@@ -7,6 +7,7 @@
 
 #include <QMainWindow>
 #include <QStandardItemModel>
+#include <QTimer>
 
 namespace Ui
 {
@@ -26,6 +27,7 @@ private slots:
     void handleItemClicked(QModelIndex index);
 
     void on_actionLoop_toggled(bool arg1);
+    void onTimeOut();
 
 private:
     void handleNode(const NL::Node& node, QStandardItem* parent = nullptr);
@@ -34,6 +36,7 @@ private:
     QStandardItemModel model;
     Sound sound;
     bool m_looping = true;
+    QTimer *timer;
 };
 
 #endif // MAINWINDOW_H
