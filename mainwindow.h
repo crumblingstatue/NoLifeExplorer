@@ -8,6 +8,7 @@
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTimer>
+#include <QLabel>
 
 namespace Ui
 {
@@ -37,6 +38,7 @@ private:
     Sound sound;
     bool m_looping = true;
     QTimer *timer;
+    QLabel *nowPlaying;
 };
 
 #endif // MAINWINDOW_H

@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget* parent) :
     timer = new QTimer;
     timer->setInterval(250);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
+    nowPlaying = new QLabel("NoLifeJukebox version SomethingSomething");
+    ui->statusBar->addWidget(nowPlaying);
 }
 
 MainWindow::~MainWindow()
@@ -60,6 +62,7 @@ void MainWindow::handleItemClicked(QModelIndex index)
         ui->horizontalSlider->setMaximum(sound.lengthTime.asMilliseconds());
         updateTimeInfo();
         timer->start();
+        nowPlaying->setText("Now playing " + item->text());
     }
 }
 
