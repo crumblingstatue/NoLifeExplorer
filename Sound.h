@@ -22,6 +22,7 @@ private:
     std::vector<unsigned char> buf;
     const unsigned char* begin;
     u_int32_t length;
+    long rate;
 };
 
 #endif // SOUND_H

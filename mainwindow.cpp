@@ -20,6 +20,7 @@ MainWindow::MainWindow(QWidget* parent) :
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
     nowPlaying = new QLabel("NoLifeJukebox version SomethingSomething");
     ui->statusBar->addWidget(nowPlaying);
+    connect(ui->horizontalSlider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
 }
 
 MainWindow::~MainWindow()
@@ -110,4 +111,9 @@ void MainWindow::updateTimeInfo()
 {
     ui->label->setText(QString::number(sound.getPlayingOffset().asSeconds(), 'f', 2) + "/" + QString::number(sound.lengthTime.asSeconds(), 'f', 2));
     ui->horizontalSlider->setValue(sound.getPlayingOffset().asMilliseconds());
+}
+
+void MainWindow::seek(int where)
+{
+    sound.setPlayingOffset(sf::milliseconds(where));
 }
