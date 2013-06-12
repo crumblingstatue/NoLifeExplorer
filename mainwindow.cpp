@@ -19,7 +19,7 @@ MainWindow::MainWindow(QWidget* parent) :
     timer = new QTimer;
     timer->setInterval(250);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
-    nowPlaying = new QLabel("NoLifeJukebox version 1.2");
+    nowPlaying = new QLabel("NoLifeExplorer version 1.2");
     ui->statusBar->addWidget(nowPlaying);
     connect(ui->horizontalSlider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
 }
