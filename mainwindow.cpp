@@ -60,6 +60,17 @@ void MainWindow::handleItemClicked(QModelIndex index)
 
     switch (node.T())
     {
+    case NL::Node::ireal:
+    case NL::Node::dreal:
+    case NL::Node::string:
+        qDebug() << QString::fromStdString(node.GetString());
+        break;
+    case NL::Node::vector:
+        qDebug() << node.GetVector().first << ", " << node.GetVector().second;
+        break;
+    case NL::Node::bitmap:
+        qDebug() << "Bitmap";
+        break;
     case NL::Node::audio:
         sound.open(node.GetAudio());
         currentItemTitle = item->text();
