@@ -41,9 +41,8 @@ void MainWindow::on_action_Open_triggered()
     }
 
     file = new NL::File(filename.toLocal8Bit().data());
-    NL::Node sounds = file->Base()["Sound"];
 
-    for (NL::Node n : sounds)
+    for (NL::Node n : file->Base())
     {
         handleNode(n);
     }
@@ -89,9 +88,6 @@ void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
         parentItem->appendRow(item);
         break;
     }
-
-    default:
-        throw;
     }
 
     ui->treeView->setModel(&model);
