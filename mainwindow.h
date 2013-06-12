@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "NoLifeNx/NX.hpp"
-
 #include "Sound.h"
 
 #include <QMainWindow>
@@ -26,6 +24,7 @@ public:
 private slots:
     void on_action_Open_triggered();
     void handleItemClicked(QModelIndex index);
+    void handleItemExpanded(QModelIndex index);
 
     void on_actionLoop_toggled(bool arg1);
 
@@ -41,7 +40,8 @@ private slots:
 
 private:
     bool stopped();
-    void handleNode(const NL::Node& node, QStandardItem* parent = nullptr);
+    void handleNode(const NL::Node& node, QStandardItem* parent);
+    QStandardItem *resolveNode(const NL::Node& node, QStandardItem* parent);
     Ui::MainWindow* ui;
     NL::File* file;
     QStandardItemModel model;

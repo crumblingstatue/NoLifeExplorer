@@ -2,13 +2,17 @@
 #define SOUNDITEM_H
 
 #include <QStandardItem>
+#include "NoLifeNx/NX.hpp"
 
-struct SoundItem : public QStandardItem
+struct NodeItem : public QStandardItem
 {
-    SoundItem(const QString& text) :
-        QStandardItem(text) {}
-    u_int32_t length;
-    const void* data;
+    NodeItem(const NL::Node& n) :
+        node(n)
+    {
+        setText(QString::fromStdString(node.Name()));
+    }
+
+    NL::Node node;
 };
 
 #endif // SOUNDITEM_H

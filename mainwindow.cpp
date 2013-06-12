@@ -14,6 +14,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->setupUi(this);
     file = nullptr;
     connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
+    connect(ui->treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(handleItemExpanded(QModelIndex)));
     sound.setLoop(true);
     ui->treeView->setVisible(false);
     timer = new QTimer;
@@ -45,7 +46,7 @@ void MainWindow::on_action_Open_triggered()
 
     for (NL::Node n : file->Base())
     {
-        handleNode(n);
+        handleNode(n, model.invisibleRootItem());
     }
 
     ui->treeView->setVisible(true);
@@ -54,42 +55,50 @@ void MainWindow::on_action_Open_triggered()
 
 void MainWindow::handleItemClicked(QModelIndex index)
 {
-    if (auto* item = dynamic_cast<SoundItem*>(model.itemFromIndex(index)))
-    {
-        sound.open(*item);
-        currentItemTitle = item->text();
-        play();
-    }
-}
-
-void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
-{
-    auto parentItem = (parent ? parent : model.invisibleRootItem());
+    auto item = static_cast<NodeItem*>(model.itemFromIndex(index));
+    auto node = item->node;
 
     switch (node.T())
     {
-    case NL::Node::none:
-    {
-        QStandardItem* item = new QStandardItem(QString::fromStdString(node.Name()));
-        parentItem->appendRow(item);
-
-        for (NL::Node n : node)
-        {
-            handleNode(n, item);
-        }
-
-        break;
-    }
-
     case NL::Node::audio:
-    {
-        auto item = new SoundItem(QString::fromStdString(node.Name()));
-        item->length = node.GetAudio().Length();
-        item->data = node.GetAudio().Data();
-        parentItem->appendRow(item);
+        sound.open(node.GetAudio());
+        currentItemTitle = item->text();
+        play();
+    default:
         break;
     }
+}
+
+void MainWindow::handleItemExpanded(QModelIndex index)
+{
+    auto item = static_cast<NodeItem*>(model.itemFromIndex(index));
+    for (int i = 0; i < item->rowCount(); ++i)
+    {
+        auto child = static_cast<NodeItem*>(item->child(i));
+
+        for (auto childNode : child->node)
+        {
+            resolveNode(childNode, child);
+        }
     }
+}
+
+// Resolve node, + direct children
+void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
+{
+    auto item = resolveNode(node, parent);
+
+    for (auto child : node)
+    {
+        resolveNode(child, item);
+    }
+}
+
+QStandardItem* MainWindow::resolveNode(const NL::Node &node, QStandardItem *parent)
+{
+    QStandardItem* item = new NodeItem(node);
+    parent->appendRow(item);
+    return item;
 }
 
 void MainWindow::on_actionLoop_toggled(bool arg1)

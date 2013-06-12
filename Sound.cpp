@@ -18,10 +18,10 @@ Sound::~Sound()
     mpg123_delete(handle);
 }
 
-void Sound::open(const SoundItem& item)
+void Sound::open(const NL::Audio& audio)
 {
-    begin = static_cast<const unsigned char*>(item.data);
-    length = item.length;
+    begin = static_cast<const unsigned char*>(audio.Data());
+    length = audio.Length();
     stop();
     assert(mpg123_close(handle));
     assert(mpg123_open_feed(handle));
