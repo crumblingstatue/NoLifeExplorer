@@ -22,6 +22,7 @@ MainWindow::MainWindow(QWidget* parent) :
     nowPlaying = new QLabel("NoLifeExplorer version 1.2");
     ui->statusBar->addWidget(nowPlaying);
     connect(ui->horizontalSlider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
+    ui->treeView->setModel(&model);
 }
 
 MainWindow::~MainWindow()
@@ -89,8 +90,6 @@ void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
         break;
     }
     }
-
-    ui->treeView->setModel(&model);
 }
 
 void MainWindow::on_actionLoop_toggled(bool arg1)
