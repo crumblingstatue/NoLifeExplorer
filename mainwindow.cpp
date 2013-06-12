@@ -18,6 +18,7 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->treeView->setVisible(false);
     ui->statusBar->addWidget(ui->soundPlayerWidget->nowPlaying);
     ui->treeView->setModel(&model);
+    ui->soundPlayerWidget->hide();
 }
 
 MainWindow::~MainWindow()
