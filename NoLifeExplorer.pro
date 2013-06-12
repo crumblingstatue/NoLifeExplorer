@@ -17,11 +17,13 @@ SOURCES += main.cpp\
         mainwindow.cpp\
         NoLifeNx/NX.cpp\
         NoLifeNx/lz4.cpp \
-    Sound.cpp
+    Sound.cpp \
+    soundplayerwidget.cpp
 
 HEADERS  += mainwindow.h \
     Sound.h \
-    SoundItem.h
+    SoundItem.h \
+    soundplayerwidget.h
 
 FORMS    += mainwindow.ui
 LIBS += -lsfml-audio -lsfml-system -lmpg123

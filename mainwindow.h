@@ -1,12 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "Sound.h"
-
 #include <QMainWindow>
 #include <QStandardItemModel>
 #include <QTimer>
 #include <QLabel>
+
+#include "soundplayerwidget.h"
 
 namespace Ui
 {
@@ -26,31 +26,13 @@ private slots:
     void handleItemClicked(QModelIndex index);
     void handleItemExpanded(QModelIndex index);
 
-    void on_actionLoop_toggled(bool arg1);
-
-    void updateTimeInfo();
-    void seek(int where);
-    void stop();
-    void play();
-    void togglePaused();
-
-    void on_pushButton_clicked();
-
-    void on_pushButton_2_clicked();
-
 private:
-    bool stopped();
     void handleNode(const NL::Node& node, QStandardItem* parent);
     QStandardItem *resolveNode(const NL::Node& node, QStandardItem* parent);
     Ui::MainWindow* ui;
     NL::File* file;
     QStandardItemModel model;
-    Sound sound;
     bool m_looping = true;
-    QTimer *timer;
-    QLabel *nowPlaying;
-    bool m_stopped = true;
-    QString currentItemTitle;
 };
 
 #endif // MAINWINDOW_H
