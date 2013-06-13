@@ -62,6 +62,15 @@ void MainWindow::handleItemClicked(QTreeWidgetItem* widgetItem, int column)
     case NL::Node::audio:
         ui->soundPlayerWidget->play(*item);
         break;
+    case NL::Node::bitmap:
+    {
+        auto bm = node.GetBitmap();
+        QImage image((uchar*)bm.Data(), bm.Width(), bm.Height(), QImage::Format_ARGB32);
+        QPixmap pm = QPixmap::fromImage(image);
+        QLabel *label = new QLabel;
+        label->setPixmap(pm);
+        label->show();
+    }
     default:
         break;
     }
