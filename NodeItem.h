@@ -1,15 +1,15 @@
 #ifndef NODEITEM_H
 #define NODEITEM_H
 
-#include <QStandardItem>
+#include <QTreeWidgetItem>
 #include "NoLifeNx/NX.hpp"
 
-struct NodeItem : public QStandardItem
+struct NodeItem : public QTreeWidgetItem
 {
     NodeItem(const NL::Node& n) :
         node(n)
     {
-        setText(QString::fromStdString(node.Name()));
+        setText(0, QString::fromStdString(node.Name()));
     }
 
     NL::Node node;

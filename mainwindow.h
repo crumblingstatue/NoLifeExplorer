@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QStandardItemModel>
 #include <QTimer>
 #include <QLabel>
 
@@ -23,15 +22,14 @@ public:
 
 private slots:
     void on_action_Open_triggered();
-    void handleItemClicked(QModelIndex index);
-    void handleItemExpanded(QModelIndex index);
+    void handleItemClicked(QTreeWidgetItem *widgetItem, int column);
+    void handleItemExpanded(QTreeWidgetItem *widgetItem);
 
 private:
-    void handleNode(const NL::Node& node, QStandardItem* parent);
-    QStandardItem *resolveNode(const NL::Node& node, QStandardItem* parent);
+    void handleNode(const NL::Node& node, QTreeWidgetItem *parent);
+    NodeItem *resolveNode(const NL::Node& node, QTreeWidgetItem *parent);
     Ui::MainWindow* ui;
     NL::File* file;
-    QStandardItemModel model;
     bool m_looping = true;
 };
 

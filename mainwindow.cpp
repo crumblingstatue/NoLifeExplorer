@@ -13,11 +13,10 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
     file = nullptr;
-    connect(ui->treeView, SIGNAL(clicked(QModelIndex)), this, SLOT(handleItemClicked(QModelIndex)));
-    connect(ui->treeView, SIGNAL(expanded(QModelIndex)), this, SLOT(handleItemExpanded(QModelIndex)));
-    ui->treeView->setVisible(false);
+    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(handleItemClicked(QTreeWidgetItem*,int)));
+    connect(ui->treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
+    ui->treeWidget->setVisible(false);
     ui->statusBar->addWidget(ui->soundPlayerWidget->nowPlaying);
-    ui->treeView->setModel(&model);
     ui->soundPlayerWidget->hide();
 }
 
@@ -41,16 +40,19 @@ void MainWindow::on_action_Open_triggered()
 
     for (NL::Node n : file->Base())
     {
-        handleNode(n, model.invisibleRootItem());
+        handleNode(n, ui->treeWidget->invisibleRootItem());
     }
 
-    ui->treeView->setVisible(true);
-    ui->treeView->setEnabled(true);
+    ui->treeWidget->setVisible(true);
 }
 
-void MainWindow::handleItemClicked(QModelIndex index)
+void MainWindow::handleItemClicked(QTreeWidgetItem* widgetItem, int column)
 {
-    auto item = static_cast<NodeItem*>(model.itemFromIndex(index));
+    NodeItem* item;
+    if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
+    {
+        throw;
+    }
     auto node = item->node;
 
     switch (node.T())
@@ -68,15 +70,17 @@ void MainWindow::handleItemClicked(QModelIndex index)
         break;
     case NL::Node::audio:
         ui->soundPlayerWidget->play(*item);
+        break;
     default:
         break;
     }
 }
 
-void MainWindow::handleItemExpanded(QModelIndex index)
+void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
 {
-    auto item = static_cast<NodeItem*>(model.itemFromIndex(index));
-    for (int i = 0; i < item->rowCount(); ++i)
+    auto item = static_cast<NodeItem*>(widgetItem);
+
+    for (int i = 0; i < item->childCount(); ++i)
     {
         auto child = static_cast<NodeItem*>(item->child(i));
 
@@ -88,7 +92,7 @@ void MainWindow::handleItemExpanded(QModelIndex index)
 }
 
 // Resolve node, + direct children
-void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
+void MainWindow::handleNode(const NL::Node& node, QTreeWidgetItem* parent)
 {
     auto item = resolveNode(node, parent);
 
@@ -98,9 +102,9 @@ void MainWindow::handleNode(const NL::Node& node, QStandardItem* parent)
     }
 }
 
-QStandardItem* MainWindow::resolveNode(const NL::Node &node, QStandardItem *parent)
+NodeItem* MainWindow::resolveNode(const NL::Node &node, QTreeWidgetItem *parent)
 {
-    QStandardItem* item = new NodeItem(node);
-    parent->appendRow(item);
+    auto item = new NodeItem(node);
+    parent->addChild(item);
     return item;
 }
