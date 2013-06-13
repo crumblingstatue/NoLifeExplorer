@@ -18,6 +18,8 @@ MainWindow::MainWindow(QWidget* parent) :
     ui->treeWidget->setVisible(false);
     ui->statusBar->addWidget(ui->soundPlayerWidget->nowPlaying);
     ui->soundPlayerWidget->hide();
+    ui->treeWidget->header()->resizeSection(0, 300);
+    ui->treeWidget->header()->resizeSection(1, 70);
 }
 
 MainWindow::~MainWindow()
