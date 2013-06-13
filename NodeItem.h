@@ -1,5 +1,5 @@
-#ifndef SOUNDITEM_H
-#define SOUNDITEM_H
+#ifndef NODEITEM_H
+#define NODEITEM_H
 
 #include <QStandardItem>
 #include "NoLifeNx/NX.hpp"
@@ -15,4 +15,4 @@ struct NodeItem : public QStandardItem
     NL::Node node;
 };
 
-#endif // SOUNDITEM_H
+#endif // NODEITEM_H

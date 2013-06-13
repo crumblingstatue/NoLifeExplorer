@@ -1,7 +1,7 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-#include "SoundItem.h"
+#include "NodeItem.h"
 
 #include <mpg123.h>
 #include <SFML/Audio.hpp>

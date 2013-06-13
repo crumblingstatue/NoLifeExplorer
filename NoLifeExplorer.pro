@@ -22,7 +22,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     Sound.h \
-    SoundItem.h \
+    NodeItem.h \
     soundplayerwidget.h
 
 FORMS    += mainwindow.ui
