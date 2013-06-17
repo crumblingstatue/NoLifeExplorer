@@ -60,8 +60,16 @@
     </property>
     <addaction name="actionLoop"/>
    </widget>
+   <widget class="QMenu" name="menuNode">
+    <property name="title">
+     <string>&amp;Node</string>
+    </property>
+    <addaction name="actionCopy_path"/>
+    <addaction name="actionCopy_path_NoLifeNx"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Playback"/>
+   <addaction name="menuNode"/>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -86,6 +94,19 @@
    </property>
    <property name="text">
     <string>Loop</string>
+   </property>
+  </action>
+  <action name="actionCopy_path">
+   <property name="text">
+    <string>Copy path ( / )</string>
+   </property>
+  </action>
+  <action name="actionCopy_path_NoLifeNx">
+   <property name="text">
+    <string>Copy path ( [ ] )</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy path ( [] format )</string>
    </property>
   </action>
  </widget>

@@ -6,6 +6,7 @@
 #include <sstream>
 #include <QDebug>
 #include <iomanip>
+#include <QClipboard>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -52,24 +53,7 @@ void MainWindow::on_action_Open_triggered()
 
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    NodeItem* item;
-    if (!(item = dynamic_cast<NodeItem*>(current)))
-    {
-        throw;
-    }
-    auto path = QString::fromStdString(item->node.Name());
-
-    for (auto itm = item->parent(); itm; itm = itm->parent())
-    {
-        NodeItem* nitm;
-        if (!(nitm = dynamic_cast<NodeItem*>(itm)))
-        {
-            throw;
-        }
-        path.prepend(QString::fromStdString(nitm->node.Name()) + '/');
-    }
-
-    statusBarLabel->setText(path);
+    statusBarLabel->setText(getPathString(current, Slash));
 }
 
 void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
@@ -131,4 +115,63 @@ NodeItem* MainWindow::resolveNode(const NL::Node &node, QTreeWidgetItem *parent)
     auto item = new NodeItem(node);
     parent->addChild(item);
     return item;
+}
+
+void MainWindow::on_actionCopy_path_triggered()
+{
+    QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Slash));
+}
+
+QStringList MainWindow::getPath(QTreeWidgetItem *widgetItem)
+{
+    QStringList list;
+    NodeItem* item;
+    if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
+    {
+        throw;
+    }
+
+    list.append(QString::fromStdString(item->node.Name()));
+
+     for (auto itm = item->parent(); itm; itm = itm->parent())
+     {
+         NodeItem* nitm;
+         if (!(nitm = dynamic_cast<NodeItem*>(itm)))
+         {
+             throw;
+         }
+         list.prepend(QString::fromStdString(nitm->node.Name()));
+     }
+     return list;
+}
+
+QString MainWindow::getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
+{
+    QString path;
+    auto list = getPath(static_cast<NodeItem*>(widgetItem));
+
+    if (format == Slash)
+    {
+
+        for (QString s : list)
+        {
+            path.append(s + '/');
+        }
+
+        // Remove last '/'
+        path.remove(path.length() - 1, 1);
+    }
+    else if (format == Array)
+    {
+        for (QString s : list)
+        {
+            path.append("[\"" + s + "\"]");
+        }
+    }
+    return path;
+}
+
+void MainWindow::on_actionCopy_path_NoLifeNx_triggered()
+{
+    QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Array));
 }
