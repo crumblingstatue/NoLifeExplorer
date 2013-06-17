@@ -66,6 +66,7 @@
     </property>
     <addaction name="actionCopy_path"/>
     <addaction name="actionCopy_path_NoLifeNx"/>
+    <addaction name="actionSave_to_file"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menu_Playback"/>
@@ -107,6 +108,11 @@
    </property>
    <property name="toolTip">
     <string>Copy path ( [] format )</string>
+   </property>
+  </action>
+  <action name="actionSave_to_file">
+   <property name="text">
+    <string>Export to file...</string>
    </property>
   </action>
  </widget>

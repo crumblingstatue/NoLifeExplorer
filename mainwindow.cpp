@@ -7,6 +7,8 @@
 #include <QDebug>
 #include <iomanip>
 #include <QClipboard>
+#include <QFileDialog>
+#include <QFile>
 
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
@@ -174,4 +176,49 @@ QString MainWindow::getPathString(QTreeWidgetItem *widgetItem, PathFormat format
 void MainWindow::on_actionCopy_path_NoLifeNx_triggered()
 {
     QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Array));
+}
+
+void MainWindow::on_actionSave_to_file_triggered()
+{
+    auto node = static_cast<NodeItem*>(ui->treeWidget->currentItem())->node;
+
+    QString type;
+    const char* data = nullptr;
+    int len = 0;
+
+    switch (node.T())
+    {
+    case NL::Node::bitmap:
+        type = "bitmap";
+        data = static_cast<const char*>(node.GetBitmap().Data());
+        len = node.GetBitmap().Length();
+        break;
+    case NL::Node::audio:
+        type = "audio";
+        data = static_cast<const char*>(node.GetAudio().Data());
+        len = node.GetAudio().Length();
+        break;
+    default:
+        return;
+    }
+
+    auto filename = QFileDialog::getSaveFileName(this, "Save " + type + " to ");
+    if (filename.isNull())
+    {
+        return;
+    }
+
+    if (type == "audio")
+    {
+        QFile file;
+        file.setFileName(filename);
+        file.open(QIODevice::WriteOnly);
+        file.write(data, len);
+        file.close();
+    }
+    else if (type == "bitmap")
+    {
+        QImage image((uchar*)data, node.GetBitmap().Width(), node.GetBitmap().Height(), QImage::Format_ARGB32);
+        image.save(filename);
+    }
 }

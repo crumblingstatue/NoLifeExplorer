@@ -35,6 +35,8 @@ private slots:
 
     void on_actionCopy_path_NoLifeNx_triggered();
 
+    void on_actionSave_to_file_triggered();
+
 private:
     QStringList getPath(QTreeWidgetItem* widgetItem);
     QString getPathString(QTreeWidgetItem* widgetItem, PathFormat format);
