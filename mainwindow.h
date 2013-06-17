@@ -22,6 +22,7 @@ public:
 
 private slots:
     void on_action_Open_triggered();
+    void handleCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
     void handleItemActivated(QTreeWidgetItem *widgetItem, int column);
     void handleItemExpanded(QTreeWidgetItem *widgetItem);
 
@@ -31,6 +32,7 @@ private:
     Ui::MainWindow* ui;
     NL::File* file;
     bool m_looping = true;
+    QLabel *statusBarLabel;
 };
 
 #endif // MAINWINDOW_H

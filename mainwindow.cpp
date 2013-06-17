@@ -15,8 +15,10 @@ MainWindow::MainWindow(QWidget* parent) :
     file = nullptr;
     connect(ui->treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
     connect(ui->treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
+    connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     ui->treeWidget->setVisible(false);
-    ui->statusBar->addWidget(ui->soundPlayerWidget->nowPlaying);
+    statusBarLabel = new QLabel("NoLifeExplorer v0.85");
+    ui->statusBar->addWidget(statusBarLabel);
     ui->soundPlayerWidget->hide();
     ui->treeWidget->header()->resizeSection(0, 300);
     ui->treeWidget->header()->resizeSection(1, 70);
@@ -46,6 +48,28 @@ void MainWindow::on_action_Open_triggered()
     }
 
     ui->treeWidget->setVisible(true);
+}
+
+void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+{
+    NodeItem* item;
+    if (!(item = dynamic_cast<NodeItem*>(current)))
+    {
+        throw;
+    }
+    auto path = QString::fromStdString(item->node.Name());
+
+    for (auto itm = item->parent(); itm; itm = itm->parent())
+    {
+        NodeItem* nitm;
+        if (!(nitm = dynamic_cast<NodeItem*>(itm)))
+        {
+            throw;
+        }
+        path.prepend(QString::fromStdString(nitm->node.Name()) + '/');
+    }
+
+    statusBarLabel->setText(path);
 }
 
 void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)

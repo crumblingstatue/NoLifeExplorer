@@ -9,7 +9,6 @@ SoundPlayerWidget::SoundPlayerWidget(QWidget *parent) :
     slider = new QSlider(Qt::Horizontal);
     playButton = new QPushButton("Play");
     pauseButton = new QPushButton("Pause");
-    nowPlaying = new QLabel("NoLifeExplorer version 1.2");
     timer = new QTimer(this);
     label = new QLabel("Wot");
     layout = new QHBoxLayout(this);
@@ -72,7 +71,6 @@ void SoundPlayerWidget::stop()
     playButton->setText("Play");
     pauseButton->setText("Pause");
     m_stopped = true;
-    nowPlaying->setText("Stopped " + currentItemTitle);
 }
 
 void SoundPlayerWidget::onStopClicked()
@@ -104,7 +102,6 @@ void SoundPlayerWidget::play()
     slider->setMaximum(sound.lengthTime.asMilliseconds());
     updateTimeInfo();
     timer->start();
-    nowPlaying->setText("Now playing " + currentItemTitle);
     m_stopped = false;
     playButton->setText("Stop");
 }
@@ -116,13 +113,11 @@ void SoundPlayerWidget::onPauseClicked()
         sound.play();
         slider->setEnabled(true);
         pauseButton->setText("Pause");
-        nowPlaying->setText("Now playing " + currentItemTitle);
     }
     else
     {
         sound.pause();
         slider->setEnabled(false);
         pauseButton->setText("Resume");
-        nowPlaying->setText("Paused " + currentItemTitle);
     }
 }

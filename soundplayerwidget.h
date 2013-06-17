@@ -17,7 +17,6 @@ class SoundPlayerWidget : public QWidget
 public:
     explicit SoundPlayerWidget(QWidget *parent = 0);
     void play(const NodeItem& item);
-    QLabel *nowPlaying;
 
 private slots:
     void play();
