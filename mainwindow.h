@@ -22,7 +22,7 @@ public:
 
 private slots:
     void on_action_Open_triggered();
-    void handleItemClicked(QTreeWidgetItem *widgetItem, int column);
+    void handleItemActivated(QTreeWidgetItem *widgetItem, int column);
     void handleItemExpanded(QTreeWidgetItem *widgetItem);
 
 private:

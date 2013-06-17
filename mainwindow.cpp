@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget* parent) :
 {
     ui->setupUi(this);
     file = nullptr;
-    connect(ui->treeWidget, SIGNAL(itemClicked(QTreeWidgetItem*,int)), this, SLOT(handleItemClicked(QTreeWidgetItem*,int)));
+    connect(ui->treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
     connect(ui->treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
     ui->treeWidget->setVisible(false);
     ui->statusBar->addWidget(ui->soundPlayerWidget->nowPlaying);
@@ -48,7 +48,7 @@ void MainWindow::on_action_Open_triggered()
     ui->treeWidget->setVisible(true);
 }
 
-void MainWindow::handleItemClicked(QTreeWidgetItem* widgetItem, int column)
+void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
 {
     NodeItem* item;
     if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
