@@ -40,7 +40,6 @@ private slots:
 private:
     QStringList getPath(QTreeWidgetItem* widgetItem);
     QString getPathString(QTreeWidgetItem* widgetItem, PathFormat format);
-    NodeItem *addNode(const NL::Node& node, QTreeWidgetItem *parent);
     Ui::MainWindow* ui;
     NL::File* file;
     bool m_looping = true;

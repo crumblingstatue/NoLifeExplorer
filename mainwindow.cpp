@@ -10,6 +10,13 @@
 #include <QFileDialog>
 #include <QFile>
 
+NodeItem* addNode(const NL::Node &node, QTreeWidgetItem *parent)
+{
+    auto item = new NodeItem(node);
+    parent->addChild(item);
+    return item;
+}
+
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -105,13 +112,6 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
             addNode(grandChildNode, child);
         }
     }
-}
-
-NodeItem* MainWindow::addNode(const NL::Node &node, QTreeWidgetItem *parent)
-{
-    auto item = new NodeItem(node);
-    parent->addChild(item);
-    return item;
 }
 
 void MainWindow::on_actionCopy_path_triggered()
