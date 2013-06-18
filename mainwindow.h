@@ -20,11 +20,6 @@ public:
     explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
-    enum PathFormat {
-        Slash,
-        Array
-    };
-
 private slots:
     void on_action_Open_triggered();
     void handleCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
@@ -38,8 +33,6 @@ private slots:
     void on_actionSave_to_file_triggered();
 
 private:
-    QStringList getPath(QTreeWidgetItem* widgetItem);
-    QString getPathString(QTreeWidgetItem* widgetItem, PathFormat format);
     Ui::MainWindow* ui;
     NL::File* file;
     bool m_looping = true;

@@ -17,6 +17,60 @@ NodeItem* addNode(const NL::Node &node, QTreeWidgetItem *parent)
     return item;
 }
 
+QStringList getPath(QTreeWidgetItem *widgetItem)
+{
+    QStringList list;
+    NodeItem* item;
+    if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
+    {
+        throw;
+    }
+
+    list.append(QString::fromStdString(item->node.Name()));
+
+     for (auto itm = item->parent(); itm; itm = itm->parent())
+     {
+         NodeItem* nitm;
+         if (!(nitm = dynamic_cast<NodeItem*>(itm)))
+         {
+             throw;
+         }
+         list.prepend(QString::fromStdString(nitm->node.Name()));
+     }
+     return list;
+}
+
+enum PathFormat {
+    Slash,
+    Array
+};
+
+QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
+{
+    QString path;
+    auto list = getPath(static_cast<NodeItem*>(widgetItem));
+
+    if (format == Slash)
+    {
+
+        for (QString s : list)
+        {
+            path.append(s + '/');
+        }
+
+        // Remove last '/'
+        path.remove(path.length() - 1, 1);
+    }
+    else if (format == Array)
+    {
+        for (QString s : list)
+        {
+            path.append("[\"" + s + "\"]");
+        }
+    }
+    return path;
+}
+
 MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -117,55 +171,6 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
 void MainWindow::on_actionCopy_path_triggered()
 {
     QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Slash));
-}
-
-QStringList MainWindow::getPath(QTreeWidgetItem *widgetItem)
-{
-    QStringList list;
-    NodeItem* item;
-    if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
-    {
-        throw;
-    }
-
-    list.append(QString::fromStdString(item->node.Name()));
-
-     for (auto itm = item->parent(); itm; itm = itm->parent())
-     {
-         NodeItem* nitm;
-         if (!(nitm = dynamic_cast<NodeItem*>(itm)))
-         {
-             throw;
-         }
-         list.prepend(QString::fromStdString(nitm->node.Name()));
-     }
-     return list;
-}
-
-QString MainWindow::getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
-{
-    QString path;
-    auto list = getPath(static_cast<NodeItem*>(widgetItem));
-
-    if (format == Slash)
-    {
-
-        for (QString s : list)
-        {
-            path.append(s + '/');
-        }
-
-        // Remove last '/'
-        path.remove(path.length() - 1, 1);
-    }
-    else if (format == Array)
-    {
-        for (QString s : list)
-        {
-            path.append("[\"" + s + "\"]");
-        }
-    }
-    return path;
 }
 
 void MainWindow::on_actionCopy_path_NoLifeNx_triggered()
