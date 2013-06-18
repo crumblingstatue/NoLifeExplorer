@@ -9,6 +9,7 @@
 #include <QClipboard>
 #include <QFileDialog>
 #include <QFile>
+#include <QPlainTextEdit>
 
 NodeItem* addNode(const NL::Node &node, QTreeWidgetItem *parent)
 {
@@ -149,6 +150,15 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
         QLabel *label = new QLabel;
         label->setPixmap(pm);
         label->show();
+        break;
+    }
+    case NL::Node::string:
+    {
+        QPlainTextEdit* edit = new QPlainTextEdit;
+        edit->setReadOnly(true);
+        edit->setPlainText(QString::fromStdString(node.GetString()));
+        edit->show();
+        break;
     }
     default:
         break;
