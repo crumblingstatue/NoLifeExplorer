@@ -55,6 +55,7 @@ struct NodeItem : public QTreeWidgetItem
     }
 
     NL::Node node;
+    bool childrenAdded = false;
 };
 
 #endif // NODEITEM_H

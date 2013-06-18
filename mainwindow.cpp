@@ -114,6 +114,8 @@ void MainWindow::on_action_Open_triggered()
         {
             addNode(child, item);
         }
+
+        item->childrenAdded = true;
     }
 
     ui->treeWidget->setVisible(true);
@@ -154,16 +156,21 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
 
 void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
 {
-    // Add grandchildren for all children
     auto item = static_cast<NodeItem*>(widgetItem);
 
     for (int i = 0; i < item->childCount(); ++i)
     {
         auto child = static_cast<NodeItem*>(item->child(i));
 
-        for (auto grandChildNode : child->node)
+        if (!child->childrenAdded)
         {
-            addNode(grandChildNode, child);
+
+            for (auto grandChildNode : child->node)
+            {
+                addNode(grandChildNode, child);
+            }
+
+            child->childrenAdded = true;
         }
     }
 }
