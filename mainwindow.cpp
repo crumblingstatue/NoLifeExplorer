@@ -47,7 +47,7 @@ void MainWindow::on_action_Open_triggered()
 
     for (NL::Node n : file->Base())
     {
-        handleNode(n, ui->treeWidget->invisibleRootItem());
+        addNodeAndDC(n, ui->treeWidget->invisibleRootItem());
     }
 
     ui->treeWidget->setVisible(true);
@@ -96,23 +96,23 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
 
         for (auto childNode : child->node)
         {
-            resolveNode(childNode, child);
+            addNode(childNode, child);
         }
     }
 }
 
-// Resolve node, + direct children
-void MainWindow::handleNode(const NL::Node& node, QTreeWidgetItem* parent)
+// Add node, + direct children
+void MainWindow::addNodeAndDC(const NL::Node& node, QTreeWidgetItem* parent)
 {
-    auto item = resolveNode(node, parent);
+    auto item = addNode(node, parent);
 
     for (auto child : node)
     {
-        resolveNode(child, item);
+        addNode(child, item);
     }
 }
 
-NodeItem* MainWindow::resolveNode(const NL::Node &node, QTreeWidgetItem *parent)
+NodeItem* MainWindow::addNode(const NL::Node &node, QTreeWidgetItem *parent)
 {
     auto item = new NodeItem(node);
     parent->addChild(item);
