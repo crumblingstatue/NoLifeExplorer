@@ -124,6 +124,7 @@ void MainWindow::on_action_Open_triggered()
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     statusBarLabel->setText(getPathString(current, Slash));
+    ui->menuNode->setEnabled(true);
 }
 
 void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)

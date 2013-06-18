@@ -61,6 +61,9 @@
     <addaction name="actionLoop"/>
    </widget>
    <widget class="QMenu" name="menuNode">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
      <string>&amp;Node</string>
     </property>
