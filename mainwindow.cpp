@@ -122,13 +122,13 @@ void MainWindow::on_action_Open_triggered()
     ui->treeWidget->setVisible(true);
 }
 
-void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
+void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
 {
     statusBarLabel->setText(getPathString(current, Slash));
     ui->menuNode->setEnabled(true);
 }
 
-void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
+void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/)
 {
     NodeItem* item;
     if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
