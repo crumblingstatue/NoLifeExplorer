@@ -18,19 +18,19 @@ struct NodeItem : public QTreeWidgetItem
     {
         switch (node.T())
         {
-        case NL::Node::audio:
+        case NL::Node::Type::Audio:
             return "Audio";
-        case NL::Node::bitmap:
+        case NL::Node::Type::Bitmap:
             return "Bitmap";
-        case NL::Node::dreal:
-            return "dreal";
-        case NL::Node::ireal:
-            return "ireal";
-        case NL::Node::string:
+        case NL::Node::Type::Float:
+            return "Float";
+        case NL::Node::Type::Int:
+            return "Int";
+        case NL::Node::Type::String:
             return "String";
-        case NL::Node::vector:
+        case NL::Node::Type::Vector:
             return "Vector";
-        case NL::Node::none:
+        case NL::Node::Type::None:
             return QString();
         }
 
@@ -41,11 +41,11 @@ struct NodeItem : public QTreeWidgetItem
     {
         switch (node.T())
         {
-        case NL::Node::dreal:
-        case NL::Node::ireal:
-        case NL::Node::string:
+        case NL::Node::Type::Float:
+        case NL::Node::Type::Int:
+        case NL::Node::Type::String:
             return QString::fromStdString(node.GetString());
-        case NL::Node::vector:
+        case NL::Node::Type::Vector:
             return QString::number(node.GetVector().first) + ", " + QString::number(node.GetVector().second);
         default:
             return QString();

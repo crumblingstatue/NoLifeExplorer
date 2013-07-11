@@ -139,10 +139,10 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
 
     switch (node.T())
     {
-    case NL::Node::audio:
+    case NL::Node::Type::Audio:
         ui->soundPlayerWidget->play(*item);
         break;
-    case NL::Node::bitmap:
+    case NL::Node::Type::Bitmap:
     {
         auto bm = node.GetBitmap();
         QImage image((uchar*)bm.Data(), bm.Width(), bm.Height(), QImage::Format_ARGB32);
@@ -152,7 +152,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int column)
         label->show();
         break;
     }
-    case NL::Node::string:
+    case NL::Node::Type::String:
     {
         QPlainTextEdit* edit = new QPlainTextEdit;
         edit->setReadOnly(true);
@@ -206,12 +206,12 @@ void MainWindow::on_actionSave_to_file_triggered()
 
     switch (node.T())
     {
-    case NL::Node::bitmap:
+    case NL::Node::Type::Bitmap:
         type = "bitmap";
         data = static_cast<const char*>(node.GetBitmap().Data());
         len = node.GetBitmap().Length();
         break;
-    case NL::Node::audio:
+    case NL::Node::Type::Audio:
         type = "audio";
         data = static_cast<const char*>(node.GetAudio().Data());
         len = node.GetAudio().Length();
