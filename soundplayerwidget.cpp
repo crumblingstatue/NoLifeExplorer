@@ -3,8 +3,8 @@
 #include <sstream>
 #include <iomanip>
 
-SoundPlayerWidget::SoundPlayerWidget(QWidget *parent) :
-    QWidget(parent)
+SoundPlayerWidget::SoundPlayerWidget(QWidget *parent_) :
+    QWidget(parent_)
 {
     slider = new QSlider(Qt::Horizontal);
     playButton = new QPushButton("Play");

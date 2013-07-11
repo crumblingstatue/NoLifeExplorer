@@ -72,8 +72,8 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
     return path;
 }
 
-MainWindow::MainWindow(QWidget* parent) :
-    QMainWindow(parent),
+MainWindow::MainWindow(QWidget* parent_) :
+    QMainWindow(parent_),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
@@ -201,19 +201,19 @@ void MainWindow::on_actionSave_to_file_triggered()
     auto node = static_cast<NodeItem*>(ui->treeWidget->currentItem())->node;
 
     QString type;
-    const char* data = nullptr;
+    const char* data_ = nullptr;
     int len = 0;
 
     switch (node.T())
     {
     case NL::Node::Type::Bitmap:
         type = "bitmap";
-        data = static_cast<const char*>(node.GetBitmap().Data());
+        data_ = static_cast<const char*>(node.GetBitmap().Data());
         len = node.GetBitmap().Length();
         break;
     case NL::Node::Type::Audio:
         type = "audio";
-        data = static_cast<const char*>(node.GetAudio().Data());
+        data_ = static_cast<const char*>(node.GetAudio().Data());
         len = node.GetAudio().Length();
         break;
     default:
@@ -228,15 +228,15 @@ void MainWindow::on_actionSave_to_file_triggered()
 
     if (type == "audio")
     {
-        QFile file;
-        file.setFileName(filename);
-        file.open(QIODevice::WriteOnly);
-        file.write(data, len);
-        file.close();
+        QFile f;
+        f.setFileName(filename);
+        f.open(QIODevice::WriteOnly);
+        f.write(data_, len);
+        f.close();
     }
     else if (type == "bitmap")
     {
-        QImage image((uchar*)data, node.GetBitmap().Width(), node.GetBitmap().Height(), QImage::Format_ARGB32);
+        QImage image((uchar*)data_, node.GetBitmap().Width(), node.GetBitmap().Height(), QImage::Format_ARGB32);
         image.save(filename);
     }
 }
