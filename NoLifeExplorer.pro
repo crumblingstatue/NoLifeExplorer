@@ -17,22 +17,22 @@ SOURCES += main.cpp \
            mainwindow.cpp \
            Sound.cpp \
            soundplayerwidget.cpp \
-           NoLifeNx/Audio.cpp \
-           NoLifeNx/Bitmap.cpp \
-           NoLifeNx/File.cpp \
-           NoLifeNx/NX.cpp \
-           NoLifeNx/Node.cpp \
+           NoLifeNx/audio.cpp \
+           NoLifeNx/bitmap.cpp \
+           NoLifeNx/file.cpp \
+           NoLifeNx/nx.cpp \
+           NoLifeNx/node.cpp \
            NoLifeNx/lz4.cpp \
 
 HEADERS  += mainwindow.h \
             Sound.h \
             NodeItem.h \
             soundplayerwidget.h \
-            NoLifeNx/Audio.hpp \
-            NoLifeNx/Bitmap.hpp \
-            NoLifeNx/File.hpp \
-            NoLifeNx/NX.hpp \
-            NoLifeNx/Node.hpp \
+            NoLifeNx/audio.hpp \
+            NoLifeNx/bitmap.hpp \
+            NoLifeNx/file.hpp \
+            NoLifeNx/nx.hpp \
+            NoLifeNx/node.hpp \
             NoLifeNx/lz4.hpp
 
 FORMS    += mainwindow.ui

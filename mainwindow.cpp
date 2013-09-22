@@ -1,5 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "NoLifeNx/file.hpp"
+#include "NoLifeNx/bitmap.hpp"
+#include "NoLifeNx/audio.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -11,7 +14,7 @@
 #include <QFile>
 #include <QPlainTextEdit>
 
-NodeItem* addNode(const NL::Node &node, QTreeWidgetItem *parent)
+NodeItem* addNode(const nl::node &node, QTreeWidgetItem *parent)
 {
     auto item = new NodeItem(node);
     parent->addChild(item);
@@ -27,7 +30,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem)
         throw;
     }
 
-    list.append(QString::fromStdString(item->node.Name()));
+    list.append(QString::fromStdString(item->node.name()));
 
      for (auto itm = item->parent(); itm; itm = itm->parent())
      {
@@ -36,7 +39,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem)
          {
              throw;
          }
-         list.prepend(QString::fromStdString(nitm->node.Name()));
+         list.prepend(QString::fromStdString(nitm->node.name()));
      }
      return list;
 }
@@ -105,9 +108,9 @@ void MainWindow::on_action_Open_triggered()
         return;
     }
 
-    file = new NL::File(filename.toLocal8Bit().data());
+    file = new nl::file(filename.toLocal8Bit().data());
 
-    for (NL::Node n : file->Base())
+    for (nl::node n : file->root())
     {
         auto item = addNode(n, ui->treeWidget->invisibleRootItem());
 
@@ -137,26 +140,26 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     }
     auto node = item->node;
 
-    switch (node.T())
+    switch (node.data_type())
     {
-    case NL::Node::Type::Audio:
+    case nl::node::type::audio:
         ui->soundPlayerWidget->play(*item);
         break;
-    case NL::Node::Type::Bitmap:
+    case nl::node::type::bitmap:
     {
-        auto bm = node.GetBitmap();
-        QImage image((uchar*)bm.Data(), bm.Width(), bm.Height(), QImage::Format_ARGB32);
+        auto bm = node.get_bitmap();
+        QImage image((uchar*)bm.data(), bm.width(), bm.height(), QImage::Format_ARGB32);
         QPixmap pm = QPixmap::fromImage(image);
         QLabel *label = new QLabel;
         label->setPixmap(pm);
         label->show();
         break;
     }
-    case NL::Node::Type::String:
+    case nl::node::type::string:
     {
         QPlainTextEdit* edit = new QPlainTextEdit;
         edit->setReadOnly(true);
-        edit->setPlainText(QString::fromStdString(node.GetString()));
+        edit->setPlainText(QString::fromStdString(node.get_string()));
         edit->show();
         break;
     }
@@ -204,17 +207,17 @@ void MainWindow::on_actionSave_to_file_triggered()
     const char* data_ = nullptr;
     int len = 0;
 
-    switch (node.T())
+    switch (node.data_type())
     {
-    case NL::Node::Type::Bitmap:
+    case nl::node::type::bitmap:
         type = "bitmap";
-        data_ = static_cast<const char*>(node.GetBitmap().Data());
-        len = node.GetBitmap().Length();
+        data_ = static_cast<const char*>(node.get_bitmap().data());
+        len = node.get_bitmap().length();
         break;
-    case NL::Node::Type::Audio:
+    case nl::node::type::audio:
         type = "audio";
-        data_ = static_cast<const char*>(node.GetAudio().Data());
-        len = node.GetAudio().Length();
+        data_ = static_cast<const char*>(node.get_audio().data());
+        len = node.get_audio().length();
         break;
     default:
         return;
@@ -236,7 +239,7 @@ void MainWindow::on_actionSave_to_file_triggered()
     }
     else if (type == "bitmap")
     {
-        QImage image((uchar*)data_, node.GetBitmap().Width(), node.GetBitmap().Height(), QImage::Format_ARGB32);
+        QImage image((uchar*)data_, node.get_bitmap().width(), node.get_bitmap().height(), QImage::Format_ARGB32);
         image.save(filename);
     }
 }

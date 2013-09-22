@@ -1,5 +1,7 @@
 #include "soundplayerwidget.h"
 
+#include "NoLifeNx/audio.hpp"
+
 #include <sstream>
 #include <iomanip>
 
@@ -30,7 +32,7 @@ SoundPlayerWidget::SoundPlayerWidget(QWidget *parent_) :
 void SoundPlayerWidget::play(const NodeItem &item)
 {
     show();
-    sound.open(item.node.GetAudio());
+    sound.open(item.node.get_audio());
     play();
 }
 

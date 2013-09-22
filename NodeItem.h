@@ -2,35 +2,36 @@
 #define NODEITEM_H
 
 #include <QTreeWidgetItem>
-#include "NoLifeNx/NX.hpp"
+#include "NoLifeNx/nx.hpp"
+#include "NoLifeNx/node.hpp"
 
 struct NodeItem : public QTreeWidgetItem
 {
-    NodeItem(const NL::Node& n) :
+    NodeItem(const nl::node& n) :
         node(n)
     {
-        setText(0, QString::fromStdString(node.Name()));
+        setText(0, QString::fromStdString(node.name()));
         setText(1, typeStr());
         setText(2, valueStr());
     }
 
     QString typeStr()
     {
-        switch (node.T())
+        switch (node.data_type())
         {
-        case NL::Node::Type::Audio:
+        case nl::node::type::audio:
             return "Audio";
-        case NL::Node::Type::Bitmap:
+        case nl::node::type::bitmap:
             return "Bitmap";
-        case NL::Node::Type::Float:
+        case nl::node::type::real:
             return "Float";
-        case NL::Node::Type::Int:
+        case nl::node::type::integer:
             return "Int";
-        case NL::Node::Type::String:
+        case nl::node::type::string:
             return "String";
-        case NL::Node::Type::Vector:
+        case nl::node::type::vector:
             return "Vector";
-        case NL::Node::Type::None:
+        case nl::node::type::none:
             return QString();
         }
 
@@ -39,14 +40,14 @@ struct NodeItem : public QTreeWidgetItem
 
     QString valueStr()
     {
-        switch (node.T())
+        switch (node.data_type())
         {
-        case NL::Node::Type::Float:
-        case NL::Node::Type::Int:
-        case NL::Node::Type::String:
-            return QString::fromStdString(node.GetString());
-        case NL::Node::Type::Vector:
-            return QString::number(node.GetVector().first) + ", " + QString::number(node.GetVector().second);
+        case nl::node::type::real:
+        case nl::node::type::integer:
+        case nl::node::type::string:
+            return QString::fromStdString(node.get_string());
+        case nl::node::type::vector:
+            return QString::number(node.get_vector().first) + ", " + QString::number(node.get_vector().second);
         default:
             return QString();
         }
@@ -54,7 +55,7 @@ struct NodeItem : public QTreeWidgetItem
         return QString();
     }
 
-    NL::Node node;
+    nl::node node;
     bool childrenAdded = false;
 };
 

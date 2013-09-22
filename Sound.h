@@ -11,7 +11,7 @@ class Sound : public sf::SoundStream
 public:
     Sound();
     ~Sound();
-    void open(const NL::Audio& audio);
+    void open(const nl::audio& audio);
     sf::Time lengthTime;
 private:
     bool onGetData(Chunk& data);

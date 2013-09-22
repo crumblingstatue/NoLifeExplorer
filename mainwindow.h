@@ -34,7 +34,7 @@ private slots:
 
 private:
     Ui::MainWindow* ui;
-    NL::File* file;
+    nl::file* file;
     bool m_looping = true;
     QLabel *statusBarLabel;
 };

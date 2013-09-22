@@ -1,4 +1,5 @@
 #include "Sound.h"
+#include "NoLifeNx/audio.hpp"
 
 #include <QDebug>
 
@@ -18,10 +19,10 @@ Sound::~Sound()
     mpg123_delete(handle);
 }
 
-void Sound::open(const NL::Audio& audio)
+void Sound::open(const nl::audio &audio)
 {
-    begin = static_cast<const unsigned char*>(audio.Data());
-    length = audio.Length();
+    begin = static_cast<const unsigned char*>(audio.data());
+    length = audio.length();
     stop();
     assert(mpg123_close(handle));
     assert(mpg123_open_feed(handle));
