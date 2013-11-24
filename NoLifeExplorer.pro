@@ -21,8 +21,7 @@ SOURCES += main.cpp \
            NoLifeNx/bitmap.cpp \
            NoLifeNx/file.cpp \
            NoLifeNx/nx.cpp \
-           NoLifeNx/node.cpp \
-           NoLifeNx/lz4.cpp \
+           NoLifeNx/node.cpp
 
 HEADERS  += mainwindow.h \
             Sound.h \
@@ -32,8 +31,7 @@ HEADERS  += mainwindow.h \
             NoLifeNx/bitmap.hpp \
             NoLifeNx/file.hpp \
             NoLifeNx/nx.hpp \
-            NoLifeNx/node.hpp \
-            NoLifeNx/lz4.hpp
+            NoLifeNx/node.hpp
 
 FORMS    += mainwindow.ui
-LIBS += -lsfml-audio -lsfml-system -lmpg123
+LIBS += -lsfml-audio -lsfml-system -lmpg123 -llz4
