@@ -21,7 +21,7 @@ private:
     mpg123_handle* handle = nullptr;
     std::vector<unsigned char> buf;
     const unsigned char* begin;
-    u_int32_t length;
+    uint32_t length;
     long rate;
 };
 
