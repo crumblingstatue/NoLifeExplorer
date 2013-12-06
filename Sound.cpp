@@ -21,8 +21,8 @@ Sound::~Sound()
 
 void Sound::open(const nl::audio &audio)
 {
-    begin = static_cast<const unsigned char*>(audio.data());
-    length = audio.length();
+    begin = static_cast<const unsigned char*>(audio.data()) + 82;
+    length = audio.length() - 82;
     stop();
     assert(mpg123_close(handle));
     assert(mpg123_open_feed(handle));
