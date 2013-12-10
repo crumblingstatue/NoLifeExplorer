@@ -10,7 +10,7 @@ endif()
 
 # For GCC and Clang, enable C++11 support and add some other flags
 if(USING_GCC OR USING_CLANG)
-  add_compile_options(-std=c++11 -pedantic -Wall -Wextra -Wshadow)
+  add_compile_options(-std=c++11 -pedantic -Wall -Wextra)
 endif()
 
 # Disable Clang warnings about nested anon types
@@ -45,3 +45,4 @@ ${UIS_HDRS}
 qt5_use_modules(nlexplorer Widgets)
 
 target_link_libraries(nlexplorer NoLifeNx ${SFML_LIBRARIES} lz4 mpg123)
+set_target_properties(nlexplorer PROPERTIES COMPILE_FLAGS "-Wshadow")

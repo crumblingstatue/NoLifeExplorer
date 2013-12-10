@@ -2,8 +2,11 @@
 #define NODEITEM_H
 
 #include <QTreeWidgetItem>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wshadow"
 #include "NoLifeNx/nx.hpp"
 #include "NoLifeNx/node.hpp"
+#pragma GCC diagnostic pop
 
 struct NodeItem : public QTreeWidgetItem
 {

@@ -8,8 +8,10 @@
 #include <QTimer>
 #include <QHBoxLayout>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wshadow"
 #include "Sound.h"
-
+#pragma GCC diagnostic pop
 
 class SoundPlayerWidget : public QWidget
 {
