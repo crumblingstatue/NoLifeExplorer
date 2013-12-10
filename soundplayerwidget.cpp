@@ -48,12 +48,12 @@ void SoundPlayerWidget::updateTimeInfo()
     {
         stop();
     }
-    int playingOffset = sound.getPlayingOffset().asSeconds();
-    int length = sound.lengthTime.asSeconds();
-    int oMinutes = playingOffset / 60;
-    int oSeconds = playingOffset % 60;
-    int lMinutes = length / 60;
-    int lSeconds = length % 60;
+    const int playingOffset = sound.getPlayingOffset().asSeconds();
+    const int length = sound.lengthTime.asSeconds();
+    const int oMinutes = playingOffset / 60;
+    const int oSeconds = playingOffset % 60;
+    const int lMinutes = length / 60;
+    const int lSeconds = length % 60;
     std::ostringstream ss;
     ss << std::setfill('0');
     ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / " << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
