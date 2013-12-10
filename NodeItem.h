@@ -50,7 +50,7 @@ struct NodeItem : public QTreeWidgetItem
         case nl::node::type::string:
             return QString::fromStdString(node.get_string());
         case nl::node::type::vector:
-            return QString::number(node.get_vector().first) + ", " + QString::number(node.get_vector().second);
+            return "{" + QString::number(node.get_vector().first) + ", " + QString::number(node.get_vector().second) + "}";
         default:
             return QString();
         }
