@@ -1,6 +1,14 @@
 project(NoLifeExplorer)
 cmake_minimum_required(VERSION 2.8.12)
 
+set(NOLIFEEXPLORER_RELEASE 4)
+set(NOLIFEEXPLORER_CODENAME "CC PLS")
+
+configure_file(
+  "${PROJECT_SOURCE_DIR}/Config.h.in"
+  "${PROJECT_BINARY_DIR}/Config.h"
+)
+
 # Detect compiler
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
     set(USING_GCC 1)

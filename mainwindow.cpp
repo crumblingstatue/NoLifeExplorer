@@ -6,6 +6,7 @@
 #include "NoLifeNx/bitmap.hpp"
 #include "NoLifeNx/audio.hpp"
 #pragma GCC diagnostic pop
+#include "Config.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -88,7 +89,7 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(ui->treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
     connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     ui->treeWidget->setVisible(false);
-    statusBarLabel = new QLabel("NoLifeExplorer v0.85");
+    statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
     ui->statusBar->addWidget(statusBarLabel);
     ui->soundPlayerWidget->hide();
     ui->treeWidget->header()->resizeSection(0, 300);
