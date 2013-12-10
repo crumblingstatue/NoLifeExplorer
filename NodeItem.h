@@ -23,17 +23,17 @@ struct NodeItem : public QTreeWidgetItem
         switch (node.data_type())
         {
         case nl::node::type::audio:
-            return "Audio";
+            return "audio";
         case nl::node::type::bitmap:
-            return "Bitmap";
+            return "bitmap";
         case nl::node::type::real:
-            return "Float";
+            return "real";
         case nl::node::type::integer:
-            return "Int";
+            return "integer";
         case nl::node::type::string:
-            return "String";
+            return "string";
         case nl::node::type::vector:
-            return "Vector";
+            return "vector";
         case nl::node::type::none:
             return QString();
         }
