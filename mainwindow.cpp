@@ -135,6 +135,16 @@ void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetI
     ui->menuNode->setEnabled(true);
 }
 
+static const void* getBitmapData(nl::node n)
+{
+    if (n["source"]) {
+        std::string src = n["source"];
+        n = n.root().resolve(src.substr(src.find_first_of('/') + 1));
+    }
+
+    return n.get_bitmap().data();
+}
+
 void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/)
 {
     NodeItem* item;
@@ -152,7 +162,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     case nl::node::type::bitmap:
     {
         auto bm = node.get_bitmap();
-        QImage image((uchar*)bm.data(), bm.width(), bm.height(), QImage::Format_ARGB32);
+        QImage image((uchar*)getBitmapData(node), bm.width(), bm.height(), QImage::Format_ARGB32);
         QPixmap pm = QPixmap::fromImage(image);
         QLabel *label = new QLabel;
         label->setPixmap(pm);
@@ -215,7 +225,7 @@ void MainWindow::on_actionSave_to_file_triggered()
     {
     case nl::node::type::bitmap:
         type = "bitmap";
-        data_ = static_cast<const char*>(node.get_bitmap().data());
+        data_ = static_cast<const char*>(getBitmapData(node));
         len = node.get_bitmap().length();
         break;
     case nl::node::type::audio:
