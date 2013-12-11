@@ -31,7 +31,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem)
     NodeItem* item;
     if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
     {
-        throw;
+        throw std::runtime_error("Item is not a NodeItem");
     }
 
     list.append(QString::fromStdString(item->node.name()));
@@ -41,7 +41,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem)
          NodeItem* nitm;
          if (!(nitm = dynamic_cast<NodeItem*>(itm)))
          {
-             throw;
+             throw std::runtime_error("Item is not a NodeItem");
          }
          list.prepend(QString::fromStdString(nitm->node.name()));
      }
@@ -150,7 +150,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     NodeItem* item;
     if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
     {
-        throw;
+        throw std::runtime_error("Item is not a NodeItem");
     }
     auto node = item->node;
 

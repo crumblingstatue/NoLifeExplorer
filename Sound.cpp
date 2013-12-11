@@ -62,5 +62,5 @@ void Sound::assert(int result)
 void Sound::die()
 {
     qDebug() << mpg123_strerror(handle);
-    throw;
+    throw std::runtime_error("Mpg123 error.");
 }
