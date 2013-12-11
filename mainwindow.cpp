@@ -150,7 +150,8 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     NodeItem* item;
     if (!(item = dynamic_cast<NodeItem*>(widgetItem)))
     {
-        throw std::runtime_error("Item is not a NodeItem");
+        QMessageBox::critical(this, "Error", "Item is not a NodeItem. This is a bug.");
+        return;
     }
     auto node = item->node;
 
