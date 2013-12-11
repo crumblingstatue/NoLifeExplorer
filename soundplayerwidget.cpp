@@ -31,8 +31,8 @@ SoundPlayerWidget::SoundPlayerWidget(QWidget *parent_) :
 
 void SoundPlayerWidget::play(const NodeItem &item)
 {
-    show();
     sound.open(item.node.get_audio());
+    show();
     play();
 }
 

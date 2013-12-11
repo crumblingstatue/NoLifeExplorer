@@ -158,7 +158,13 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     switch (node.data_type())
     {
     case nl::node::type::audio:
-        ui->soundPlayerWidget->play(*item);
+        try {
+            ui->soundPlayerWidget->play(*item);
+        } catch (std::runtime_error &err) {
+            QMessageBox::critical(this, "Error", tr("Error playing audio: %1").arg(err.what()));
+            ui->soundPlayerWidget->hide();
+        }
+
         break;
     case nl::node::type::bitmap:
     {
