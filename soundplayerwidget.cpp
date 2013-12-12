@@ -1,4 +1,4 @@
-#include "soundplayerwidget.h"
+#include "soundplayerwidget.hpp"
 
 #include "NoLifeNx/audio.hpp"
 

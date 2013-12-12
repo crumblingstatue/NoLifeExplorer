@@ -10,7 +10,7 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshadow"
-#include "Sound.h"
+#include "Sound.hpp"
 #pragma GCC diagnostic pop
 
 class SoundPlayerWidget : public QWidget

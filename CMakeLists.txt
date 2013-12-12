@@ -5,8 +5,8 @@ set(NOLIFEEXPLORER_RELEASE 4)
 set(NOLIFEEXPLORER_CODENAME "CC PLS")
 
 configure_file(
-  "${PROJECT_SOURCE_DIR}/Config.h.in"
-  "${PROJECT_BINARY_DIR}/Config.h"
+  "${PROJECT_SOURCE_DIR}/Config.hpp.in"
+  "${PROJECT_BINARY_DIR}/Config.hpp"
 )
 
 # Detect compiler
@@ -39,14 +39,14 @@ mainwindow.ui
 )
 
 add_executable(nlexplorer
-NodeItem.h
+NodeItem.hpp
 Sound.cpp
-Sound.h
+Sound.hpp
 main.cpp
 mainwindow.cpp
-mainwindow.h
+mainwindow.hpp
 soundplayerwidget.cpp
-soundplayerwidget.h
+soundplayerwidget.hpp
 ${UIS_HDRS}
 )
 

@@ -45,7 +45,7 @@
      <x>0</x>
      <y>0</y>
      <width>539</width>
-     <height>25</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -124,7 +124,7 @@
   <customwidget>
    <class>SoundPlayerWidget</class>
    <extends>QWidget</extends>
-   <header>soundplayerwidget.h</header>
+   <header>soundplayerwidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
