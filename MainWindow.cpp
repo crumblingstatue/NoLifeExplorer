@@ -12,6 +12,7 @@
 #include <QFile>
 #include <QPlainTextEdit>
 #include <QStatusBar>
+#include <QMenuBar>
 
 NodeItem* addNode(const nl::node &node, QTreeWidgetItem *parent)
 {
@@ -85,6 +86,23 @@ MainWindow::MainWindow(QWidget* parent_) :
     ui->centralWidget->layout()->addWidget(m_treeWidget);
     m_audioPlayerWidget = new AudioPlayerWidget;
     ui->centralWidget->layout()->addWidget(m_audioPlayerWidget);
+    QAction *action;
+    m_fileMenu = new QMenu("&File");
+    action = m_fileMenu->addAction("&Open...");
+    connect(action, &QAction::triggered, this, &MainWindow::open);
+    m_playbackMenu = new QMenu("&Playback");
+    action = m_playbackMenu->addAction("&Loop");
+    action->setCheckable(true);
+    action->setChecked(true);
+    connect(action, &QAction::triggered, m_audioPlayerWidget, &AudioPlayerWidget::toggleLoop);
+    m_nodeMenu = new QMenu("&Node");
+    action = m_nodeMenu->addAction("Copy path (/)");
+    connect(action, &QAction::triggered, this, &MainWindow::copyPath_slash);
+    action = m_nodeMenu->addAction("Copy path ([])");
+    connect(action, &QAction::triggered, this, &MainWindow::copyPath_array);
+    menuBar()->addMenu(m_fileMenu);
+    menuBar()->addMenu(m_playbackMenu);
+    menuBar()->addMenu(m_nodeMenu);
     connect(m_treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
     connect(m_treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
     connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
@@ -103,7 +121,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_action_Open_triggered()
+void MainWindow::open()
 {
     QString filename = QFileDialog::getOpenFileName(this, "Select data file", QString(), "*.nx");
 
@@ -132,7 +150,7 @@ void MainWindow::on_action_Open_triggered()
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
 {
     statusBarLabel->setText(getPathString(current, Slash));
-    ui->menuNode->setEnabled(true);
+    m_nodeMenu->setEnabled(true);
 }
 
 static const void* getBitmapData(nl::node n)
@@ -210,17 +228,17 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
     }
 }
 
-void MainWindow::on_actionCopy_path_triggered()
+void MainWindow::copyPath_slash()
 {
     QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Slash));
 }
 
-void MainWindow::on_actionCopy_path_NoLifeNx_triggered()
+void MainWindow::copyPath_array()
 {
     QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Array));
 }
 
-void MainWindow::on_actionSave_to_file_triggered()
+void MainWindow::saveCurrentNodeToFile()
 {
     auto node = static_cast<NodeItem*>(m_treeWidget->currentItem())->node;
 

@@ -18,9 +18,10 @@ public:
     explicit AudioPlayerWidget(QWidget *parent = 0);
     void play(const NodeItem& item);
 
+public slots:
+    void toggleLoop(bool arg1);
 private slots:
     void play();
-    void on_actionLoop_toggled(bool arg1);
 
     void updateTimeInfo();
     void seek(int where);

@@ -6,6 +6,7 @@
 #include <QMainWindow>
 #include <QLabel>
 #include <QTreeWidget>
+#include <QMenu>
 
 namespace Ui
 {
@@ -21,16 +22,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_action_Open_triggered();
+    void open();
     void handleCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
     void handleItemActivated(QTreeWidgetItem *widgetItem, int column);
     void handleItemExpanded(QTreeWidgetItem *widgetItem);
-
-    void on_actionCopy_path_triggered();
-
-    void on_actionCopy_path_NoLifeNx_triggered();
-
-    void on_actionSave_to_file_triggered();
+    void copyPath_slash();
+    void copyPath_array();
+    void saveCurrentNodeToFile();
 
 private:
     Ui::MainWindow* ui;
@@ -39,6 +37,7 @@ private:
     QLabel *statusBarLabel;
     QTreeWidget *m_treeWidget;
     AudioPlayerWidget *m_audioPlayerWidget;
+    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu;
 };
 
 #endif // MAINWINDOW_HPP

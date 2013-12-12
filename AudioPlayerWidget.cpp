@@ -35,7 +35,7 @@ void AudioPlayerWidget::play(const NodeItem &item)
     play();
 }
 
-void AudioPlayerWidget::on_actionLoop_toggled(bool arg1)
+void AudioPlayerWidget::toggleLoop(bool arg1)
 {
     sound.setLoop(arg1);
 }
