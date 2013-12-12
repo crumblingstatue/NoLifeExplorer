@@ -45,6 +45,8 @@ MainWindow.hpp
 NodeItem.cpp
 NodeItem.hpp
 main.cpp
+nodeUtil.cpp
+nodeUtil.hpp
 )
 
 qt5_use_modules(nlexplorer Widgets)
