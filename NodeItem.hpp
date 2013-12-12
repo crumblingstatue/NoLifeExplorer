@@ -10,7 +10,7 @@
 struct NodeItem : public QTreeWidgetItem
 {
     NodeItem(const nl::node& n);
-    nl::node node;
+    const nl::node node;
     bool childrenAdded = false;
 };
 
