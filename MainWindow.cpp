@@ -2,6 +2,7 @@
 #include "NoLifeNx/bitmap.hpp"
 #include "NoLifeNx/audio.hpp"
 #include "config.hpp"
+#include "nodeUtil.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -244,44 +245,36 @@ void MainWindow::copyPath_array()
 void MainWindow::saveCurrentNodeToFile()
 {
     auto node = static_cast<NodeItem*>(m_treeWidget->currentItem())->node;
-
-    QString type;
-    const char* data_ = nullptr;
-    int len = 0;
-
-    switch (node.data_type())
-    {
-    case nl::node::type::bitmap:
-        type = "bitmap";
-        data_ = static_cast<const char*>(getBitmapData(node));
-        len = node.get_bitmap().length();
-        break;
-    case nl::node::type::audio:
-        type = "audio";
-        data_ = static_cast<const char*>(node.get_audio().data());
-        len = node.get_audio().length();
-        break;
-    default:
+    
+    if (node.data_type() == nl::node::type::none) {
+        QMessageBox::information(this, "LOL WUT", "It doesn't make sense to save a node of type \"none\"");
         return;
     }
-
-    auto filename = QFileDialog::getSaveFileName(this, "Save " + type + " to ");
+    
+    QString filename = QFileDialog::getSaveFileName(this, "Save " + nodeTypeAsString(node) + " to ");
     if (filename.isNull())
     {
         return;
     }
-
-    if (type == "audio")
-    {
+    
+    switch (node.data_type()) {
+    case nl::node::type::bitmap: {
+        QImage image(static_cast<const uchar*>(getBitmapData(node)), node.get_bitmap().width(), node.get_bitmap().height(), QImage::Format_ARGB32);
+        image.save(filename);
+        break;
+    }
+    case nl::node::type::audio: {
         QFile f;
         f.setFileName(filename);
         f.open(QIODevice::WriteOnly);
-        f.write(data_, len);
-        f.close();
+        f.write(static_cast<const char*>(node.get_audio().data()), node.get_audio().length());
+        break;
     }
-    else if (type == "bitmap")
-    {
-        QImage image((uchar*)data_, node.get_bitmap().width(), node.get_bitmap().height(), QImage::Format_ARGB32);
-        image.save(filename);
+    default: {
+        QFile f;
+        f.setFileName(filename);
+        f.open(QIODevice::WriteOnly);
+        f.write(nodeValueAsString(node).toUtf8());
+    }
     }
 }
