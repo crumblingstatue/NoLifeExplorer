@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>539</width>
-    <height>335</height>
+    <width>402</width>
+    <height>264</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,25 +15,6 @@
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QTreeWidget" name="treeWidget">
-      <column>
-       <property name="text">
-        <string>Name</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Type</string>
-       </property>
-      </column>
-      <column>
-       <property name="text">
-        <string>Value</string>
-       </property>
-      </column>
-     </widget>
-    </item>
     <item>
      <widget class="AudioPlayerWidget" name="soundPlayerWidget" native="true"/>
     </item>
@@ -44,7 +25,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>539</width>
+     <width>402</width>
      <height>23</height>
     </rect>
    </property>

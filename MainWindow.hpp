@@ -4,7 +4,7 @@
 #include "NoLifeNx/file.hpp"
 #include <QMainWindow>
 #include <QLabel>
-#include <QTreeWidgetItem>
+#include <QTreeWidget>
 
 namespace Ui
 {
@@ -36,6 +36,7 @@ private:
     nl::file* file;
     bool m_looping = true;
     QLabel *statusBarLabel;
+    QTreeWidget *m_treeWidget;
 };
 
 #endif // MAINWINDOW_HPP

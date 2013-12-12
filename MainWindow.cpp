@@ -79,15 +79,18 @@ MainWindow::MainWindow(QWidget* parent_) :
 {
     ui->setupUi(this);
     file = nullptr;
-    connect(ui->treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
-    connect(ui->treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
-    connect(ui->treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
-    ui->treeWidget->setVisible(false);
+    m_treeWidget = new QTreeWidget;
+    m_treeWidget->setHeaderLabels({"Name", "Type", "Value"});
+    ui->centralWidget->layout()->addWidget(m_treeWidget);
+    connect(m_treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
+    connect(m_treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
+    connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+    m_treeWidget->setVisible(false);
     statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
     ui->statusBar->addWidget(statusBarLabel);
     ui->soundPlayerWidget->hide();
-    ui->treeWidget->header()->resizeSection(0, 300);
-    ui->treeWidget->header()->resizeSection(1, 70);
+    m_treeWidget->header()->resizeSection(0, 300);
+    m_treeWidget->header()->resizeSection(1, 70);
 }
 
 MainWindow::~MainWindow()
@@ -110,7 +113,7 @@ void MainWindow::on_action_Open_triggered()
 
     for (nl::node n : file->root())
     {
-        auto item = addNode(n, ui->treeWidget->invisibleRootItem());
+        auto item = addNode(n, m_treeWidget->invisibleRootItem());
 
         for (auto child : n)
         {
@@ -120,7 +123,7 @@ void MainWindow::on_action_Open_triggered()
         item->childrenAdded = true;
     }
 
-    ui->treeWidget->setVisible(true);
+    m_treeWidget->setVisible(true);
 }
 
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
@@ -206,17 +209,17 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem* widgetItem)
 
 void MainWindow::on_actionCopy_path_triggered()
 {
-    QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Slash));
+    QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Slash));
 }
 
 void MainWindow::on_actionCopy_path_NoLifeNx_triggered()
 {
-    QApplication::clipboard()->setText(getPathString(ui->treeWidget->currentItem(), Array));
+    QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Array));
 }
 
 void MainWindow::on_actionSave_to_file_triggered()
 {
-    auto node = static_cast<NodeItem*>(ui->treeWidget->currentItem())->node;
+    auto node = static_cast<NodeItem*>(m_treeWidget->currentItem())->node;
 
     QString type;
     const char* data_ = nullptr;
