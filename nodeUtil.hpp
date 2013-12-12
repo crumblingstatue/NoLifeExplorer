@@ -9,5 +9,6 @@
 
 QString nodeTypeAsString(nl::node node);
 QString nodeValueAsString(nl::node node);
+const void* getBitmapData(nl::node n);
 
 #endif // NODEUTIL_HPP

@@ -169,16 +169,6 @@ void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetI
     m_nodeMenu->setEnabled(true);
 }
 
-static const void* getBitmapData(nl::node n)
-{
-    if (n["source"]) {
-        std::string src = n["source"];
-        n = n.root().resolve(src.substr(src.find_first_of('/') + 1));
-    }
-
-    return n.get_bitmap().data();
-}
-
 void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/)
 {
     NodeItem* item;
