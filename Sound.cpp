@@ -2,13 +2,11 @@
 
 Sound::Sound()
 {
-    assert(mpg123_init());
+    mpg123assert(mpg123_init());
     handle = mpg123_new(nullptr, nullptr);
 
     if (!handle)
-    {
         die();
-    }
 }
 
 Sound::~Sound()
@@ -21,12 +19,12 @@ void Sound::open(const nl::audio &audio)
     begin = static_cast<const unsigned char*>(audio.data()) + 82;
     length = audio.length() - 82;
     stop();
-    assert(mpg123_close(handle));
-    assert(mpg123_open_feed(handle));
-    assert(mpg123_set_filesize(handle, length));
-    assert(mpg123_feed(handle, begin, length));
+    mpg123assert(mpg123_close(handle));
+    mpg123assert(mpg123_open_feed(handle));
+    mpg123assert(mpg123_set_filesize(handle, length));
+    mpg123assert(mpg123_feed(handle, begin, length));
     int channels = 0, encoding  = 0;
-    assert(mpg123_getformat(handle, &rate, &channels, &encoding));
+    mpg123assert(mpg123_getformat(handle, &rate, &channels, &encoding));
     buf.resize(mpg123_outblock(handle));
     initialize(channels, rate);
     lengthTime = sf::seconds(mpg123_length(handle) / (double)rate);
@@ -48,12 +46,10 @@ void Sound::onSeek(sf::Time timeOffset)
     mpg123_feed(handle, begin + offset, length - offset);
 }
 
-void Sound::assert(int result)
+void Sound::mpg123assert(int result)
 {
     if (result != MPG123_OK)
-    {
         die();
-    }
 }
 
 void Sound::die()

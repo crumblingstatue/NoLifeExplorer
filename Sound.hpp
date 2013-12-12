@@ -15,7 +15,7 @@ public:
 private:
     bool onGetData(Chunk& data);
     void onSeek(sf::Time timeOffset);
-    void assert(int result);
+    void mpg123assert(int result);
     void die();
     mpg123_handle* handle = nullptr;
     std::vector<unsigned char> buf;
