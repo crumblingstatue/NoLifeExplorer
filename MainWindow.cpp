@@ -81,6 +81,12 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
 MainWindow::MainWindow(QWidget* parent_) :
     QMainWindow(parent_)
 {
+    auto geom = m_settings.value("geometry");
+    if (!geom.isNull())
+        restoreGeometry(geom.toByteArray());
+    auto state = m_settings.value("state");
+    if (!state.isNull())
+        restoreState(state.toByteArray());
     setWindowTitle("NoLifeExplorer");
     m_file = nullptr;
     m_treeWidget = new QTreeWidget;
@@ -147,6 +153,8 @@ MainWindow::~MainWindow()
 {
     mpg123_exit();
     m_settings.setValue("recentFiles", m_recentFiles);
+    m_settings.setValue("state", saveState());
+    m_settings.setValue("geometry", saveGeometry());
     delete m_file;
 }
 
