@@ -41,6 +41,7 @@ MainWindow.ui
 add_executable(nlexplorer
 MainWindow.cpp
 MainWindow.hpp
+NodeItem.cpp
 NodeItem.hpp
 Sound.cpp
 Sound.hpp
