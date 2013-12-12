@@ -37,8 +37,8 @@ void AudioStream::open(const nl::audio &audio)
         mpg123assert(mpg123_open_feed(m_handle));
         mpg123assert(mpg123_set_filesize(m_handle, m_length));
         mpg123assert(mpg123_feed(m_handle, m_begin, m_length));
-        int channels = 0, encoding  = 0;
-        mpg123assert(mpg123_getformat(m_handle, &m_rate, &channels, &encoding));
+        int channels;
+        mpg123assert(mpg123_getformat(m_handle, &m_rate, &channels, nullptr));
         m_buf.resize(mpg123_outblock(m_handle));
         initialize(channels, m_rate);
         lengthTime = sf::seconds(mpg123_length(m_handle) / (double)m_rate);
