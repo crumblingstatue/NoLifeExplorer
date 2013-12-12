@@ -52,7 +52,6 @@
    <addaction name="menu_Playback"/>
    <addaction name="menuNode"/>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
   <action name="action_Open">
    <property name="text">
     <string>&amp;Open...</string>

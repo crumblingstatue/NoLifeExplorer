@@ -11,6 +11,7 @@
 #include <QFileDialog>
 #include <QFile>
 #include <QPlainTextEdit>
+#include <QStatusBar>
 
 NodeItem* addNode(const nl::node &node, QTreeWidgetItem *parent)
 {
@@ -89,7 +90,7 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     m_treeWidget->setVisible(false);
     statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
-    ui->statusBar->addWidget(statusBarLabel);
+    statusBar()->addWidget(statusBarLabel);
     m_audioPlayerWidget->hide();
     m_treeWidget->header()->resizeSection(0, 300);
     m_treeWidget->header()->resizeSection(1, 70);
