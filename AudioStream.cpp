@@ -59,10 +59,15 @@ bool AudioStream::onGetData(Chunk& data)
         return data.sampleCount > 0;
     }
     else if (m_type == Raw_S16LE_44100) {
-        // TODO: Maybe implement streaming instead of reading the whole data at once
-        data.samples = reinterpret_cast<const sf::Int16*>(m_begin);
-        data.sampleCount = m_length / 2;
-        return false;
+        // TODO: Dunno, but otherwise there is a clicking at the end
+        // Maybe there is non-audio data at end?
+        if (m_rawOffset >= m_length - rawbufsize * 2)
+            return false;
+        data.samples = reinterpret_cast<const sf::Int16*>(m_begin + m_rawOffset);
+        uint32_t remaining = m_length - m_rawOffset;
+        data.sampleCount = (remaining > rawbufsize ? rawbufsize : remaining);
+        m_rawOffset += data.sampleCount * 2;
+        return remaining;
     }
     return false;
 }
@@ -73,6 +78,10 @@ void AudioStream::onSeek(sf::Time timeOffset)
         off_t offset;
         mpg123_feedseek(m_handle, timeOffset.asSeconds() * m_rate , SEEK_SET, &offset);
         mpg123_feed(m_handle, m_begin + offset, m_length - offset);
+    }
+    else if (m_type == Raw_S16LE_44100) {
+        // Seek to a position divisible by rawbufsize
+        m_rawOffset = (uint32_t(timeOffset.asSeconds() * 44100 * 2) / rawbufsize) * rawbufsize;
     }
 }
 

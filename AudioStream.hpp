@@ -26,6 +26,8 @@ private:
         Mp3,
         Raw_S16LE_44100
     }m_type;
+    uint32_t m_rawOffset;
+    static const int rawbufsize = 1024;
 };
 
 #endif // AUDIOSTREAM_HPP
