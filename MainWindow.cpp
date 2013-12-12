@@ -148,6 +148,11 @@ MainWindow::MainWindow(QWidget* parent_) :
     m_audioPlayerWidget->hide();
     m_treeWidget->header()->resizeSection(0, 300);
     m_treeWidget->header()->resizeSection(1, 70);
+
+    auto args = qApp->arguments();
+    for (int i = 1; i < args.size(); ++i) {
+        openFromFile(args[i]);
+    }
 }
 
 MainWindow::~MainWindow()
@@ -176,7 +181,7 @@ void MainWindow::openFromFile(QString filename)
     }
 
     m_treeWidget->setVisible(true);
-    m_recentFiles.prepend(filename);
+    m_recentFiles.prepend(QFileInfo(filename).absoluteFilePath());
     m_recentFiles.removeDuplicates();
     if (m_recentFiles.size() > 10)
         m_recentFiles.removeLast();
