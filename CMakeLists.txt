@@ -1,8 +1,8 @@
 project(NoLifeExplorer)
 cmake_minimum_required(VERSION 2.8.12)
 
-set(NOLIFEEXPLORER_RELEASE 4)
-set(NOLIFEEXPLORER_CODENAME "CC PLS")
+set(NOLIFEEXPLORER_RELEASE 5)
+set(NOLIFEEXPLORER_CODENAME "Call me out soon!")
 
 configure_file(
   "${PROJECT_SOURCE_DIR}/config.hpp.in"
