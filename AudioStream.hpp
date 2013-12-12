@@ -1,15 +1,15 @@
-#ifndef SOUND_HPP
-#define SOUND_HPP
+#ifndef AUDIOSTREAM_HPP
+#define AUDIOSTREAM_HPP
 
 #include "NoLifeNx/audio.hpp"
 #include <mpg123.h>
 #include <SFML/Audio.hpp>
 
-class Sound : public sf::SoundStream
+class AudioStream : public sf::SoundStream
 {
 public:
-    Sound();
-    ~Sound();
+    AudioStream();
+    ~AudioStream();
     void open(const nl::audio& audio);
     sf::Time lengthTime;
 private:
@@ -24,4 +24,4 @@ private:
     long rate;
 };
 
-#endif // SOUND_HPP
+#endif // AUDIOSTREAM_HPP

@@ -8,7 +8,7 @@
 #include <QTimer>
 #include <QHBoxLayout>
 
-#include "Sound.hpp"
+#include "AudioStream.hpp"
 #include "NodeItem.hpp"
 
 class SoundPlayerWidget : public QWidget
@@ -34,7 +34,7 @@ private:
     QLabel* label;
     QPushButton* playButton;
     QPushButton* pauseButton;
-    Sound sound;
+    AudioStream sound;
     bool m_stopped = true;
     QString currentItemTitle;
     QTimer *timer;

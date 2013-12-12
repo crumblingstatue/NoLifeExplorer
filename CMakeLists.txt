@@ -39,12 +39,12 @@ MainWindow.ui
 )
 
 add_executable(nlexplorer
+AudioStream.cpp
+AudioStream.hpp
 MainWindow.cpp
 MainWindow.hpp
 NodeItem.cpp
 NodeItem.hpp
-Sound.cpp
-Sound.hpp
 SoundPlayerWidget.cpp
 SoundPlayerWidget.hpp
 main.cpp

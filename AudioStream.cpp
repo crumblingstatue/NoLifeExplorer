@@ -1,6 +1,6 @@
-#include "Sound.hpp"
+#include "AudioStream.hpp"
 
-Sound::Sound()
+AudioStream::AudioStream()
 {
     mpg123assert(mpg123_init());
     handle = mpg123_new(nullptr, nullptr);
@@ -9,12 +9,12 @@ Sound::Sound()
         die();
 }
 
-Sound::~Sound()
+AudioStream::~AudioStream()
 {
     mpg123_delete(handle);
 }
 
-void Sound::open(const nl::audio &audio)
+void AudioStream::open(const nl::audio &audio)
 {
     begin = static_cast<const unsigned char*>(audio.data()) + 82;
     length = audio.length() - 82;
@@ -30,7 +30,7 @@ void Sound::open(const nl::audio &audio)
     lengthTime = sf::seconds(mpg123_length(handle) / (double)rate);
 }
 
-bool Sound::onGetData(Chunk& data)
+bool AudioStream::onGetData(Chunk& data)
 {
     size_t done;
     mpg123_read(handle, buf.data(), buf.size(), &done);
@@ -39,20 +39,20 @@ bool Sound::onGetData(Chunk& data)
     return data.sampleCount > 0;
 }
 
-void Sound::onSeek(sf::Time timeOffset)
+void AudioStream::onSeek(sf::Time timeOffset)
 {
     off_t offset;
     mpg123_feedseek(handle, timeOffset.asSeconds() * rate , SEEK_SET, &offset);
     mpg123_feed(handle, begin + offset, length - offset);
 }
 
-void Sound::mpg123assert(int result)
+void AudioStream::mpg123assert(int result)
 {
     if (result != MPG123_OK)
         die();
 }
 
-void Sound::die()
+void AudioStream::die()
 {
     throw std::runtime_error(mpg123_strerror(handle));
 }
