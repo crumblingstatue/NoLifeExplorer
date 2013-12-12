@@ -30,15 +30,14 @@ private slots:
     void onPauseClicked();
 private:
     bool stopped();
-    QSlider* slider;
-    QLabel* label;
-    QPushButton* playButton;
-    QPushButton* pauseButton;
-    AudioStream sound;
+    QSlider *m_slider;
+    QLabel *m_label;
+    QPushButton *m_playButton;
+    QPushButton *m_pauseButton;
+    AudioStream m_audioStream;
     bool m_stopped = true;
-    QString currentItemTitle;
-    QTimer *timer;
-    QHBoxLayout* layout;
+    QTimer *m_timer;
+    QHBoxLayout *m_layout;
 };
 
 #endif // AUDIOPLAYERWIDGET_HPP

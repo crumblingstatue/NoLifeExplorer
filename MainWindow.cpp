@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget* parent_) :
     QMainWindow(parent_)
 {
     setWindowTitle("NoLifeExplorer");
-    file = nullptr;
+    m_file = nullptr;
     m_treeWidget = new QTreeWidget;
     m_treeWidget->setHeaderLabels({"Name", "Type", "Value"});
     setCentralWidget(new QWidget);
@@ -113,8 +113,8 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(m_treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
     connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     m_treeWidget->setVisible(false);
-    statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
-    statusBar()->addWidget(statusBarLabel);
+    m_statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
+    statusBar()->addWidget(m_statusBarLabel);
     m_audioPlayerWidget->hide();
     m_treeWidget->header()->resizeSection(0, 300);
     m_treeWidget->header()->resizeSection(1, 70);
@@ -123,7 +123,7 @@ MainWindow::MainWindow(QWidget* parent_) :
 MainWindow::~MainWindow()
 {
     mpg123_exit();
-    delete file;
+    delete m_file;
 }
 
 void MainWindow::open()
@@ -135,9 +135,9 @@ void MainWindow::open()
         return;
     }
 
-    file = new nl::file(filename.toLocal8Bit().data());
+    m_file = new nl::file(filename.toLocal8Bit().data());
 
-    for (nl::node n : file->root())
+    for (nl::node n : m_file->root())
     {
         auto item = addNode(n, m_treeWidget->invisibleRootItem());
 
@@ -154,7 +154,7 @@ void MainWindow::open()
 
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
 {
-    statusBarLabel->setText(getPathString(current, Slash));
+    m_statusBarLabel->setText(getPathString(current, Slash));
     m_nodeMenu->setEnabled(true);
 }
 

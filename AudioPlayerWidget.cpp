@@ -6,48 +6,48 @@
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
     QWidget(parent_)
 {
-    slider = new QSlider(Qt::Horizontal);
-    playButton = new QPushButton("Play");
-    pauseButton = new QPushButton("Pause");
-    timer = new QTimer(this);
-    label = new QLabel("Wot");
-    layout = new QHBoxLayout(this);
-    layout->addWidget(label);
-    layout->addWidget(slider);
-    layout->addWidget(pauseButton);
-    layout->addWidget(playButton);
-    setLayout(layout);
+    m_slider = new QSlider(Qt::Horizontal);
+    m_playButton = new QPushButton("Play");
+    m_pauseButton = new QPushButton("Pause");
+    m_timer = new QTimer(this);
+    m_label = new QLabel("Wot");
+    m_layout = new QHBoxLayout(this);
+    m_layout->addWidget(m_label);
+    m_layout->addWidget(m_slider);
+    m_layout->addWidget(m_pauseButton);
+    m_layout->addWidget(m_playButton);
+    setLayout(m_layout);
 
-    connect(slider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
-    connect(timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
-    connect(pauseButton, SIGNAL(clicked()), this, SLOT(onPauseClicked()));
-    connect(playButton, SIGNAL(clicked()), this, SLOT(onStopClicked()));
+    connect(m_slider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
+    connect(m_pauseButton, SIGNAL(clicked()), this, SLOT(onPauseClicked()));
+    connect(m_playButton, SIGNAL(clicked()), this, SLOT(onStopClicked()));
 
-    sound.setLoop(true);
-    timer->setInterval(250);
+    m_audioStream.setLoop(true);
+    m_timer->setInterval(250);
 }
 
 void AudioPlayerWidget::play(nl::audio audio)
 {
-    sound.open(audio);
+    m_audioStream.open(audio);
     show();
     play();
 }
 
 void AudioPlayerWidget::toggleLoop(bool arg1)
 {
-    sound.setLoop(arg1);
+    m_audioStream.setLoop(arg1);
 }
 
 void AudioPlayerWidget::updateTimeInfo()
 {
     // Check if sound is stopped
-    if (sound.getStatus() == sf::SoundStream::Stopped)
+    if (m_audioStream.getStatus() == sf::SoundStream::Stopped)
     {
         stop();
     }
-    const int playingOffset = sound.getPlayingOffset().asSeconds();
-    const int length = sound.lengthTime.asSeconds();
+    const int playingOffset = m_audioStream.getPlayingOffset().asSeconds();
+    const int length = m_audioStream.lengthTime.asSeconds();
     const int oMinutes = playingOffset / 60;
     const int oSeconds = playingOffset % 60;
     const int lMinutes = length / 60;
@@ -55,21 +55,21 @@ void AudioPlayerWidget::updateTimeInfo()
     std::ostringstream ss;
     ss << std::setfill('0');
     ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / " << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
-    label->setText(QString::fromStdString(ss.str()));
-    slider->setValue(sound.getPlayingOffset().asMilliseconds());
+    m_label->setText(QString::fromStdString(ss.str()));
+    m_slider->setValue(m_audioStream.getPlayingOffset().asMilliseconds());
 }
 
 void AudioPlayerWidget::seek(int where)
 {
-    sound.setPlayingOffset(sf::milliseconds(where));
+    m_audioStream.setPlayingOffset(sf::milliseconds(where));
 }
 
 void AudioPlayerWidget::stop()
 {
-    slider->setEnabled(false);
-    pauseButton->setEnabled(false);
-    playButton->setText("Play");
-    pauseButton->setText("Pause");
+    m_slider->setEnabled(false);
+    m_pauseButton->setEnabled(false);
+    m_playButton->setText("Play");
+    m_pauseButton->setText("Pause");
     m_stopped = true;
 }
 
@@ -77,7 +77,7 @@ void AudioPlayerWidget::onStopClicked()
 {
     if (!stopped())
     {
-        sound.stop();
+        m_audioStream.stop();
         stop();
     }
     else
@@ -93,30 +93,30 @@ bool AudioPlayerWidget::stopped()
 
 void AudioPlayerWidget::play()
 {
-    sound.play();
-    playButton->setEnabled(true);
-    pauseButton->setEnabled(true);
-    slider->setEnabled(true);
-    label->setEnabled(true);
-    slider->setMaximum(sound.lengthTime.asMilliseconds());
+    m_audioStream.play();
+    m_playButton->setEnabled(true);
+    m_pauseButton->setEnabled(true);
+    m_slider->setEnabled(true);
+    m_label->setEnabled(true);
+    m_slider->setMaximum(m_audioStream.lengthTime.asMilliseconds());
     updateTimeInfo();
-    timer->start();
+    m_timer->start();
     m_stopped = false;
-    playButton->setText("Stop");
+    m_playButton->setText("Stop");
 }
 
 void AudioPlayerWidget::onPauseClicked()
 {
-    if (sound.getStatus() == sf::SoundStream::Paused)
+    if (m_audioStream.getStatus() == sf::SoundStream::Paused)
     {
-        sound.play();
-        slider->setEnabled(true);
-        pauseButton->setText("Pause");
+        m_audioStream.play();
+        m_slider->setEnabled(true);
+        m_pauseButton->setText("Pause");
     }
     else
     {
-        sound.pause();
-        slider->setEnabled(false);
-        pauseButton->setText("Resume");
+        m_audioStream.pause();
+        m_slider->setEnabled(false);
+        m_pauseButton->setText("Resume");
     }
 }

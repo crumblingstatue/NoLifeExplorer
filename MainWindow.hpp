@@ -26,9 +26,9 @@ private slots:
     void saveCurrentNodeToFile();
 
 private:
-    nl::file* file;
+    nl::file *m_file;
     bool m_looping = true;
-    QLabel *statusBarLabel;
+    QLabel *m_statusBarLabel;
     QTreeWidget *m_treeWidget;
     AudioPlayerWidget *m_audioPlayerWidget;
     QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu;

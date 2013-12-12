@@ -17,11 +17,11 @@ private:
     void onSeek(sf::Time timeOffset);
     void mpg123assert(int result);
     void die();
-    mpg123_handle* handle = nullptr;
-    std::vector<unsigned char> buf;
-    const unsigned char* begin;
-    uint32_t length;
-    long rate;
+    mpg123_handle *m_handle = nullptr;
+    std::vector<unsigned char> m_buf;
+    const unsigned char *m_begin;
+    uint32_t m_length;
+    long m_rate;
 };
 
 #endif // AUDIOSTREAM_HPP
