@@ -93,7 +93,6 @@ bool SoundPlayerWidget::stopped()
     return m_stopped;
 }
 
-
 void SoundPlayerWidget::play()
 {
     sound.play();
