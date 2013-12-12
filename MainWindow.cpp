@@ -94,7 +94,10 @@ MainWindow::MainWindow(QWidget* parent_) :
     m_fileMenu = new QMenu("&File");
     action = m_fileMenu->addAction("&Open...");
     connect(action, &QAction::triggered, [=]() {
-        QString filename = QFileDialog::getOpenFileName(this, "Select data file", QString(), "*.nx");
+        QString opendir;
+        if (!m_recentFiles.empty())
+            opendir = QFileInfo(m_recentFiles.first()).absoluteDir().path();
+        QString filename = QFileDialog::getOpenFileName(this, "Select data file", opendir, "*.nx");
         if (!filename.isNull())
             openFromFile(filename);
     });
