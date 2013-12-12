@@ -116,7 +116,8 @@ MainWindow::MainWindow(QWidget* parent_) :
     action = m_playbackMenu->addAction("&Loop");
     action->setCheckable(true);
     action->setChecked(true);
-    connect(action, &QAction::triggered, m_audioPlayerWidget, &AudioPlayerWidget::toggleLoop);
+    m_audioPlayerWidget->setLoop(true);
+    connect(action, &QAction::triggered, m_audioPlayerWidget, &AudioPlayerWidget::setLoop);
     m_nodeMenu = new QMenu("&Node");
     m_nodeMenu->setEnabled(false);
     action = m_nodeMenu->addAction("Copy path (/)");

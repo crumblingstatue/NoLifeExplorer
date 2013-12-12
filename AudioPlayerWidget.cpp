@@ -23,7 +23,6 @@ AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
     connect(m_pauseButton, &QPushButton::clicked, this, &AudioPlayerWidget::onPauseClicked);
     connect(m_playButton, &QPushButton::clicked, this, &AudioPlayerWidget::onStopClicked);
 
-    m_audioStream.setLoop(true);
     m_timer->setInterval(250);
 }
 
@@ -34,9 +33,9 @@ void AudioPlayerWidget::play(nl::audio audio)
     play();
 }
 
-void AudioPlayerWidget::toggleLoop(bool arg1)
+void AudioPlayerWidget::setLoop(bool looping)
 {
-    m_audioStream.setLoop(arg1);
+    m_audioStream.setLoop(looping);
 }
 
 void AudioPlayerWidget::updateTimeInfo()

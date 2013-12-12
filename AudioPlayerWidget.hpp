@@ -18,7 +18,7 @@ public:
     void play(nl::audio audio);
 
 public slots:
-    void toggleLoop(bool arg1);
+    void setLoop(bool arg1);
 private slots:
     void play();
 
