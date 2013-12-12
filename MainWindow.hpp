@@ -8,11 +8,6 @@
 #include <QTreeWidget>
 #include <QMenu>
 
-namespace Ui
-{
-class MainWindow;
-}
-
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -31,7 +26,6 @@ private slots:
     void saveCurrentNodeToFile();
 
 private:
-    Ui::MainWindow* ui;
     nl::file* file;
     bool m_looping = true;
     QLabel *statusBarLabel;

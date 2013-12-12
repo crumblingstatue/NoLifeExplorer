@@ -34,9 +34,6 @@ include_directories(${SFML_INCLUDE_DIR})
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-qt5_wrap_ui(UIS_HDRS
-MainWindow.ui
-)
 
 add_executable(nlexplorer
 AudioPlayerWidget.cpp
@@ -48,7 +45,6 @@ MainWindow.hpp
 NodeItem.cpp
 NodeItem.hpp
 main.cpp
-${UIS_HDRS}
 )
 
 qt5_use_modules(nlexplorer Widgets)

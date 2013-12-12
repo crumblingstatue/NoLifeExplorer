@@ -1,5 +1,4 @@
 #include "MainWindow.hpp"
-#include "ui_MainWindow.h"
 #include "NoLifeNx/bitmap.hpp"
 #include "NoLifeNx/audio.hpp"
 #include "config.hpp"
@@ -13,6 +12,8 @@
 #include <QPlainTextEdit>
 #include <QStatusBar>
 #include <QMenuBar>
+#include <QHeaderView>
+#include <QApplication>
 
 NodeItem* addNode(const nl::node &node, QTreeWidgetItem *parent)
 {
@@ -76,16 +77,17 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format)
 }
 
 MainWindow::MainWindow(QWidget* parent_) :
-    QMainWindow(parent_),
-    ui(new Ui::MainWindow)
+    QMainWindow(parent_)
 {
-    ui->setupUi(this);
+    setWindowTitle("NoLifeExplorer");
     file = nullptr;
     m_treeWidget = new QTreeWidget;
     m_treeWidget->setHeaderLabels({"Name", "Type", "Value"});
-    ui->centralWidget->layout()->addWidget(m_treeWidget);
+    setCentralWidget(new QWidget);
+    centralWidget()->setLayout(new QVBoxLayout);
+    centralWidget()->layout()->addWidget(m_treeWidget);
     m_audioPlayerWidget = new AudioPlayerWidget;
-    ui->centralWidget->layout()->addWidget(m_audioPlayerWidget);
+    centralWidget()->layout()->addWidget(m_audioPlayerWidget);
     QAction *action;
     m_fileMenu = new QMenu("&File");
     action = m_fileMenu->addAction("&Open...");
@@ -118,7 +120,6 @@ MainWindow::~MainWindow()
 {
     mpg123_exit();
     delete file;
-    delete ui;
 }
 
 void MainWindow::open()
