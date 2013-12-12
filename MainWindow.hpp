@@ -2,6 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include "NoLifeNx/file.hpp"
+#include "AudioPlayerWidget.hpp"
 #include <QMainWindow>
 #include <QLabel>
 #include <QTreeWidget>
@@ -37,6 +38,7 @@ private:
     bool m_looping = true;
     QLabel *statusBarLabel;
     QTreeWidget *m_treeWidget;
+    AudioPlayerWidget *m_audioPlayerWidget;
 };
 
 #endif // MAINWINDOW_HPP

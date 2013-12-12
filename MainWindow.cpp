@@ -82,13 +82,15 @@ MainWindow::MainWindow(QWidget* parent_) :
     m_treeWidget = new QTreeWidget;
     m_treeWidget->setHeaderLabels({"Name", "Type", "Value"});
     ui->centralWidget->layout()->addWidget(m_treeWidget);
+    m_audioPlayerWidget = new AudioPlayerWidget;
+    ui->centralWidget->layout()->addWidget(m_audioPlayerWidget);
     connect(m_treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
     connect(m_treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
     connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
     m_treeWidget->setVisible(false);
     statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
     ui->statusBar->addWidget(statusBarLabel);
-    ui->soundPlayerWidget->hide();
+    m_audioPlayerWidget->hide();
     m_treeWidget->header()->resizeSection(0, 300);
     m_treeWidget->header()->resizeSection(1, 70);
 }
@@ -156,10 +158,10 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     {
     case nl::node::type::audio:
         try {
-            ui->soundPlayerWidget->play(*item);
+            m_audioPlayerWidget->play(*item);
         } catch (std::runtime_error &err) {
             QMessageBox::critical(this, "Error", tr("Error playing audio: %1").arg(err.what()));
-            ui->soundPlayerWidget->hide();
+            m_audioPlayerWidget->hide();
         }
 
         break;
