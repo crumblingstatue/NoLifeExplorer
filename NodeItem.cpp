@@ -1,10 +1,6 @@
 #include "NodeItem.hpp"
 #include "nodeUtil.hpp"
 
-namespace {
-
-}
-
 NodeItem::NodeItem(const nl::node& n) :
     node(n)
 {
