@@ -1,11 +1,10 @@
-#include "SoundPlayerWidget.hpp"
-
+#include "AudioPlayerWidget.hpp"
 #include "NoLifeNx/audio.hpp"
 
 #include <sstream>
 #include <iomanip>
 
-SoundPlayerWidget::SoundPlayerWidget(QWidget *parent_) :
+AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
     QWidget(parent_)
 {
     slider = new QSlider(Qt::Horizontal);
@@ -29,19 +28,19 @@ SoundPlayerWidget::SoundPlayerWidget(QWidget *parent_) :
     timer->setInterval(250);
 }
 
-void SoundPlayerWidget::play(const NodeItem &item)
+void AudioPlayerWidget::play(const NodeItem &item)
 {
     sound.open(item.node.get_audio());
     show();
     play();
 }
 
-void SoundPlayerWidget::on_actionLoop_toggled(bool arg1)
+void AudioPlayerWidget::on_actionLoop_toggled(bool arg1)
 {
     sound.setLoop(arg1);
 }
 
-void SoundPlayerWidget::updateTimeInfo()
+void AudioPlayerWidget::updateTimeInfo()
 {
     // Check if sound is stopped
     if (sound.getStatus() == sf::SoundStream::Stopped)
@@ -61,12 +60,12 @@ void SoundPlayerWidget::updateTimeInfo()
     slider->setValue(sound.getPlayingOffset().asMilliseconds());
 }
 
-void SoundPlayerWidget::seek(int where)
+void AudioPlayerWidget::seek(int where)
 {
     sound.setPlayingOffset(sf::milliseconds(where));
 }
 
-void SoundPlayerWidget::stop()
+void AudioPlayerWidget::stop()
 {
     slider->setEnabled(false);
     pauseButton->setEnabled(false);
@@ -75,7 +74,7 @@ void SoundPlayerWidget::stop()
     m_stopped = true;
 }
 
-void SoundPlayerWidget::onStopClicked()
+void AudioPlayerWidget::onStopClicked()
 {
     if (!stopped())
     {
@@ -88,12 +87,12 @@ void SoundPlayerWidget::onStopClicked()
     }
 }
 
-bool SoundPlayerWidget::stopped()
+bool AudioPlayerWidget::stopped()
 {
     return m_stopped;
 }
 
-void SoundPlayerWidget::play()
+void AudioPlayerWidget::play()
 {
     sound.play();
     playButton->setEnabled(true);
@@ -107,7 +106,7 @@ void SoundPlayerWidget::play()
     playButton->setText("Stop");
 }
 
-void SoundPlayerWidget::onPauseClicked()
+void AudioPlayerWidget::onPauseClicked()
 {
     if (sound.getStatus() == sf::SoundStream::Paused)
     {

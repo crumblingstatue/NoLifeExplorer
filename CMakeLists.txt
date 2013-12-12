@@ -39,14 +39,14 @@ MainWindow.ui
 )
 
 add_executable(nlexplorer
+AudioPlayerWidget.cpp
+AudioPlayerWidget.hpp
 AudioStream.cpp
 AudioStream.hpp
 MainWindow.cpp
 MainWindow.hpp
 NodeItem.cpp
 NodeItem.hpp
-SoundPlayerWidget.cpp
-SoundPlayerWidget.hpp
 main.cpp
 ${UIS_HDRS}
 )

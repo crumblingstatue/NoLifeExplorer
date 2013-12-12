@@ -1,5 +1,5 @@
-#ifndef SOUNDPLAYERWIDGET_HPP
-#define SOUNDPLAYERWIDGET_HPP
+#ifndef AUDIOPLAYERWIDGET_HPP
+#define AUDIOPLAYERWIDGET_HPP
 
 #include <QWidget>
 #include <QSlider>
@@ -11,11 +11,11 @@
 #include "AudioStream.hpp"
 #include "NodeItem.hpp"
 
-class SoundPlayerWidget : public QWidget
+class AudioPlayerWidget : public QWidget
 {
     Q_OBJECT
 public:
-    explicit SoundPlayerWidget(QWidget *parent = 0);
+    explicit AudioPlayerWidget(QWidget *parent = 0);
     void play(const NodeItem& item);
 
 private slots:
@@ -41,4 +41,4 @@ private:
     QHBoxLayout* layout;
 };
 
-#endif // SOUNDPLAYERWIDGET_HPP
+#endif // AUDIOPLAYERWIDGET_HPP

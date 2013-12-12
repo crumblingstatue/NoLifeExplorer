@@ -35,7 +35,7 @@
      </widget>
     </item>
     <item>
-     <widget class="SoundPlayerWidget" name="soundPlayerWidget" native="true"/>
+     <widget class="AudioPlayerWidget" name="soundPlayerWidget" native="true"/>
     </item>
    </layout>
   </widget>
@@ -122,9 +122,9 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>SoundPlayerWidget</class>
+   <class>AudioPlayerWidget</class>
    <extends>QWidget</extends>
-   <header>SoundPlayerWidget.hpp</header>
+   <header>AudioPlayerWidget.hpp</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
