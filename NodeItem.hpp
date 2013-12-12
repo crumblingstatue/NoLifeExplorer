@@ -49,8 +49,10 @@ struct NodeItem : public QTreeWidgetItem
         case nl::node::type::integer:
         case nl::node::type::string:
             return QString::fromStdString(node.get_string());
-        case nl::node::type::vector:
-            return "{" + QString::number(node.get_vector().first) + ", " + QString::number(node.get_vector().second) + "}";
+        case nl::node::type::vector: {
+            const auto vec = node.get_vector();
+            return QString("{%1, %2}").arg(vec.first).arg(vec.second);
+        }
         default:
             return QString();
         }
