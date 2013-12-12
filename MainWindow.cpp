@@ -166,7 +166,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFromFile(QString filename)
 {
-    m_file = new nl::file(filename.toLocal8Bit().data());
+    try {
+        m_file = new nl::file(filename.toLocal8Bit().data());
+    }
+    catch (std::exception &e) {
+        QMessageBox::critical(this, "Error", e.what());
+        return;
+    }
 
     for (nl::node n : m_file->root())
     {
