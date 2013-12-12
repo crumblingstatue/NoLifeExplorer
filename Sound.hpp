@@ -1,8 +1,7 @@
 #ifndef SOUND_HPP
 #define SOUND_HPP
 
-#include "NodeItem.hpp"
-
+#include "NoLifeNx/audio.hpp"
 #include <mpg123.h>
 #include <SFML/Audio.hpp>
 

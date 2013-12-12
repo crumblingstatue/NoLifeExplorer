@@ -9,6 +9,7 @@
 #include <QHBoxLayout>
 
 #include "Sound.hpp"
+#include "NodeItem.hpp"
 
 class SoundPlayerWidget : public QWidget
 {
