@@ -93,7 +93,14 @@ MainWindow::MainWindow(QWidget* parent_) :
     QAction *action;
     m_fileMenu = new QMenu("&File");
     action = m_fileMenu->addAction("&Open...");
-    connect(action, &QAction::triggered, this, &MainWindow::open);
+    connect(action, &QAction::triggered, [=]() {
+        QString filename = QFileDialog::getOpenFileName(this, "Select data file", QString(), "*.nx");
+        if (!filename.isNull())
+            openFromFile(filename);
+    });
+    m_recentFilesMenu = m_fileMenu->addMenu("&Recent files");
+    m_recentFiles = m_settings.value("recentFiles").toStringList();
+    updateRecentFilesList();
     m_playbackMenu = new QMenu("&Playback");
     action = m_playbackMenu->addAction("&Loop");
     action->setCheckable(true);
@@ -134,18 +141,12 @@ MainWindow::MainWindow(QWidget* parent_) :
 MainWindow::~MainWindow()
 {
     mpg123_exit();
+    m_settings.setValue("recentFiles", m_recentFiles);
     delete m_file;
 }
 
-void MainWindow::open()
+void MainWindow::openFromFile(QString filename)
 {
-    QString filename = QFileDialog::getOpenFileName(this, "Select data file", QString(), "*.nx");
-
-    if (filename.isNull())
-    {
-        return;
-    }
-
     m_file = new nl::file(filename.toLocal8Bit().data());
 
     for (nl::node n : m_file->root())
@@ -161,6 +162,11 @@ void MainWindow::open()
     }
 
     m_treeWidget->setVisible(true);
+    m_recentFiles.prepend(filename);
+    m_recentFiles.removeDuplicates();
+    if (m_recentFiles.size() > 10)
+        m_recentFiles.removeLast();
+    updateRecentFilesList();
 }
 
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
@@ -278,5 +284,16 @@ void MainWindow::saveCurrentNodeToFile()
         f.open(QIODevice::WriteOnly);
         f.write(nodeValueAsString(node).toUtf8());
     }
+    }
+}
+
+void MainWindow::updateRecentFilesList()
+{
+    m_recentFilesMenu->clear();
+    for (auto s : m_recentFiles) {
+        QAction *action = m_recentFilesMenu->addAction(s);
+        connect(action, &QAction::triggered, [=]() {
+           openFromFile(s);
+        });
     }
 }

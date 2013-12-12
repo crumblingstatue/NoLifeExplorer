@@ -7,6 +7,7 @@
 #include <QLabel>
 #include <QTreeWidget>
 #include <QMenu>
+#include <QSettings>
 
 class MainWindow : public QMainWindow
 {
@@ -17,13 +18,14 @@ public:
     ~MainWindow();
 
 private slots:
-    void open();
+    void openFromFile(QString filename);
     void handleCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
     void handleItemActivated(QTreeWidgetItem *widgetItem, int column);
     void handleItemExpanded(QTreeWidgetItem *widgetItem);
     void copyPath_slash();
     void copyPath_array();
     void saveCurrentNodeToFile();
+    void updateRecentFilesList();
 
 private:
     nl::file *m_file;
@@ -31,7 +33,9 @@ private:
     QLabel *m_statusBarLabel;
     QTreeWidget *m_treeWidget;
     AudioPlayerWidget *m_audioPlayerWidget;
-    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu;
+    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu, *m_recentFilesMenu;
+    QStringList m_recentFiles;
+    QSettings m_settings;
 };
 
 #endif // MAINWINDOW_HPP
