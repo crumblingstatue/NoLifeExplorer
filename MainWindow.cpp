@@ -100,6 +100,7 @@ MainWindow::MainWindow(QWidget* parent_) :
     action->setChecked(true);
     connect(action, &QAction::triggered, m_audioPlayerWidget, &AudioPlayerWidget::toggleLoop);
     m_nodeMenu = new QMenu("&Node");
+    m_nodeMenu->setEnabled(false);
     action = m_nodeMenu->addAction("Copy path (/)");
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_slash);
     action = m_nodeMenu->addAction("Copy path ([])");
