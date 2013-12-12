@@ -104,6 +104,8 @@ MainWindow::MainWindow(QWidget* parent_) :
     m_recentFilesMenu = m_fileMenu->addMenu("&Recent files");
     m_recentFiles = m_settings.value("recentFiles").toStringList();
     updateRecentFilesList();
+    action = m_fileMenu->addAction("&Quit");
+    connect(action, &QAction::triggered, this, &QMainWindow::close);
     m_playbackMenu = new QMenu("&Playback");
     action = m_playbackMenu->addAction("&Loop");
     action->setCheckable(true);
