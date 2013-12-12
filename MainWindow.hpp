@@ -31,7 +31,7 @@ private:
     QLabel *m_statusBarLabel;
     QTreeWidget *m_treeWidget;
     AudioPlayerWidget *m_audioPlayerWidget;
-    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu;
+    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu;
 };
 
 #endif // MAINWINDOW_HPP

@@ -107,14 +107,24 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_array);
     action = m_nodeMenu->addAction("&Save to file...");
     connect(action, &QAction::triggered, this, &MainWindow::saveCurrentNodeToFile);
+    m_helpMenu = new QMenu("&Help");
+    action = m_helpMenu->addAction("&About NoLifeExplorer...");
+    connect(action, &QAction::triggered, [=]() {
+        QMessageBox::about(this, "About NoLifeExplorer", "NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
+    });
+    action = m_helpMenu->addAction("About Qt...");
+    connect(action, &QAction::triggered, [=]() {
+        QMessageBox::aboutQt(this);
+    });
     menuBar()->addMenu(m_fileMenu);
     menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_nodeMenu);
+    menuBar()->addMenu(m_helpMenu);
     connect(m_treeWidget, &QTreeWidget::itemActivated, this, &MainWindow::handleItemActivated);
     connect(m_treeWidget, &QTreeWidget::itemExpanded, this, &MainWindow::handleItemExpanded);
     connect(m_treeWidget, &QTreeWidget::currentItemChanged, this, &MainWindow::handleCurrentItemChanged);
     m_treeWidget->setVisible(false);
-    m_statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
+    m_statusBarLabel = new QLabel;
     statusBar()->addWidget(m_statusBarLabel);
     m_audioPlayerWidget->hide();
     m_treeWidget->header()->resizeSection(0, 300);
