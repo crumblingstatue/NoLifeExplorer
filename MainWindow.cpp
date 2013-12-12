@@ -102,6 +102,8 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_slash);
     action = m_nodeMenu->addAction("Copy path ([])");
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_array);
+    action = m_nodeMenu->addAction("&Save to file...");
+    connect(action, &QAction::triggered, this, &MainWindow::saveCurrentNodeToFile);
     menuBar()->addMenu(m_fileMenu);
     menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_nodeMenu);
