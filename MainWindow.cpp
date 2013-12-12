@@ -1,12 +1,12 @@
-#include "mainwindow.hpp"
-#include "ui_mainwindow.h"
+#include "MainWindow.hpp"
+#include "ui_MainWindow.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshadow"
 #include "NoLifeNx/file.hpp"
 #include "NoLifeNx/bitmap.hpp"
 #include "NoLifeNx/audio.hpp"
 #pragma GCC diagnostic pop
-#include "Config.h"
+#include "config.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>

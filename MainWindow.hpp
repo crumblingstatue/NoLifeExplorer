@@ -5,7 +5,7 @@
 #include <QTimer>
 #include <QLabel>
 
-#include "soundplayerwidget.hpp"
+#include "SoundPlayerWidget.hpp"
 
 namespace Ui
 {

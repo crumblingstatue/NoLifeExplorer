@@ -5,8 +5,8 @@ set(NOLIFEEXPLORER_RELEASE 4)
 set(NOLIFEEXPLORER_CODENAME "CC PLS")
 
 configure_file(
-  "${PROJECT_SOURCE_DIR}/Config.hpp.in"
-  "${PROJECT_BINARY_DIR}/Config.hpp"
+  "${PROJECT_SOURCE_DIR}/config.hpp.in"
+  "${PROJECT_BINARY_DIR}/config.hpp"
 )
 
 # Detect compiler
@@ -35,18 +35,18 @@ include_directories(${SFML_INCLUDE_DIR})
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 qt5_wrap_ui(UIS_HDRS
-mainwindow.ui
+MainWindow.ui
 )
 
 add_executable(nlexplorer
+MainWindow.cpp
+MainWindow.hpp
 NodeItem.hpp
 Sound.cpp
 Sound.hpp
+SoundPlayerWidget.cpp
+SoundPlayerWidget.hpp
 main.cpp
-mainwindow.cpp
-mainwindow.hpp
-soundplayerwidget.cpp
-soundplayerwidget.hpp
 ${UIS_HDRS}
 )
 
