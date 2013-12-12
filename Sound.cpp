@@ -1,7 +1,4 @@
 #include "Sound.hpp"
-#include "NoLifeNx/audio.hpp"
-
-#include <QDebug>
 
 Sound::Sound()
 {
