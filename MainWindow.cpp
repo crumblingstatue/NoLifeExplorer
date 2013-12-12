@@ -10,9 +10,7 @@
 
 #include <QFileDialog>
 #include <QMessageBox>
-#include <sstream>
 #include <QDebug>
-#include <iomanip>
 #include <QClipboard>
 #include <QFileDialog>
 #include <QFile>
