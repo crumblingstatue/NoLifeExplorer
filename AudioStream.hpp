@@ -22,6 +22,10 @@ private:
     const unsigned char *m_begin;
     uint32_t m_length;
     long m_rate;
+    enum {
+        Mp3,
+        Raw_S16LE_44100
+    }m_type;
 };
 
 #endif // AUDIOSTREAM_HPP
