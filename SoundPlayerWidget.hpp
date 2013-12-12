@@ -1,5 +1,5 @@
-#ifndef SOUNDPLAYERWIDGET_H
-#define SOUNDPLAYERWIDGET_H
+#ifndef SOUNDPLAYERWIDGET_HPP
+#define SOUNDPLAYERWIDGET_HPP
 
 #include <QWidget>
 #include <QSlider>
@@ -40,4 +40,4 @@ private:
     QHBoxLayout* layout;
 };
 
-#endif // SOUNDPLAYERWIDGET_H
+#endif // SOUNDPLAYERWIDGET_HPP

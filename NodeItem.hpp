@@ -1,5 +1,5 @@
-#ifndef NODEITEM_H
-#define NODEITEM_H
+#ifndef NODEITEM_HPP
+#define NODEITEM_HPP
 
 #include <QTreeWidgetItem>
 #pragma GCC diagnostic push
@@ -62,4 +62,4 @@ struct NodeItem : public QTreeWidgetItem
     bool childrenAdded = false;
 };
 
-#endif // NODEITEM_H
+#endif // NODEITEM_HPP

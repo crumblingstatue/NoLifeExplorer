@@ -1,5 +1,5 @@
-#ifndef SOUND_H
-#define SOUND_H
+#ifndef SOUND_HPP
+#define SOUND_HPP
 
 #include "NodeItem.hpp"
 
@@ -25,4 +25,4 @@ private:
     long rate;
 };
 
-#endif // SOUND_H
+#endif // SOUND_HPP
