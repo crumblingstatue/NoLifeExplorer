@@ -1,5 +1,4 @@
 #include "AudioPlayerWidget.hpp"
-#include "NoLifeNx/audio.hpp"
 
 #include <sstream>
 #include <iomanip>
@@ -28,9 +27,9 @@ AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
     timer->setInterval(250);
 }
 
-void AudioPlayerWidget::play(const NodeItem &item)
+void AudioPlayerWidget::play(nl::audio audio)
 {
-    sound.open(item.node.get_audio());
+    sound.open(audio);
     show();
     play();
 }

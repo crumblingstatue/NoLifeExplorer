@@ -3,6 +3,7 @@
 #include "NoLifeNx/audio.hpp"
 #include "config.hpp"
 #include "nodeUtil.hpp"
+#include "NodeItem.hpp"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -181,7 +182,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem* widgetItem, int /*column*/
     {
     case nl::node::type::audio:
         try {
-            m_audioPlayerWidget->play(*item);
+            m_audioPlayerWidget->play(item->node.get_audio());
         } catch (std::runtime_error &err) {
             QMessageBox::critical(this, "Error", tr("Error playing audio: %1").arg(err.what()));
             m_audioPlayerWidget->hide();

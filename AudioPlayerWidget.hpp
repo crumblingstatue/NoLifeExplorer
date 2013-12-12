@@ -9,14 +9,13 @@
 #include <QHBoxLayout>
 
 #include "AudioStream.hpp"
-#include "NodeItem.hpp"
 
 class AudioPlayerWidget : public QWidget
 {
     Q_OBJECT
 public:
     explicit AudioPlayerWidget(QWidget *parent = 0);
-    void play(const NodeItem& item);
+    void play(nl::audio audio);
 
 public slots:
     void toggleLoop(bool arg1);
