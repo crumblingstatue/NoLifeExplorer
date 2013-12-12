@@ -18,10 +18,10 @@ AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
     m_layout->addWidget(m_playButton);
     setLayout(m_layout);
 
-    connect(m_slider, SIGNAL(sliderMoved(int)), this, SLOT(seek(int)));
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(updateTimeInfo()));
-    connect(m_pauseButton, SIGNAL(clicked()), this, SLOT(onPauseClicked()));
-    connect(m_playButton, SIGNAL(clicked()), this, SLOT(onStopClicked()));
+    connect(m_slider, &QSlider::sliderMoved, this, &AudioPlayerWidget::seek);
+    connect(m_timer, &QTimer::timeout, this, &AudioPlayerWidget::updateTimeInfo);
+    connect(m_pauseButton, &QPushButton::clicked, this, &AudioPlayerWidget::onPauseClicked);
+    connect(m_playButton, &QPushButton::clicked, this, &AudioPlayerWidget::onStopClicked);
 
     m_audioStream.setLoop(true);
     m_timer->setInterval(250);

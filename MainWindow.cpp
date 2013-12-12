@@ -109,9 +109,9 @@ MainWindow::MainWindow(QWidget* parent_) :
     menuBar()->addMenu(m_fileMenu);
     menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_nodeMenu);
-    connect(m_treeWidget, SIGNAL(itemActivated(QTreeWidgetItem*,int)), this, SLOT(handleItemActivated(QTreeWidgetItem*,int)));
-    connect(m_treeWidget, SIGNAL(itemExpanded(QTreeWidgetItem*)), this, SLOT(handleItemExpanded(QTreeWidgetItem*)));
-    connect(m_treeWidget, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)), this, SLOT(handleCurrentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)));
+    connect(m_treeWidget, &QTreeWidget::itemActivated, this, &MainWindow::handleItemActivated);
+    connect(m_treeWidget, &QTreeWidget::itemExpanded, this, &MainWindow::handleItemExpanded);
+    connect(m_treeWidget, &QTreeWidget::currentItemChanged, this, &MainWindow::handleCurrentItemChanged);
     m_treeWidget->setVisible(false);
     m_statusBarLabel = new QLabel("NoLifeExplorer release " NOLIFEEXPLORER_RELEASE " \"" NOLIFEEXPLORER_CODENAME "\"");
     statusBar()->addWidget(m_statusBarLabel);
