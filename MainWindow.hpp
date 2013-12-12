@@ -1,11 +1,10 @@
 #ifndef MAINWINDOW_HPP
 #define MAINWINDOW_HPP
 
+#include "NoLifeNx/file.hpp"
 #include <QMainWindow>
-#include <QTimer>
 #include <QLabel>
-
-#include "SoundPlayerWidget.hpp"
+#include <QTreeWidgetItem>
 
 namespace Ui
 {
