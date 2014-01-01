@@ -16,6 +16,8 @@
 #include <QMenuBar>
 #include <QHeaderView>
 #include <QApplication>
+#include <QLineEdit>
+#include <QListWidget>
 
 NodeItem* addNode(const nl::node &node, QTreeWidgetItem *parent)
 {
@@ -112,6 +114,11 @@ MainWindow::MainWindow(QWidget* parent_) :
     updateRecentFilesList();
     action = m_fileMenu->addAction("&Quit");
     connect(action, &QAction::triggered, this, &QMainWindow::close);
+    m_treeMenu = new QMenu("&Tree");
+    m_treeMenu->setEnabled(false);
+    action = m_treeMenu->addAction("&Find...");
+    action->setShortcut(QKeySequence("Ctrl+F"));
+    connect(action, &QAction::triggered, [=]{findNodes(m_file->root());});
     m_playbackMenu = new QMenu("&Playback");
     action = m_playbackMenu->addAction("&Loop");
     action->setCheckable(true);
@@ -126,6 +133,8 @@ MainWindow::MainWindow(QWidget* parent_) :
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_array);
     action = m_nodeMenu->addAction("&Save to file...");
     connect(action, &QAction::triggered, this, &MainWindow::saveCurrentNodeToFile);
+    action = m_nodeMenu->addAction("&Find children...");
+    connect(action, &QAction::triggered, [=]{findNodes(static_cast<NodeItem*>(m_treeWidget->currentItem())->node);});
     m_helpMenu = new QMenu("&Help");
     action = m_helpMenu->addAction("&About NoLifeExplorer...");
     connect(action, &QAction::triggered, [=]() {
@@ -136,6 +145,7 @@ MainWindow::MainWindow(QWidget* parent_) :
         QMessageBox::aboutQt(this);
     });
     menuBar()->addMenu(m_fileMenu);
+    menuBar()->addMenu(m_treeMenu);
     menuBar()->addMenu(m_nodeMenu);
     menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_helpMenu);
@@ -192,6 +202,7 @@ void MainWindow::openFromFile(QString filename)
     if (m_recentFiles.size() > 10)
         m_recentFiles.removeLast();
     updateRecentFilesList();
+    m_treeMenu->setEnabled(true);
 }
 
 void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem */*previous*/)
@@ -321,4 +332,49 @@ void MainWindow::updateRecentFilesList()
            openFromFile(s);
         });
     }
+}
+
+void MainWindow::findNodes(nl::node root)
+{
+    QLineEdit *le = new QLineEdit;
+    le->setWindowTitle("Find Wot");
+    connect(le, &QLineEdit::returnPressed, [=]() {
+        auto nodes = ::findNodes(root, le->text());
+        QListWidget *lw = new QListWidget;
+        for (auto s : nodes) {
+            lw->addItem(s);
+        }
+        connect(lw, &QListWidget::itemActivated, [=](QListWidgetItem *item) {
+            goToNodeItem(item->text());
+            lw->close();
+            delete lw;
+        });
+        lw->show();
+        le->close();
+        delete le;
+    });
+    le->show();
+}
+
+namespace {
+QTreeWidgetItem* findChildItem(QTreeWidgetItem *parent, QString name) {
+    for (int i = 0; i < parent->childCount(); ++i) {
+        if (parent->child(i)->text(0) == name)
+            return parent->child(i);
+    }
+    throw;
+}
+}
+
+void MainWindow::goToNodeItem(QString path)
+{
+    auto tree = path.split('/', QString::SkipEmptyParts);
+    auto root = m_treeWidget->invisibleRootItem();
+
+    for (auto s : tree) {
+        root->setExpanded(true);
+        root = findChildItem(root, s);
+    }
+
+    m_treeWidget->setCurrentItem(root);
 }

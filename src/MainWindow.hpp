@@ -1,6 +1,7 @@
 #pragma once
 
 #include "nx/file.hpp"
+#include "nx/node.hpp"
 #include "AudioPlayerWidget.hpp"
 #include <QMainWindow>
 #include <QLabel>
@@ -25,6 +26,8 @@ private slots:
     void copyPath_array();
     void saveCurrentNodeToFile();
     void updateRecentFilesList();
+    void findNodes(nl::node root);
+    void goToNodeItem(QString path);
 
 private:
     nl::file *m_file;
@@ -32,7 +35,8 @@ private:
     QLabel *m_statusBarLabel;
     QTreeWidget *m_treeWidget;
     AudioPlayerWidget *m_audioPlayerWidget;
-    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu, *m_recentFilesMenu;
+    QMenu *m_fileMenu, *m_playbackMenu, *m_nodeMenu,
+          *m_helpMenu, *m_recentFilesMenu, *m_treeMenu;
     QStringList m_recentFiles;
     QSettings m_settings;
 };
