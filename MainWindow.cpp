@@ -136,8 +136,8 @@ MainWindow::MainWindow(QWidget* parent_) :
         QMessageBox::aboutQt(this);
     });
     menuBar()->addMenu(m_fileMenu);
-    menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_nodeMenu);
+    menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_helpMenu);
     connect(m_treeWidget, &QTreeWidget::itemActivated, this, &MainWindow::handleItemActivated);
     connect(m_treeWidget, &QTreeWidget::itemExpanded, this, &MainWindow::handleItemExpanded);
