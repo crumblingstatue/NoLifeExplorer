@@ -1,5 +1,4 @@
-#ifndef AUDIOPLAYERWIDGET_HPP
-#define AUDIOPLAYERWIDGET_HPP
+#pragma once
 
 #include <QWidget>
 #include <QSlider>
@@ -39,5 +38,3 @@ private:
     QTimer *m_timer;
     QHBoxLayout *m_layout;
 };
-
-#endif // AUDIOPLAYERWIDGET_HPP

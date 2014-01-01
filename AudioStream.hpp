@@ -1,5 +1,4 @@
-#ifndef AUDIOSTREAM_HPP
-#define AUDIOSTREAM_HPP
+#pragma once
 
 #include "NoLifeNx/audio.hpp"
 #include <mpg123.h>
@@ -29,5 +28,3 @@ private:
     uint32_t m_rawOffset;
     static const int rawbufsize = 1024;
 };
-
-#endif // AUDIOSTREAM_HPP

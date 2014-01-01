@@ -1,5 +1,4 @@
-#ifndef MAINWINDOW_HPP
-#define MAINWINDOW_HPP
+#pragma once
 
 #include "NoLifeNx/file.hpp"
 #include "AudioPlayerWidget.hpp"
@@ -37,5 +36,3 @@ private:
     QStringList m_recentFiles;
     QSettings m_settings;
 };
-
-#endif // MAINWINDOW_HPP
