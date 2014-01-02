@@ -2,7 +2,7 @@
 
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wshadow"
-#include "NoLifeNx/node.hpp"
+#include "nx/node.hpp"
 #pragma GCC diagnostic pop
 #include <QString>
 

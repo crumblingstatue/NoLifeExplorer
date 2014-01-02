@@ -26,7 +26,9 @@ if(USING_CLANG)
   add_compile_options(-Wno-nested-anon-types)
 endif()
 
-add_subdirectory(NoLifeNx)
+set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
+find_package(NoLifeNx REQUIRED)
+include_directories(${NOLIFENX_INCLUDE_DIR})
 
 find_package(Qt5Widgets REQUIRED)
 find_package(SFML 2 COMPONENTS audio system REQUIRED)
@@ -51,5 +53,5 @@ nodeUtil.hpp
 
 qt5_use_modules(nlexplorer Widgets)
 
-target_link_libraries(nlexplorer NoLifeNx ${SFML_LIBRARIES} lz4 mpg123)
+target_link_libraries(nlexplorer ${NOLIFENX_LIBRARY} ${SFML_LIBRARIES} lz4 mpg123)
 set_target_properties(nlexplorer PROPERTIES COMPILE_FLAGS "-Wshadow")

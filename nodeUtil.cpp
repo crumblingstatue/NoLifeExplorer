@@ -1,5 +1,5 @@
 #include "nodeUtil.hpp"
-#include "NoLifeNx/bitmap.hpp"
+#include "nx/bitmap.hpp"
 
 QString nodeTypeAsString(nl::node node)
 {

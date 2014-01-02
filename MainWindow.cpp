@@ -1,6 +1,6 @@
 #include "MainWindow.hpp"
-#include "NoLifeNx/bitmap.hpp"
-#include "NoLifeNx/audio.hpp"
+#include "nx/bitmap.hpp"
+#include "nx/audio.hpp"
 #include "config.hpp"
 #include "nodeUtil.hpp"
 #include "NodeItem.hpp"

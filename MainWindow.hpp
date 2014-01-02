@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NoLifeNx/file.hpp"
+#include "nx/file.hpp"
 #include "AudioPlayerWidget.hpp"
 #include <QMainWindow>
 #include <QLabel>

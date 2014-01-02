@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NoLifeNx/audio.hpp"
+#include "nx/audio.hpp"
 #include <mpg123.h>
 #include <SFML/Audio.hpp>
 
