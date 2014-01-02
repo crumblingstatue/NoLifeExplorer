@@ -38,17 +38,17 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 add_executable(nlexplorer
-AudioPlayerWidget.cpp
-AudioPlayerWidget.hpp
-AudioStream.cpp
-AudioStream.hpp
-MainWindow.cpp
-MainWindow.hpp
-NodeItem.cpp
-NodeItem.hpp
-main.cpp
-nodeUtil.cpp
-nodeUtil.hpp
+src/AudioPlayerWidget.cpp
+src/AudioPlayerWidget.hpp
+src/AudioStream.cpp
+src/AudioStream.hpp
+src/MainWindow.cpp
+src/MainWindow.hpp
+src/NodeItem.cpp
+src/NodeItem.hpp
+src/main.cpp
+src/nodeUtil.cpp
+src/nodeUtil.hpp
 )
 
 qt5_use_modules(nlexplorer Widgets)
