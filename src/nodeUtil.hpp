@@ -1,9 +1,6 @@
 #pragma once
 
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wshadow"
 #include "nx/node.hpp"
-#pragma GCC diagnostic pop
 #include <QStringList>
 
 QString nodeTypeAsString(nl::node node);
