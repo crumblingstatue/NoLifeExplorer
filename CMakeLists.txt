@@ -11,19 +11,14 @@ configure_file(
 
 # Detect compiler
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-    set(USING_GCC 1)
+    set(USING_GCC TRUE)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-    set(USING_CLANG 1)
+    set(USING_CLANG TRUE)
 endif()
 
 # For GCC and Clang, enable C++11 support and add some other flags
 if(USING_GCC OR USING_CLANG)
-  add_compile_options(-std=c++11 -pedantic -Wall -Wextra)
-endif()
-
-# Disable Clang warnings about nested anon types
-if(USING_CLANG)
-  add_compile_options(-Wno-nested-anon-types)
+  add_compile_options(-std=c++11 -pedantic -Wall -Wextra -Wshadow)
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
@@ -54,4 +49,3 @@ src/nodeUtil.hpp
 qt5_use_modules(nlexplorer Widgets)
 
 target_link_libraries(nlexplorer ${NOLIFENX_LIBRARY} ${SFML_LIBRARIES} lz4 mpg123)
-set_target_properties(nlexplorer PROPERTIES COMPILE_FLAGS "-Wshadow")
