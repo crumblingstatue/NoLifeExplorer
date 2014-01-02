@@ -1,8 +1,8 @@
 project(NoLifeExplorer)
 cmake_minimum_required(VERSION 2.8.12)
 
-set(NOLIFEEXPLORER_RELEASE 6)
-set(NOLIFEEXPLORER_CODENAME "Read my mind")
+set(NOLIFEEXPLORER_RELEASE 7)
+set(NOLIFEEXPLORER_CODENAME "DragonLoad")
 
 configure_file(
   "${PROJECT_SOURCE_DIR}/config.hpp.in"
