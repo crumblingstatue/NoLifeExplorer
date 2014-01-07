@@ -105,7 +105,8 @@ MainWindow::MainWindow(QWidget* parent_) :
         QString opendir;
         if (!m_recentFiles.empty())
             opendir = QFileInfo(m_recentFiles.first()).absoluteDir().path();
-        QString filename = QFileDialog::getOpenFileName(this, "Select data file", opendir, "*.nx");
+        QString nxfilter = "Nx files (*.nx)";
+        QString filename = QFileDialog::getOpenFileName(this, "Select data file", opendir, QString("All files (*.*);;") + nxfilter, &nxfilter);
         if (!filename.isNull())
             openFromFile(filename);
     });
