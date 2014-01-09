@@ -15,7 +15,7 @@ AudioStream::~AudioStream()
     mpg123_delete(m_handle);
 }
 
-void AudioStream::open(const nl::audio &audio)
+void AudioStream::open(const nl::audio& audio)
 {
     auto typemagic = static_cast<const unsigned char*>(audio.data()) + 0x33;
     if (typemagic[0] == 0x1E && typemagic[1] == 0x55)
@@ -42,8 +42,7 @@ void AudioStream::open(const nl::audio &audio)
         m_buf.resize(mpg123_outblock(m_handle));
         initialize(channels, m_rate);
         lengthTime = sf::seconds(mpg123_length(m_handle) / (double)m_rate);
-    }
-    else if (m_type == Raw_S16LE_44100) {
+    } else if (m_type == Raw_S16LE_44100) {
         initialize(1, 44100);
         lengthTime = sf::seconds((m_length / 2) / 44100);
     }
@@ -57,8 +56,7 @@ bool AudioStream::onGetData(Chunk& data)
         data.samples = reinterpret_cast<const sf::Int16*>(m_buf.data());
         data.sampleCount = done / sizeof(sf::Int16);
         return data.sampleCount > 0;
-    }
-    else if (m_type == Raw_S16LE_44100) {
+    } else if (m_type == Raw_S16LE_44100) {
         // TODO: Dunno, but otherwise there is a clicking at the end
         // Maybe there is non-audio data at end?
         if (m_rawOffset >= m_length - rawbufsize * 2)
@@ -76,10 +74,9 @@ void AudioStream::onSeek(sf::Time timeOffset)
 {
     if (m_type == Mp3) {
         off_t offset;
-        mpg123_feedseek(m_handle, timeOffset.asSeconds() * m_rate , SEEK_SET, &offset);
+        mpg123_feedseek(m_handle, timeOffset.asSeconds() * m_rate, SEEK_SET, &offset);
         mpg123_feed(m_handle, m_begin + offset, m_length - offset);
-    }
-    else if (m_type == Raw_S16LE_44100) {
+    } else if (m_type == Raw_S16LE_44100) {
         // Seek to a position divisible by rawbufsize
         m_rawOffset = (uint32_t(timeOffset.asSeconds() * 44100 * 2) / rawbufsize) * rawbufsize;
     }

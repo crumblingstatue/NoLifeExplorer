@@ -9,16 +9,17 @@
 
 #include "AudioStream.hpp"
 
-class AudioPlayerWidget : public QWidget
-{
+class AudioPlayerWidget : public QWidget {
     Q_OBJECT
 public:
-    explicit AudioPlayerWidget(QWidget *parent = 0);
+    explicit AudioPlayerWidget(QWidget* parent = 0);
     void play(nl::audio audio);
 
-public slots:
+public
+slots:
     void setLoop(bool arg1);
-private slots:
+private
+slots:
     void play();
 
     void updateTimeInfo();
@@ -27,14 +28,15 @@ private slots:
 
     void onStopClicked();
     void onPauseClicked();
+
 private:
     bool stopped();
-    QSlider *m_slider;
-    QLabel *m_label;
-    QPushButton *m_playButton;
-    QPushButton *m_pauseButton;
+    QSlider* m_slider;
+    QLabel* m_label;
+    QPushButton* m_playButton;
+    QPushButton* m_pauseButton;
     AudioStream m_audioStream;
     bool m_stopped = true;
-    QTimer *m_timer;
-    QHBoxLayout *m_layout;
+    QTimer* m_timer;
+    QHBoxLayout* m_layout;
 };

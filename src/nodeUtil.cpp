@@ -3,8 +3,7 @@
 
 QString nodeTypeAsString(nl::node node)
 {
-    switch (node.data_type())
-    {
+    switch (node.data_type()) {
     case nl::node::type::audio:
         return "audio";
     case nl::node::type::bitmap:
@@ -26,8 +25,7 @@ QString nodeTypeAsString(nl::node node)
 
 QString nodeValueAsString(nl::node node)
 {
-    switch (node.data_type())
-    {
+    switch (node.data_type()) {
     case nl::node::type::real:
     case nl::node::type::integer:
     case nl::node::type::string:
@@ -52,7 +50,6 @@ const void* getBitmapData(nl::node n)
 
     return n.get_bitmap().data();
 }
-
 
 QStringList findNodes(nl::node root, QString name, QString path)
 {

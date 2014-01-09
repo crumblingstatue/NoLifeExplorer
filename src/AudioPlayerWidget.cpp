@@ -3,8 +3,8 @@
 #include <sstream>
 #include <iomanip>
 
-AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) :
-    QWidget(parent_)
+AudioPlayerWidget::AudioPlayerWidget(QWidget* parent_)
+    : QWidget(parent_)
 {
     m_slider = new QSlider(Qt::Horizontal);
     m_playButton = new QPushButton("Play");
@@ -41,8 +41,7 @@ void AudioPlayerWidget::setLoop(bool looping)
 void AudioPlayerWidget::updateTimeInfo()
 {
     // Check if sound is stopped
-    if (m_audioStream.getStatus() == sf::SoundStream::Stopped)
-    {
+    if (m_audioStream.getStatus() == sf::SoundStream::Stopped) {
         stop();
     }
     const int playingOffset = m_audioStream.getPlayingOffset().asSeconds();
@@ -74,13 +73,10 @@ void AudioPlayerWidget::stop()
 
 void AudioPlayerWidget::onStopClicked()
 {
-    if (!stopped())
-    {
+    if (!stopped()) {
         m_audioStream.stop();
         stop();
-    }
-    else
-    {
+    } else {
         play();
     }
 }
@@ -106,14 +102,11 @@ void AudioPlayerWidget::play()
 
 void AudioPlayerWidget::onPauseClicked()
 {
-    if (m_audioStream.getStatus() == sf::SoundStream::Paused)
-    {
+    if (m_audioStream.getStatus() == sf::SoundStream::Paused) {
         m_audioStream.play();
         m_slider->setEnabled(true);
         m_pauseButton->setText("Pause");
-    }
-    else
-    {
+    } else {
         m_audioStream.pause();
         m_slider->setEnabled(false);
         m_pauseButton->setText("Resume");
