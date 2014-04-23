@@ -1,6 +1,8 @@
 #include "nodeUtil.hpp"
 #include "nx/bitmap.hpp"
 
+namespace nodeUtil {
+
 QString nodeTypeAsString(nl::node node) {
     switch (node.data_type()) {
     case nl::node::type::audio:
@@ -59,4 +61,5 @@ QStringList findNodes(nl::node root, QString name, QString path) {
                              path + "/" + QString::fromStdString(root.name()));
     }
     return results;
+}
 }

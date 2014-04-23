@@ -228,8 +228,8 @@ void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
         break;
     case nl::node::type::bitmap: {
         auto bm = node.get_bitmap();
-        QImage image((uchar *)getBitmapData(node), bm.width(), bm.height(),
-                     QImage::Format_ARGB32);
+        QImage image((uchar *)nodeUtil::getBitmapData(node), bm.width(),
+                     bm.height(), QImage::Format_ARGB32);
         QPixmap pm = QPixmap::fromImage(image);
         QLabel *label = new QLabel;
         label->setPixmap(pm);
@@ -286,14 +286,14 @@ void MainWindow::saveCurrentNodeToFile() {
     }
 
     QString filename = QFileDialog::getSaveFileName(
-        this, "Save " + nodeTypeAsString(node) + " to ");
+        this, "Save " + nodeUtil::nodeTypeAsString(node) + " to ");
     if (filename.isNull()) {
         return;
     }
 
     switch (node.data_type()) {
     case nl::node::type::bitmap: {
-        QImage image(static_cast<const uchar *>(getBitmapData(node)),
+        QImage image(static_cast<const uchar *>(nodeUtil::getBitmapData(node)),
                      node.get_bitmap().width(), node.get_bitmap().height(),
                      QImage::Format_ARGB32);
         image.save(filename);
@@ -311,7 +311,7 @@ void MainWindow::saveCurrentNodeToFile() {
         QFile f;
         f.setFileName(filename);
         f.open(QIODevice::WriteOnly);
-        f.write(nodeValueAsString(node).toUtf8());
+        f.write(nodeUtil::nodeValueAsString(node).toUtf8());
     }
     }
 }
@@ -328,7 +328,7 @@ void MainWindow::findNodes(nl::node root) {
     QLineEdit *le = new QLineEdit;
     le->setWindowTitle("Find Wot");
     connect(le, &QLineEdit::returnPressed, [=]() {
-        auto nodes = ::findNodes(root, le->text());
+        auto nodes = nodeUtil::findNodes(root, le->text());
         le->close();
         le->deleteLater();
         if (!nodes.isEmpty()) {
