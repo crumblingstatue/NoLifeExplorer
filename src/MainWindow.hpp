@@ -16,8 +16,7 @@ public:
     explicit MainWindow(QWidget* parent_ = 0);
     ~MainWindow();
 
-private
-slots:
+private:
     void openFromFile(QString filename);
     void handleCurrentItemChanged(QTreeWidgetItem* current, QTreeWidgetItem* previous);
     void handleItemActivated(QTreeWidgetItem* widgetItem, int column);
@@ -29,7 +28,6 @@ slots:
     void findNodes(nl::node root);
     void goToNodeItem(QString path);
 
-private:
     nl::file* m_file;
     bool m_looping = true;
     QLabel* m_statusBarLabel;

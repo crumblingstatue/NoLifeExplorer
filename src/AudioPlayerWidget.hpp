@@ -14,12 +14,9 @@ class AudioPlayerWidget : public QWidget {
 public:
     explicit AudioPlayerWidget(QWidget* parent = 0);
     void play(nl::audio audio);
-
-public
-slots:
     void setLoop(bool arg1);
-private
-slots:
+
+private:
     void play();
 
     void updateTimeInfo();
@@ -28,8 +25,6 @@ slots:
 
     void onStopClicked();
     void onPauseClicked();
-
-private:
     bool stopped();
     QSlider* m_slider;
     QLabel* m_label;
