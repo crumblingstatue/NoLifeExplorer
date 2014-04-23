@@ -357,7 +357,7 @@ QTreeWidgetItem *findChildItem(QTreeWidgetItem *parent, QString name) {
         if (parent->child(i)->text(0) == name)
             return parent->child(i);
     }
-    throw;
+    return nullptr;
 }
 }
 
@@ -368,6 +368,10 @@ void MainWindow::goToNodeItem(QString path) {
     for (auto s : tree) {
         root->setExpanded(true);
         root = findChildItem(root, s);
+        if (root == nullptr) {
+            QMessageBox::warning(this, "Error", "No such node: " + path);
+            return;
+        }
     }
 
     m_treeWidget->setCurrentItem(root);
