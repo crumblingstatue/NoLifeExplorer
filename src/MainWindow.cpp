@@ -329,18 +329,24 @@ void MainWindow::findNodes(nl::node root) {
     le->setWindowTitle("Find Wot");
     connect(le, &QLineEdit::returnPressed, [=]() {
         auto nodes = ::findNodes(root, le->text());
-        QListWidget *lw = new QListWidget;
-        for (auto s : nodes) {
-            lw->addItem(s);
-        }
-        connect(lw, &QListWidget::itemActivated, [=](QListWidgetItem *item) {
-            goToNodeItem(item->text());
-            lw->close();
-            delete lw;
-        });
-        lw->show();
         le->close();
-        delete le;
+        le->deleteLater();
+        if (!nodes.isEmpty()) {
+            QListWidget *lw = new QListWidget;
+
+            for (auto s : nodes) {
+                lw->addItem(s);
+            }
+            connect(lw, &QListWidget::itemActivated,
+                    [=](QListWidgetItem *item) {
+                goToNodeItem(item->text());
+                lw->close();
+                lw->deleteLater();
+            });
+            lw->show();
+        } else {
+            QMessageBox::information(this, "No results", "No results found.");
+        }
     });
     le->show();
 }
