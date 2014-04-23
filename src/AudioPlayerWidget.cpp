@@ -3,9 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-AudioPlayerWidget::AudioPlayerWidget(QWidget* parent_)
-    : QWidget(parent_)
-{
+AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) : QWidget(parent_) {
     m_slider = new QSlider(Qt::Horizontal);
     m_playButton = new QPushButton("Play");
     m_pauseButton = new QPushButton("Pause");
@@ -19,27 +17,27 @@ AudioPlayerWidget::AudioPlayerWidget(QWidget* parent_)
     setLayout(m_layout);
 
     connect(m_slider, &QSlider::sliderMoved, this, &AudioPlayerWidget::seek);
-    connect(m_timer, &QTimer::timeout, this, &AudioPlayerWidget::updateTimeInfo);
-    connect(m_pauseButton, &QPushButton::clicked, this, &AudioPlayerWidget::onPauseClicked);
-    connect(m_playButton, &QPushButton::clicked, this, &AudioPlayerWidget::onStopClicked);
+    connect(m_timer, &QTimer::timeout, this,
+            &AudioPlayerWidget::updateTimeInfo);
+    connect(m_pauseButton, &QPushButton::clicked, this,
+            &AudioPlayerWidget::onPauseClicked);
+    connect(m_playButton, &QPushButton::clicked, this,
+            &AudioPlayerWidget::onStopClicked);
 
     m_timer->setInterval(250);
 }
 
-void AudioPlayerWidget::play(nl::audio audio)
-{
+void AudioPlayerWidget::play(nl::audio audio) {
     m_audioStream.open(audio);
     show();
     play();
 }
 
-void AudioPlayerWidget::setLoop(bool looping)
-{
+void AudioPlayerWidget::setLoop(bool looping) {
     m_audioStream.setLoop(looping);
 }
 
-void AudioPlayerWidget::updateTimeInfo()
-{
+void AudioPlayerWidget::updateTimeInfo() {
     // Check if sound is stopped
     if (m_audioStream.getStatus() == sf::SoundStream::Stopped) {
         stop();
@@ -52,18 +50,17 @@ void AudioPlayerWidget::updateTimeInfo()
     const int lSeconds = length % 60;
     std::ostringstream ss;
     ss << std::setfill('0');
-    ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / " << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
+    ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / "
+       << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
     m_label->setText(QString::fromStdString(ss.str()));
     m_slider->setValue(m_audioStream.getPlayingOffset().asMilliseconds());
 }
 
-void AudioPlayerWidget::seek(int where)
-{
+void AudioPlayerWidget::seek(int where) {
     m_audioStream.setPlayingOffset(sf::milliseconds(where));
 }
 
-void AudioPlayerWidget::stop()
-{
+void AudioPlayerWidget::stop() {
     m_slider->setEnabled(false);
     m_pauseButton->setEnabled(false);
     m_playButton->setText("Play");
@@ -71,8 +68,7 @@ void AudioPlayerWidget::stop()
     m_stopped = true;
 }
 
-void AudioPlayerWidget::onStopClicked()
-{
+void AudioPlayerWidget::onStopClicked() {
     if (!stopped()) {
         m_audioStream.stop();
         stop();
@@ -81,13 +77,9 @@ void AudioPlayerWidget::onStopClicked()
     }
 }
 
-bool AudioPlayerWidget::stopped()
-{
-    return m_stopped;
-}
+bool AudioPlayerWidget::stopped() { return m_stopped; }
 
-void AudioPlayerWidget::play()
-{
+void AudioPlayerWidget::play() {
     m_audioStream.play();
     m_playButton->setEnabled(true);
     m_pauseButton->setEnabled(true);
@@ -100,8 +92,7 @@ void AudioPlayerWidget::play()
     m_playButton->setText("Stop");
 }
 
-void AudioPlayerWidget::onPauseClicked()
-{
+void AudioPlayerWidget::onPauseClicked() {
     if (m_audioStream.getStatus() == sf::SoundStream::Paused) {
         m_audioStream.play();
         m_slider->setEnabled(true);

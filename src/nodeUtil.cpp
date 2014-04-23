@@ -1,8 +1,7 @@
 #include "nodeUtil.hpp"
 #include "nx/bitmap.hpp"
 
-QString nodeTypeAsString(nl::node node)
-{
+QString nodeTypeAsString(nl::node node) {
     switch (node.data_type()) {
     case nl::node::type::audio:
         return "audio";
@@ -23,8 +22,7 @@ QString nodeTypeAsString(nl::node node)
     return QString("?????");
 }
 
-QString nodeValueAsString(nl::node node)
-{
+QString nodeValueAsString(nl::node node) {
     switch (node.data_type()) {
     case nl::node::type::real:
     case nl::node::type::integer:
@@ -41,8 +39,7 @@ QString nodeValueAsString(nl::node node)
     return QString();
 }
 
-const void* getBitmapData(nl::node n)
-{
+const void *getBitmapData(nl::node n) {
     if (n["source"]) {
         std::string src = n["source"];
         n = n.root().resolve(src.substr(src.find_first_of('/') + 1));
@@ -51,14 +48,15 @@ const void* getBitmapData(nl::node n)
     return n.get_bitmap().data();
 }
 
-QStringList findNodes(nl::node root, QString name, QString path)
-{
+QStringList findNodes(nl::node root, QString name, QString path) {
     QStringList results;
     for (auto n : root) {
         if (QString::fromStdString(n.name()).contains(name)) {
-            results.append(path + QString::fromStdString(root.name()) + "/" + QString::fromStdString(n.name()));
+            results.append(path + QString::fromStdString(root.name()) + "/" +
+                           QString::fromStdString(n.name()));
         }
-        results += findNodes(n, name, path + "/" + QString::fromStdString(root.name()));
+        results += findNodes(n, name,
+                             path + "/" + QString::fromStdString(root.name()));
     }
     return results;
 }
