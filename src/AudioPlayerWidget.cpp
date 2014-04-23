@@ -4,7 +4,7 @@
 #include <iomanip>
 
 AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) : QWidget(parent_) {
-    m_slider = new QSlider(Qt::Horizontal);
+    m_slider = new StreamSeekSlider(Qt::Horizontal);
     m_playButton = new QPushButton("Play");
     m_pauseButton = new QPushButton("Pause");
     m_timer = new QTimer(this);

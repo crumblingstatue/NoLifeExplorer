@@ -6,8 +6,34 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QHBoxLayout>
+#include <QMouseEvent>
 
 #include "AudioStream.hpp"
+
+// "Stolen" from http://stackoverflow.com/a/11133022
+class StreamSeekSlider : public QSlider {
+    using QSlider::QSlider;
+
+protected:
+    void mousePressEvent(QMouseEvent *event_) {
+        if (event_->button() == Qt::LeftButton) {
+            if (orientation() == Qt::Vertical) {
+                auto value_ = minimum() + ((maximum() - minimum()) *
+                                           (height() - event_->y())) /
+                                              height();
+                setValue(value_);
+                emit sliderMoved(value_);
+            } else {
+                auto value_ = minimum() +
+                              ((maximum() - minimum()) * event_->x()) / width();
+                setValue(value_);
+                emit sliderMoved(value_);
+            }
+
+            event_->accept();
+        }
+    }
+};
 
 class AudioPlayerWidget : public QWidget {
     Q_OBJECT
@@ -26,7 +52,7 @@ private:
     void onStopClicked();
     void onPauseClicked();
     bool stopped();
-    QSlider *m_slider;
+    StreamSeekSlider *m_slider;
     QLabel *m_label;
     QPushButton *m_playButton;
     QPushButton *m_pauseButton;
