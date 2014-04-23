@@ -190,6 +190,7 @@ void MainWindow::openFromFile(QString filename) {
     }
 
     m_treeWidget->setVisible(true);
+    m_treeWidget->setFocus();
     m_recentFiles.prepend(QFileInfo(filename).absoluteFilePath());
     m_recentFiles.removeDuplicates();
     if (m_recentFiles.size() > 10)
