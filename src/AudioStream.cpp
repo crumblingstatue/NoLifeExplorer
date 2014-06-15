@@ -1,5 +1,6 @@
 #include "AudioStream.hpp"
 #include <sstream>
+#include <stdexcept>
 
 AudioStream::AudioStream() {
     mpg123assert(mpg123_init());
