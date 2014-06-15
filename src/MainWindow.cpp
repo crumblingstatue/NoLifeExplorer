@@ -19,6 +19,7 @@
 #include <QLineEdit>
 #include <QListWidget>
 
+namespace {
 NodeItem *addNode(const nl::node &node, QTreeWidgetItem *parent) {
     auto item = new NodeItem(node);
     parent->addChild(item);
@@ -67,6 +68,7 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format) {
         }
     }
     return path;
+}
 }
 
 MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
