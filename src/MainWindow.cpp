@@ -20,7 +20,7 @@
 #include <QListWidget>
 
 namespace {
-NodeItem *addNode(const nl::node &node, QTreeWidgetItem *parent) {
+NodeItem *addNode(nl::node const &node, QTreeWidgetItem *parent) {
     auto item = new NodeItem(node);
     parent->addChild(item);
     return item;
@@ -296,7 +296,7 @@ void MainWindow::saveCurrentNodeToFile() {
 
     switch (node.data_type()) {
     case nl::node::type::bitmap: {
-        QImage image(static_cast<const uchar *>(nodeUtil::getBitmapData(node)),
+        QImage image(static_cast<uchar const *>(nodeUtil::getBitmapData(node)),
                      node.get_bitmap().width(), node.get_bitmap().height(),
                      QImage::Format_ARGB32);
         image.save(filename);
@@ -306,7 +306,7 @@ void MainWindow::saveCurrentNodeToFile() {
         QFile f;
         f.setFileName(filename);
         f.open(QIODevice::WriteOnly);
-        f.write(static_cast<const char *>(node.get_audio().data()),
+        f.write(static_cast<char const *>(node.get_audio().data()),
                 node.get_audio().length());
         break;
     }

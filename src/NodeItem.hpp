@@ -4,7 +4,7 @@
 #include "nx/node.hpp"
 
 struct NodeItem : public QTreeWidgetItem {
-    NodeItem(const nl::node &n);
-    const nl::node node;
+    NodeItem(nl::node const &n);
+    nl::node const node;
     bool childrenAdded = false;
 };

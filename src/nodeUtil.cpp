@@ -41,7 +41,7 @@ QString nodeValueAsString(nl::node node) {
     return QString();
 }
 
-const void *getBitmapData(nl::node n) {
+void const *getBitmapData(nl::node n) {
     if (n["source"]) {
         std::string src = n["source"];
         n = n.root().resolve(src.substr(src.find_first_of('/') + 1));

@@ -12,8 +12,8 @@ AudioStream::AudioStream() {
 
 AudioStream::~AudioStream() { mpg123_delete(m_handle); }
 
-void AudioStream::open(const nl::audio &audio) {
-    auto typemagic = static_cast<const unsigned char *>(audio.data()) + 0x33;
+void AudioStream::open(nl::audio const &audio) {
+    auto typemagic = static_cast<unsigned char const *>(audio.data()) + 0x33;
     if (typemagic[0] == 0x1E && typemagic[1] == 0x55)
         m_type = Mp3;
     else if (typemagic[0] == 0x12 && typemagic[1] == 0x01)
@@ -26,7 +26,7 @@ void AudioStream::open(const nl::audio &audio) {
         throw std::runtime_error(stream.str());
     }
 
-    m_begin = static_cast<const unsigned char *>(audio.data()) + 82;
+    m_begin = static_cast<unsigned char const *>(audio.data()) + 82;
     m_length = audio.length() - 82;
     stop();
     if (m_type == Mp3) {
@@ -49,7 +49,7 @@ bool AudioStream::onGetData(Chunk &data) {
     if (m_type == Mp3) {
         size_t done;
         mpg123_read(m_handle, m_buf.data(), m_buf.size(), &done);
-        data.samples = reinterpret_cast<const sf::Int16 *>(m_buf.data());
+        data.samples = reinterpret_cast<sf::Int16 const *>(m_buf.data());
         data.sampleCount = done / sizeof(sf::Int16);
         return data.sampleCount > 0;
     } else if (m_type == Raw_S16LE_44100) {
@@ -58,7 +58,7 @@ bool AudioStream::onGetData(Chunk &data) {
         if (m_rawOffset >= m_length - rawbufsize * 2)
             return false;
         data.samples =
-            reinterpret_cast<const sf::Int16 *>(m_begin + m_rawOffset);
+            reinterpret_cast<sf::Int16 const *>(m_begin + m_rawOffset);
         uint32_t remaining = m_length - m_rawOffset;
         data.sampleCount = (remaining > rawbufsize ? rawbufsize : remaining);
         m_rawOffset += data.sampleCount * 2;

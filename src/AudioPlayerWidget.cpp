@@ -42,12 +42,12 @@ void AudioPlayerWidget::updateTimeInfo() {
     if (m_audioStream.getStatus() == sf::SoundStream::Stopped) {
         stop();
     }
-    const int playingOffset = m_audioStream.getPlayingOffset().asSeconds();
-    const int length = m_audioStream.lengthTime.asSeconds();
-    const int oMinutes = playingOffset / 60;
-    const int oSeconds = playingOffset % 60;
-    const int lMinutes = length / 60;
-    const int lSeconds = length % 60;
+    int const playingOffset = m_audioStream.getPlayingOffset().asSeconds();
+    int const length = m_audioStream.lengthTime.asSeconds();
+    int const oMinutes = playingOffset / 60;
+    int const oSeconds = playingOffset % 60;
+    int const lMinutes = length / 60;
+    int const lSeconds = length % 60;
     std::ostringstream ss;
     ss << std::setfill('0');
     ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / "
