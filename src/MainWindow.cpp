@@ -18,6 +18,7 @@
 #include <QApplication>
 #include <QLineEdit>
 #include <QListWidget>
+#include <thread>
 
 namespace {
 NodeItem *addNode(nl::node const &node, QTreeWidgetItem *parent) {
@@ -331,25 +332,32 @@ void MainWindow::findNodes(nl::node root) {
     QLineEdit *le = new QLineEdit;
     le->setWindowTitle("Find Wot");
     connect(le, &QLineEdit::returnPressed, [=]() {
-        auto nodes = nodeUtil::findNodes(root, le->text());
-        le->close();
-        le->deleteLater();
-        if (!nodes.isEmpty()) {
-            QListWidget *lw = new QListWidget;
+        auto finished = [=](QStringList nodes) {
+            le->close();
+            le->deleteLater();
+            if (!nodes.isEmpty()) {
+                QListWidget *lw = new QListWidget;
 
-            for (auto s : nodes) {
-                lw->addItem(s);
+                for (auto s : nodes) {
+                    lw->addItem(s);
+                }
+                connect(lw, &QListWidget::itemActivated,
+                        [=](QListWidgetItem *item) {
+                    goToNodeItem(item->text());
+                    lw->close();
+                    lw->deleteLater();
+                });
+                lw->show();
+            } else {
+                QMessageBox::information(this, "No results",
+                                         "No results found.");
             }
-            connect(lw, &QListWidget::itemActivated,
-                    [=](QListWidgetItem *item) {
-                goToNodeItem(item->text());
-                lw->close();
-                lw->deleteLater();
-            });
-            lw->show();
-        } else {
-            QMessageBox::information(this, "No results", "No results found.");
-        }
+        };
+        std::thread thread([=] {
+            auto nodes = nodeUtil::findNodes(root, le->text());
+            finished(nodes);
+        });
+        thread.detach();
     });
     le->show();
 }
