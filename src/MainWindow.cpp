@@ -165,7 +165,24 @@ MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
     // Open the files that were given as command line arguments (if any)
     auto args = qApp->arguments();
     for (int i = 1; i < args.size(); ++i) {
-        openFromFile(args[i]);
+        QString arg = args[i];
+        // The last : character in an argument delimits a nx path inside the file
+        QString path, nxpath;
+        int index = arg.lastIndexOf(':');
+
+        if (index != -1) {
+            nxpath = arg.right((arg.size() - index) - 1);
+            path = arg.left(index);
+        } else {
+            path = arg;
+        }
+
+        openFromFile(path);
+
+        if (!nxpath.isNull()) {
+            goToNodeItem(nxpath);
+            handleItemActivated(m_treeWidget->currentItem(), 0);
+        }
     }
 }
 
