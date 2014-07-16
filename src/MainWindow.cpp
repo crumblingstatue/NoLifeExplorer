@@ -72,13 +72,17 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format) {
 }
 
 MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
+    // Load settings
     auto geom = m_settings.value("geometry");
     if (!geom.isNull())
         restoreGeometry(geom.toByteArray());
     auto state = m_settings.value("state");
     if (!state.isNull())
         restoreState(state.toByteArray());
+
     setWindowTitle("NoLifeExplorer");
+
+    // Wow... I should really refactor this
     m_file = nullptr;
     m_treeWidget = new QTreeWidget;
     m_treeWidget->setHeaderLabels({ "Name", "Type", "Value" });
@@ -158,6 +162,7 @@ MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
     m_treeWidget->header()->resizeSection(0, 300);
     m_treeWidget->header()->resizeSection(1, 70);
 
+    // Open the files that were given as command line arguments (if any)
     auto args = qApp->arguments();
     for (int i = 1; i < args.size(); ++i) {
         openFromFile(args[i]);
