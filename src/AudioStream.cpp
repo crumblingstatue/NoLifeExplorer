@@ -36,7 +36,7 @@ void AudioStream::open(nl::audio const &audio) {
         mpg123assert(mpg123_feed(m_handle, m_begin, m_length));
         int channels;
         mpg123assert(mpg123_getformat(m_handle, &m_rate, &channels, nullptr));
-        m_buf.resize(mpg123_outblock(m_handle));
+        m_buf.resize(mpg123_outblock(m_handle) * 2);
         initialize(channels, m_rate);
         lengthTime = sf::seconds(mpg123_length(m_handle) / (double)m_rate);
     } else if (m_type == Raw_S16LE_44100) {
