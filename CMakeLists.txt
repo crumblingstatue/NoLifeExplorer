@@ -1,8 +1,8 @@
 project(NoLifeExplorer)
 cmake_minimum_required(VERSION 2.8.12)
 
-set(NOLIFEEXPLORER_RELEASE 8)
-set(NOLIFEEXPLORER_CODENAME "About time...")
+set(NOLIFEEXPLORER_RELEASE 9-pre)
+set(NOLIFEEXPLORER_CODENAME "Rusted Edge")
 
 configure_file(
   "${PROJECT_SOURCE_DIR}/config.hpp.in"
