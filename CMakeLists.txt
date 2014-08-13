@@ -1,7 +1,7 @@
 project(NoLifeExplorer)
 cmake_minimum_required(VERSION 2.8.12)
 
-set(NOLIFEEXPLORER_RELEASE 9-pre)
+set(NOLIFEEXPLORER_RELEASE 9)
 set(NOLIFEEXPLORER_CODENAME "Rusted Edge")
 
 configure_file(
