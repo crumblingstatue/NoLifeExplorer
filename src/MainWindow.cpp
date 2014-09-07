@@ -52,7 +52,6 @@ QString getPathString(QTreeWidgetItem * widgetItem, PathFormat format) {
     auto list = getPath(static_cast<NodeItem *>(widgetItem));
 
     if (format == Slash) {
-
         for (QString s : list) {
             path.append(s + '/');
         }
@@ -276,7 +275,6 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem * widgetItem) {
         auto child = static_cast<NodeItem *>(item->child(i));
 
         if (!child->childrenAdded) {
-
             for (auto grandChildNode : child->node) {
                 addNode(grandChildNode, child);
             }
