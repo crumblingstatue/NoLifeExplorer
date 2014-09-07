@@ -45,10 +45,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem) {
     return list;
 }
 
-enum PathFormat {
-    Slash,
-    Array
-};
+enum PathFormat { Slash, Array };
 
 QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format) {
     QString path;
@@ -85,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
     // Wow... I should really refactor this
     m_file = nullptr;
     m_treeWidget = new QTreeWidget;
-    m_treeWidget->setHeaderLabels({ "Name", "Type", "Value" });
+    m_treeWidget->setHeaderLabels({"Name", "Type", "Value"});
     setCentralWidget(new QWidget);
     centralWidget()->setLayout(new QVBoxLayout);
     centralWidget()->layout()->addWidget(m_treeWidget);
@@ -166,7 +163,8 @@ MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
     auto args = qApp->arguments();
     for (int i = 1; i < args.size(); ++i) {
         QString arg = args[i];
-        // The last : character in an argument delimits a nx path inside the file
+        // The last : character in an argument delimits a nx path inside the
+        // file
         QString path, nxpath;
         int index = arg.lastIndexOf(':');
 
@@ -197,8 +195,7 @@ MainWindow::~MainWindow() {
 void MainWindow::openFromFile(QString filename) {
     try {
         m_file = new nl::file(filename.toLocal8Bit().data());
-    }
-    catch (std::exception &e) {
+    } catch (std::exception &e) {
         QMessageBox::critical(this, "Error", e.what());
         return;
     }
@@ -243,8 +240,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
     case nl::node::type::audio:
         try {
             m_audioPlayerWidget->play(item->node.get_audio());
-        }
-        catch (std::runtime_error &err) {
+        } catch (std::runtime_error &err) {
             QMessageBox::critical(
                 this, "Error", tr("Error playing audio: %1").arg(err.what()));
             m_audioPlayerWidget->hide();

@@ -18,9 +18,10 @@ protected:
     void mousePressEvent(QMouseEvent *event_) {
         if (event_->button() == Qt::LeftButton) {
             if (orientation() == Qt::Vertical) {
-                auto value_ = minimum() + ((maximum() - minimum()) *
-                                           (height() - event_->y())) /
-                                              height();
+                auto value_ =
+                    minimum() +
+                    ((maximum() - minimum()) * (height() - event_->y())) /
+                        height();
                 setValue(value_);
                 emit sliderMoved(value_);
             } else {

@@ -1,12 +1,15 @@
 ---
+Language:        Cpp
 # BasedOnStyle:  LLVM
 AccessModifierOffset: -4
 ConstructorInitializerIndentWidth: 4
 AlignEscapedNewlinesLeft: false
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: All
 AlwaysBreakTemplateDeclarations: false
 AlwaysBreakBeforeMultilineStrings: false
 BreakBeforeBinaryOperators: false
@@ -15,33 +18,40 @@ BreakConstructorInitializersBeforeComma: false
 BinPackParameters: true
 ColumnLimit:     80
 ConstructorInitializerAllOnOneLineOrOnePerLine: false
-DerivePointerBinding: false
+DerivePointerAlignment: false
 ExperimentalAutoDetectBinPacking: false
 IndentCaseLabels: false
+IndentWrappedFunctionNames: false
+IndentFunctionDeclarationAfterType: false
 MaxEmptyLinesToKeep: 1
+KeepEmptyLinesAtTheStartOfBlocks: true
 NamespaceIndentation: None
+ObjCSpaceAfterProperty: false
 ObjCSpaceBeforeProtocolList: true
 PenaltyBreakBeforeFirstCallParameter: 19
-PenaltyBreakComment: 60
+PenaltyBreakComment: 300
 PenaltyBreakString: 1000
 PenaltyBreakFirstLessLess: 120
 PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 60
-PointerBindsToType: false
+PointerAlignment: Right
 SpacesBeforeTrailingComments: 1
-Cpp11BracedListStyle: false
+Cpp11BracedListStyle: true
 Standard:        Cpp11
 IndentWidth:     4
 TabWidth:        8
 UseTab:          Never
 BreakBeforeBraces: Attach
-IndentFunctionDeclarationAfterType: false
 SpacesInParentheses: false
 SpacesInAngles:  false
 SpaceInEmptyParentheses: false
 SpacesInCStyleCastParentheses: false
-SpaceAfterControlStatementKeyword: true
+SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
 ContinuationIndentWidth: 4
+CommentPragmas:  '^ IWYU pragma:'
+ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
+SpaceBeforeParens: ControlStatements
+DisableFormat:   false
 ...
 
