@@ -20,15 +20,15 @@
 #include <QListWidget>
 
 namespace {
-NodeItem *addNode(nl::node const &node, QTreeWidgetItem *parent) {
+NodeItem * addNode(nl::node const & node, QTreeWidgetItem * parent) {
     auto item = new NodeItem(node);
     parent->addChild(item);
     return item;
 }
 
-QStringList getPath(QTreeWidgetItem *widgetItem) {
+QStringList getPath(QTreeWidgetItem * widgetItem) {
     QStringList list;
-    NodeItem *item;
+    NodeItem * item;
     if (!(item = dynamic_cast<NodeItem *>(widgetItem))) {
         throw std::runtime_error("Item is not a NodeItem");
     }
@@ -36,7 +36,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem) {
     list.append(QString::fromStdString(item->node.name()));
 
     for (auto itm = item->parent(); itm; itm = itm->parent()) {
-        NodeItem *nitm;
+        NodeItem * nitm;
         if (!(nitm = dynamic_cast<NodeItem *>(itm))) {
             throw std::runtime_error("Item is not a NodeItem");
         }
@@ -47,7 +47,7 @@ QStringList getPath(QTreeWidgetItem *widgetItem) {
 
 enum PathFormat { Slash, Array };
 
-QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format) {
+QString getPathString(QTreeWidgetItem * widgetItem, PathFormat format) {
     QString path;
     auto list = getPath(static_cast<NodeItem *>(widgetItem));
 
@@ -68,7 +68,7 @@ QString getPathString(QTreeWidgetItem *widgetItem, PathFormat format) {
 }
 }
 
-MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
+MainWindow::MainWindow(QWidget * parent_) : QMainWindow(parent_) {
     // Load settings
     auto geom = m_settings.value("geometry");
     if (!geom.isNull())
@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent_) : QMainWindow(parent_) {
     centralWidget()->layout()->addWidget(m_treeWidget);
     m_audioPlayerWidget = new AudioPlayerWidget;
     centralWidget()->layout()->addWidget(m_audioPlayerWidget);
-    QAction *action;
+    QAction * action;
     m_fileMenu = new QMenu("&File");
     action = m_fileMenu->addAction("&Open...");
     connect(action, &QAction::triggered, [=]() {
@@ -195,7 +195,7 @@ MainWindow::~MainWindow() {
 void MainWindow::openFromFile(QString filename) {
     try {
         m_file = new nl::file(filename.toLocal8Bit().data());
-    } catch (std::exception &e) {
+    } catch (std::exception & e) {
         QMessageBox::critical(this, "Error", e.what());
         return;
     }
@@ -220,15 +220,15 @@ void MainWindow::openFromFile(QString filename) {
     m_treeMenu->setEnabled(true);
 }
 
-void MainWindow::handleCurrentItemChanged(QTreeWidgetItem *current,
+void MainWindow::handleCurrentItemChanged(QTreeWidgetItem * current,
                                           QTreeWidgetItem * /*previous*/) {
     m_statusBarLabel->setText(getPathString(current, Slash));
     m_nodeMenu->setEnabled(true);
 }
 
-void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
+void MainWindow::handleItemActivated(QTreeWidgetItem * widgetItem,
                                      int /*column*/) {
-    NodeItem *item;
+    NodeItem * item;
     if (!(item = dynamic_cast<NodeItem *>(widgetItem))) {
         QMessageBox::critical(this, "Error",
                               "Item is not a NodeItem. This is a bug.");
@@ -240,7 +240,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
     case nl::node::type::audio:
         try {
             m_audioPlayerWidget->play(item->node.get_audio());
-        } catch (std::runtime_error &err) {
+        } catch (std::runtime_error & err) {
             QMessageBox::critical(
                 this, "Error", tr("Error playing audio: %1").arg(err.what()));
             m_audioPlayerWidget->hide();
@@ -252,13 +252,13 @@ void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
         QImage image((uchar *)nodeUtil::getBitmapData(node), bm.width(),
                      bm.height(), QImage::Format_ARGB32);
         QPixmap pm = QPixmap::fromImage(image);
-        QLabel *label = new QLabel;
+        QLabel * label = new QLabel;
         label->setPixmap(pm);
         label->show();
         break;
     }
     case nl::node::type::string: {
-        QPlainTextEdit *edit = new QPlainTextEdit;
+        QPlainTextEdit * edit = new QPlainTextEdit;
         edit->setReadOnly(true);
         edit->setPlainText(QString::fromStdString(node.get_string()));
         edit->show();
@@ -269,7 +269,7 @@ void MainWindow::handleItemActivated(QTreeWidgetItem *widgetItem,
     }
 }
 
-void MainWindow::handleItemExpanded(QTreeWidgetItem *widgetItem) {
+void MainWindow::handleItemExpanded(QTreeWidgetItem * widgetItem) {
     auto item = static_cast<NodeItem *>(widgetItem);
 
     for (int i = 0; i < item->childCount(); ++i) {
@@ -340,26 +340,26 @@ void MainWindow::saveCurrentNodeToFile() {
 void MainWindow::updateRecentFilesList() {
     m_recentFilesMenu->clear();
     for (auto s : m_recentFiles) {
-        QAction *action = m_recentFilesMenu->addAction(s);
+        QAction * action = m_recentFilesMenu->addAction(s);
         connect(action, &QAction::triggered, [=]() { openFromFile(s); });
     }
 }
 
 void MainWindow::findNodes(nl::node root) {
-    QLineEdit *le = new QLineEdit;
+    QLineEdit * le = new QLineEdit;
     le->setWindowTitle("Find Wot");
     connect(le, &QLineEdit::returnPressed, [=]() {
         auto nodes = nodeUtil::findNodes(root, le->text());
         le->close();
         le->deleteLater();
         if (!nodes.isEmpty()) {
-            QListWidget *lw = new QListWidget;
+            QListWidget * lw = new QListWidget;
 
             for (auto s : nodes) {
                 lw->addItem(s);
             }
             connect(lw, &QListWidget::itemActivated,
-                    [=](QListWidgetItem *item) {
+                    [=](QListWidgetItem * item) {
                 goToNodeItem(item->text());
                 lw->close();
                 lw->deleteLater();
@@ -373,7 +373,7 @@ void MainWindow::findNodes(nl::node root) {
 }
 
 namespace {
-QTreeWidgetItem *findChildItem(QTreeWidgetItem *parent, QString name) {
+QTreeWidgetItem * findChildItem(QTreeWidgetItem * parent, QString name) {
     for (int i = 0; i < parent->childCount(); ++i) {
         if (parent->child(i)->text(0) == name)
             return parent->child(i);

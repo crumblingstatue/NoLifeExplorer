@@ -12,7 +12,7 @@ AudioStream::AudioStream() {
 
 AudioStream::~AudioStream() { mpg123_delete(m_handle); }
 
-void AudioStream::open(nl::audio const &audio) {
+void AudioStream::open(nl::audio const & audio) {
     auto typemagic = static_cast<unsigned char const *>(audio.data()) + 0x33;
     if (typemagic[0] == 0x1E && typemagic[1] == 0x55)
         m_type = Mp3;
@@ -45,7 +45,7 @@ void AudioStream::open(nl::audio const &audio) {
     }
 }
 
-bool AudioStream::onGetData(Chunk &data) {
+bool AudioStream::onGetData(Chunk & data) {
     if (m_type == Mp3) {
         size_t done;
         mpg123_read(m_handle, m_buf.data(), m_buf.size(), &done);

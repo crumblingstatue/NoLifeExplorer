@@ -15,7 +15,7 @@ class StreamSeekSlider : public QSlider {
     using QSlider::QSlider;
 
 protected:
-    void mousePressEvent(QMouseEvent *event_) {
+    void mousePressEvent(QMouseEvent * event_) {
         if (event_->button() == Qt::LeftButton) {
             if (orientation() == Qt::Vertical) {
                 auto value_ =
@@ -39,7 +39,7 @@ protected:
 class AudioPlayerWidget : public QWidget {
     Q_OBJECT
 public:
-    explicit AudioPlayerWidget(QWidget *parent = 0);
+    explicit AudioPlayerWidget(QWidget * parent = 0);
     void play(nl::audio audio);
     void setLoop(bool arg1);
 
@@ -53,12 +53,12 @@ private:
     void onStopClicked();
     void onPauseClicked();
     bool stopped();
-    StreamSeekSlider *m_slider;
-    QLabel *m_label;
-    QPushButton *m_playButton;
-    QPushButton *m_pauseButton;
+    StreamSeekSlider * m_slider;
+    QLabel * m_label;
+    QPushButton * m_playButton;
+    QPushButton * m_pauseButton;
     AudioStream m_audioStream;
     bool m_stopped = true;
-    QTimer *m_timer;
-    QHBoxLayout *m_layout;
+    QTimer * m_timer;
+    QHBoxLayout * m_layout;
 };

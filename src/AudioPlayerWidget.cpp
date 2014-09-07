@@ -3,7 +3,7 @@
 #include <sstream>
 #include <iomanip>
 
-AudioPlayerWidget::AudioPlayerWidget(QWidget *parent_) : QWidget(parent_) {
+AudioPlayerWidget::AudioPlayerWidget(QWidget * parent_) : QWidget(parent_) {
     m_slider = new StreamSeekSlider(Qt::Horizontal);
     m_playButton = new QPushButton("Play");
     m_pauseButton = new QPushButton("Pause");
