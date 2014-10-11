@@ -16,9 +16,9 @@ elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(USING_CLANG TRUE)
 endif()
 
-# For GCC and Clang, enable C++11 support and add some other flags
+# For GCC and Clang, enable C++14 support and add some other flags
 if(USING_GCC OR USING_CLANG)
-  add_compile_options(-std=c++11 -pedantic -Wall -Wextra -Wconversion
+  add_compile_options(-std=c++14 -pedantic -Wall -Wextra -Wconversion
                       -Wshadow -Wmissing-declarations -Wnon-virtual-dtor)
 endif()
 
