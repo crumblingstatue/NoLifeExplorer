@@ -82,7 +82,8 @@ void AudioStream::onSeek(sf::Time timeOffset) {
     } else if (m_type == Raw_S16LE_44100) {
         // Seek to a position divisible by rawbufsize
         m_rawOffset =
-            (uint32_t(timeOffset.asSeconds() * 44100 * 2) / rawbufsize) *
+            (numeric_cast<uint32_t>(timeOffset.asSeconds() * 44100 * 2) /
+             rawbufsize) *
             rawbufsize;
     }
 }
