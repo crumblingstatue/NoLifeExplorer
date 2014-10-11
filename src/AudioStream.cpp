@@ -1,6 +1,9 @@
 #include "AudioStream.hpp"
 #include <sstream>
 #include <stdexcept>
+#include <boost/numeric/conversion/cast.hpp>
+
+using boost::numeric_cast;
 
 AudioStream::AudioStream() {
     mpg123assert(mpg123_init());
@@ -37,11 +40,12 @@ void AudioStream::open(nl::audio const & audio) {
         int channels;
         mpg123assert(mpg123_getformat(m_handle, &m_rate, &channels, nullptr));
         m_buf.resize(mpg123_outblock(m_handle) * 2);
-        initialize(channels, m_rate);
-        lengthTime = sf::seconds(mpg123_length(m_handle) / (double)m_rate);
+        initialize(channels, numeric_cast<unsigned>(m_rate));
+        lengthTime = sf::seconds(numeric_cast<float>(mpg123_length(m_handle)) /
+                                 numeric_cast<float>(m_rate));
     } else if (m_type == Raw_S16LE_44100) {
         initialize(1, 44100);
-        lengthTime = sf::seconds((m_length / 2) / 44100);
+        lengthTime = sf::seconds((numeric_cast<float>(m_length) / 2) / 44100);
     }
 }
 
@@ -61,7 +65,7 @@ bool AudioStream::onGetData(Chunk & data) {
             reinterpret_cast<sf::Int16 const *>(m_begin + m_rawOffset);
         uint32_t remaining = m_length - m_rawOffset;
         data.sampleCount = (remaining > rawbufsize ? rawbufsize : remaining);
-        m_rawOffset += data.sampleCount * 2;
+        m_rawOffset += numeric_cast<uint32_t>(data.sampleCount * 2);
         return remaining;
     }
     return false;
@@ -70,8 +74,10 @@ bool AudioStream::onGetData(Chunk & data) {
 void AudioStream::onSeek(sf::Time timeOffset) {
     if (m_type == Mp3) {
         off_t offset;
-        mpg123_feedseek(m_handle, timeOffset.asSeconds() * m_rate, SEEK_SET,
-                        &offset);
+        mpg123_feedseek(m_handle,
+                        numeric_cast<off_t>(timeOffset.asSeconds() *
+                                            numeric_cast<float>(m_rate)),
+                        SEEK_SET, &offset);
         mpg123_feed(m_handle, m_begin + offset, m_length - offset);
     } else if (m_type == Raw_S16LE_44100) {
         // Seek to a position divisible by rawbufsize
