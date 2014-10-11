@@ -2,6 +2,9 @@
 
 #include <sstream>
 #include <iomanip>
+#include <boost/numeric/conversion/cast.hpp>
+
+using boost::numeric_cast;
 
 AudioPlayerWidget::AudioPlayerWidget(QWidget * parent_) : QWidget(parent_) {
     m_slider = new StreamSeekSlider(Qt::Horizontal);
@@ -42,12 +45,12 @@ void AudioPlayerWidget::updateTimeInfo() {
     if (m_audioStream.getStatus() == sf::SoundStream::Stopped) {
         stop();
     }
-    int const playingOffset = m_audioStream.getPlayingOffset().asSeconds();
-    int const length = m_audioStream.lengthTime.asSeconds();
-    int const oMinutes = playingOffset / 60;
-    int const oSeconds = playingOffset % 60;
-    int const lMinutes = length / 60;
-    int const lSeconds = length % 60;
+    auto const playingOffset = m_audioStream.getPlayingOffset().asSeconds();
+    auto const length = m_audioStream.lengthTime.asSeconds();
+    auto const oMinutes = numeric_cast<int>(playingOffset) / 60;
+    auto const oSeconds = numeric_cast<int>(playingOffset) % 60;
+    auto const lMinutes = numeric_cast<int>(length) / 60;
+    auto const lSeconds = numeric_cast<int>(length) % 60;
     std::ostringstream ss;
     ss << std::setfill('0');
     ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / "

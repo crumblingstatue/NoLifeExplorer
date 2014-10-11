@@ -18,7 +18,7 @@ endif()
 
 # For GCC and Clang, enable C++11 support and add some other flags
 if(USING_GCC OR USING_CLANG)
-  add_compile_options(-std=c++11 -pedantic -Wall -Wextra
+  add_compile_options(-std=c++11 -pedantic -Wall -Wextra -Wconversion
                       -Wshadow -Wmissing-declarations -Wnon-virtual-dtor)
 endif()
 
