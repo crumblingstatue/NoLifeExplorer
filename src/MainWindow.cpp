@@ -358,10 +358,10 @@ void MainWindow::findNodes(nl::node root) {
             }
             connect(lw, &QListWidget::itemActivated,
                     [=](QListWidgetItem * item) {
-                goToNodeItem(item->text());
-                lw->close();
-                lw->deleteLater();
-            });
+                        goToNodeItem(item->text());
+                        lw->close();
+                        lw->deleteLater();
+                    });
             lw->show();
         } else {
             QMessageBox::information(this, "No results", "No results found.");
