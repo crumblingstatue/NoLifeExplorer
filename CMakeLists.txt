@@ -20,6 +20,11 @@ endif()
 if(USING_GCC OR USING_CLANG)
   add_compile_options(-std=c++14 -pedantic -Wall -Wextra -Wconversion
                       -Wshadow -Wmissing-declarations -Wnon-virtual-dtor)
+  if(SANITIZE)
+    add_compile_options(-fsanitize=${SANITIZE})
+    set(CMAKE_EXE_LINKER_FLAGS
+        "${CMAKE_EXE_LINKER_FLAGS} -fsanitize=${SANITIZE}")
+  endif()
 endif()
 
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/CMake/Modules)
