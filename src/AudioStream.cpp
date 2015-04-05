@@ -73,7 +73,7 @@ bool AudioStream::onGetData(Chunk & data) {
 
 void AudioStream::onSeek(sf::Time timeOffset) {
     if (m_type == Mp3) {
-        off_t offset;
+        off_t offset{0};
         mpg123_feedseek(m_handle,
                         numeric_cast<off_t>(timeOffset.asSeconds() *
                                             numeric_cast<float>(m_rate)),
