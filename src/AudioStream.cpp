@@ -79,7 +79,7 @@ void AudioStream::onSeek(sf::Time timeOffset) {
                                             numeric_cast<float>(m_rate)),
                         SEEK_SET, &offset);
         // TODO: Investigate why m_length can be smaller than offset here
-        if (m_length > offset) {
+        if (m_length >= offset) {
             mpg123_feed(m_handle, m_begin + offset, numeric_cast<size_t>(m_length - offset));
         }
     } else if (m_type == Raw_S16LE_44100) {
