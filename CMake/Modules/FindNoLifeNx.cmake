@@ -8,6 +8,7 @@ NAMES
     nxfwd.hpp
 PATHS
     /usr/include/nx
+    /usr/local/include/nx
     ${NOLIFENX_USER_INCLUDE_PATH}
 )
 
@@ -16,5 +17,6 @@ NAMES
     NoLifeNx
 PATHS
     /usr/lib
+    /usr/local/lib
     ${NOLIFENX_USER_LIB_PATH}
 )
