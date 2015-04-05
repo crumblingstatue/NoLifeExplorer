@@ -40,7 +40,7 @@ void AudioStream::open(nl::audio const & audio) {
         int channels;
         mpg123assert(mpg123_getformat(m_handle, &m_rate, &channels, nullptr));
         m_buf.resize(mpg123_outblock(m_handle) * 2);
-        initialize(channels, numeric_cast<unsigned>(m_rate));
+        initialize(numeric_cast<unsigned>(channels), numeric_cast<unsigned>(m_rate));
         lengthTime = sf::seconds(numeric_cast<float>(mpg123_length(m_handle)) /
                                  numeric_cast<float>(m_rate));
     } else if (m_type == Raw_S16LE_44100) {
@@ -78,7 +78,10 @@ void AudioStream::onSeek(sf::Time timeOffset) {
                         numeric_cast<off_t>(timeOffset.asSeconds() *
                                             numeric_cast<float>(m_rate)),
                         SEEK_SET, &offset);
-        mpg123_feed(m_handle, m_begin + offset, m_length - offset);
+        // TODO: Investigate why m_length can be smaller than offset here
+        if (m_length > offset) {
+            mpg123_feed(m_handle, m_begin + offset, numeric_cast<size_t>(m_length - offset));
+        }
     } else if (m_type == Raw_S16LE_44100) {
         // Seek to a position divisible by rawbufsize
         m_rawOffset =
