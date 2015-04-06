@@ -18,8 +18,7 @@ public:
 
 private:
     void openFromFile(QString filename);
-    void handleCurrentItemChanged(QTreeWidgetItem * current,
-                                  QTreeWidgetItem * previous);
+    void handleCurrentItemChanged(QTreeWidgetItem * current, QTreeWidgetItem * previous);
     void handleItemActivated(QTreeWidgetItem * widgetItem, int column);
     void handleItemExpanded(QTreeWidgetItem * widgetItem);
     void copyPath_slash();
@@ -34,8 +33,7 @@ private:
     QLabel * m_statusBarLabel;
     QTreeWidget * m_treeWidget;
     AudioPlayerWidget * m_audioPlayerWidget;
-    QMenu * m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu,
-        *m_recentFilesMenu, *m_treeMenu;
+    QMenu * m_fileMenu, *m_playbackMenu, *m_nodeMenu, *m_helpMenu, *m_recentFilesMenu, *m_treeMenu;
     QStringList m_recentFiles;
     QSettings m_settings;
 };

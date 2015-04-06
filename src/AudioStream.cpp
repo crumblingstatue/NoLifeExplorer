@@ -23,8 +23,7 @@ void AudioStream::open(nl::audio const & audio) {
         m_type = Raw_S16LE_44100;
     else {
         std::ostringstream stream;
-        stream << "Unkown audio type: " << std::hex
-               << static_cast<int>(typemagic[0]) << ' '
+        stream << "Unkown audio type: " << std::hex << static_cast<int>(typemagic[0]) << ' '
                << static_cast<int>(typemagic[1]);
         throw std::runtime_error(stream.str());
     }
@@ -61,8 +60,7 @@ bool AudioStream::onGetData(Chunk & data) {
         // Maybe there is non-audio data at end?
         if (m_rawOffset >= m_length - rawbufsize * 2)
             return false;
-        data.samples =
-            reinterpret_cast<sf::Int16 const *>(m_begin + m_rawOffset);
+        data.samples = reinterpret_cast<sf::Int16 const *>(m_begin + m_rawOffset);
         uint32_t remaining = m_length - m_rawOffset;
         data.sampleCount = (remaining > rawbufsize ? rawbufsize : remaining);
         m_rawOffset += numeric_cast<uint32_t>(data.sampleCount * 2);
@@ -75,8 +73,7 @@ void AudioStream::onSeek(sf::Time timeOffset) {
     if (m_type == Mp3) {
         off_t offset{0};
         mpg123_feedseek(m_handle,
-                        numeric_cast<off_t>(timeOffset.asSeconds() *
-                                            numeric_cast<float>(m_rate)),
+                        numeric_cast<off_t>(timeOffset.asSeconds() * numeric_cast<float>(m_rate)),
                         SEEK_SET, &offset);
         // TODO: Investigate why m_length can be smaller than offset here
         if (m_length >= offset) {
@@ -85,9 +82,7 @@ void AudioStream::onSeek(sf::Time timeOffset) {
     } else if (m_type == Raw_S16LE_44100) {
         // Seek to a position divisible by rawbufsize
         m_rawOffset =
-            (numeric_cast<uint32_t>(timeOffset.asSeconds() * 44100 * 2) /
-             rawbufsize) *
-            rawbufsize;
+            (numeric_cast<uint32_t>(timeOffset.asSeconds() * 44100 * 2) / rawbufsize) * rawbufsize;
     }
 }
 

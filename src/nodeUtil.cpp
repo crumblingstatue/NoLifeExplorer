@@ -54,11 +54,10 @@ QStringList findNodes(nl::node root, QString name, QString path) {
     QStringList results;
     for (auto n : root) {
         if (QString::fromStdString(n.name()).contains(name)) {
-            results.append(path + "/" + QString::fromStdString(root.name()) +
-                           "/" + QString::fromStdString(n.name()));
+            results.append(path + "/" + QString::fromStdString(root.name()) + "/" +
+                           QString::fromStdString(n.name()));
         }
-        results += findNodes(n, name,
-                             path + "/" + QString::fromStdString(root.name()));
+        results += findNodes(n, name, path + "/" + QString::fromStdString(root.name()));
     }
     return results;
 }

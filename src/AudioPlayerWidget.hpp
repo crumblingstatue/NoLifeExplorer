@@ -19,14 +19,11 @@ protected:
         if (event_->button() == Qt::LeftButton) {
             if (orientation() == Qt::Vertical) {
                 auto value_ =
-                    minimum() +
-                    ((maximum() - minimum()) * (height() - event_->y())) /
-                        height();
+                    minimum() + ((maximum() - minimum()) * (height() - event_->y())) / height();
                 setValue(value_);
                 emit sliderMoved(value_);
             } else {
-                auto value_ = minimum() +
-                              ((maximum() - minimum()) * event_->x()) / width();
+                auto value_ = minimum() + ((maximum() - minimum()) * event_->x()) / width();
                 setValue(value_);
                 emit sliderMoved(value_);
             }

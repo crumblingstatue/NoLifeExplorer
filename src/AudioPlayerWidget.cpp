@@ -20,12 +20,9 @@ AudioPlayerWidget::AudioPlayerWidget(QWidget * parent_) : QWidget(parent_) {
     setLayout(m_layout);
 
     connect(m_slider, &QSlider::sliderMoved, this, &AudioPlayerWidget::seek);
-    connect(m_timer, &QTimer::timeout, this,
-            &AudioPlayerWidget::updateTimeInfo);
-    connect(m_pauseButton, &QPushButton::clicked, this,
-            &AudioPlayerWidget::onPauseClicked);
-    connect(m_playButton, &QPushButton::clicked, this,
-            &AudioPlayerWidget::onStopClicked);
+    connect(m_timer, &QTimer::timeout, this, &AudioPlayerWidget::updateTimeInfo);
+    connect(m_pauseButton, &QPushButton::clicked, this, &AudioPlayerWidget::onPauseClicked);
+    connect(m_playButton, &QPushButton::clicked, this, &AudioPlayerWidget::onStopClicked);
 
     m_timer->setInterval(250);
 }
@@ -36,9 +33,7 @@ void AudioPlayerWidget::play(nl::audio audio) {
     play();
 }
 
-void AudioPlayerWidget::setLoop(bool looping) {
-    m_audioStream.setLoop(looping);
-}
+void AudioPlayerWidget::setLoop(bool looping) { m_audioStream.setLoop(looping); }
 
 void AudioPlayerWidget::updateTimeInfo() {
     // Check if sound is stopped
@@ -53,8 +48,8 @@ void AudioPlayerWidget::updateTimeInfo() {
     auto const lSeconds = numeric_cast<int>(length) % 60;
     std::ostringstream ss;
     ss << std::setfill('0');
-    ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / "
-       << std::setw(2) << lMinutes << ':' << std::setw(2) << lSeconds;
+    ss << std::setw(2) << oMinutes << ':' << std::setw(2) << oSeconds << " / " << std::setw(2)
+       << lMinutes << ':' << std::setw(2) << lSeconds;
     m_label->setText(QString::fromStdString(ss.str()));
     m_slider->setValue(m_audioStream.getPlayingOffset().asMilliseconds());
 }

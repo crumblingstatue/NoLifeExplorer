@@ -96,8 +96,7 @@ MainWindow::MainWindow(QWidget * parent_) : QMainWindow(parent_) {
             opendir = QFileInfo(m_recentFiles.first()).absoluteDir().path();
         QString nxfilter = "Nx files (*.nx)";
         QString filename = QFileDialog::getOpenFileName(
-            this, "Select data file", opendir,
-            QString("All files (*.*);;") + nxfilter, &nxfilter);
+            this, "Select data file", opendir, QString("All files (*.*);;") + nxfilter, &nxfilter);
         if (!filename.isNull())
             openFromFile(filename);
     });
@@ -116,8 +115,7 @@ MainWindow::MainWindow(QWidget * parent_) : QMainWindow(parent_) {
     action->setCheckable(true);
     action->setChecked(true);
     m_audioPlayerWidget->setLoop(true);
-    connect(action, &QAction::triggered, m_audioPlayerWidget,
-            &AudioPlayerWidget::setLoop);
+    connect(action, &QAction::triggered, m_audioPlayerWidget, &AudioPlayerWidget::setLoop);
     m_nodeMenu = new QMenu("&Node");
     m_nodeMenu->setEnabled(false);
     action = m_nodeMenu->addAction("Copy path (/)");
@@ -125,12 +123,10 @@ MainWindow::MainWindow(QWidget * parent_) : QMainWindow(parent_) {
     action = m_nodeMenu->addAction("Copy path ([])");
     connect(action, &QAction::triggered, this, &MainWindow::copyPath_array);
     action = m_nodeMenu->addAction("&Save to file...");
-    connect(action, &QAction::triggered, this,
-            &MainWindow::saveCurrentNodeToFile);
+    connect(action, &QAction::triggered, this, &MainWindow::saveCurrentNodeToFile);
     action = m_nodeMenu->addAction("&Find children...");
-    connect(action, &QAction::triggered, [=] {
-        findNodes(static_cast<NodeItem *>(m_treeWidget->currentItem())->node);
-    });
+    connect(action, &QAction::triggered,
+            [=] { findNodes(static_cast<NodeItem *>(m_treeWidget->currentItem())->node); });
     m_helpMenu = new QMenu("&Help");
     action = m_helpMenu->addAction("&About NoLifeExplorer...");
     connect(action, &QAction::triggered, [=]() {
@@ -145,10 +141,8 @@ MainWindow::MainWindow(QWidget * parent_) : QMainWindow(parent_) {
     menuBar()->addMenu(m_nodeMenu);
     menuBar()->addMenu(m_playbackMenu);
     menuBar()->addMenu(m_helpMenu);
-    connect(m_treeWidget, &QTreeWidget::itemActivated, this,
-            &MainWindow::handleItemActivated);
-    connect(m_treeWidget, &QTreeWidget::itemExpanded, this,
-            &MainWindow::handleItemExpanded);
+    connect(m_treeWidget, &QTreeWidget::itemActivated, this, &MainWindow::handleItemActivated);
+    connect(m_treeWidget, &QTreeWidget::itemExpanded, this, &MainWindow::handleItemExpanded);
     connect(m_treeWidget, &QTreeWidget::currentItemChanged, this,
             &MainWindow::handleCurrentItemChanged);
     m_treeWidget->setVisible(false);
@@ -225,12 +219,10 @@ void MainWindow::handleCurrentItemChanged(QTreeWidgetItem * current,
     m_nodeMenu->setEnabled(true);
 }
 
-void MainWindow::handleItemActivated(QTreeWidgetItem * widgetItem,
-                                     int /*column*/) {
+void MainWindow::handleItemActivated(QTreeWidgetItem * widgetItem, int /*column*/) {
     NodeItem * item;
     if (!(item = dynamic_cast<NodeItem *>(widgetItem))) {
-        QMessageBox::critical(this, "Error",
-                              "Item is not a NodeItem. This is a bug.");
+        QMessageBox::critical(this, "Error", "Item is not a NodeItem. This is a bug.");
         return;
     }
     auto node = item->node;
@@ -240,16 +232,15 @@ void MainWindow::handleItemActivated(QTreeWidgetItem * widgetItem,
         try {
             m_audioPlayerWidget->play(item->node.get_audio());
         } catch (std::runtime_error & err) {
-            QMessageBox::critical(
-                this, "Error", tr("Error playing audio: %1").arg(err.what()));
+            QMessageBox::critical(this, "Error", tr("Error playing audio: %1").arg(err.what()));
             m_audioPlayerWidget->hide();
         }
 
         break;
     case nl::node::type::bitmap: {
         auto bm = node.get_bitmap();
-        QImage image((uchar *)nodeUtil::getBitmapData(node), bm.width(),
-                     bm.height(), QImage::Format_ARGB32);
+        QImage image((uchar *)nodeUtil::getBitmapData(node), bm.width(), bm.height(),
+                     QImage::Format_ARGB32);
         QPixmap pm = QPixmap::fromImage(image);
         QLabel * label = new QLabel;
         label->setPixmap(pm);
@@ -285,27 +276,24 @@ void MainWindow::handleItemExpanded(QTreeWidgetItem * widgetItem) {
 }
 
 void MainWindow::copyPath_slash() {
-    QApplication::clipboard()->setText(
-        getPathString(m_treeWidget->currentItem(), Slash));
+    QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Slash));
 }
 
 void MainWindow::copyPath_array() {
-    QApplication::clipboard()->setText(
-        getPathString(m_treeWidget->currentItem(), Array));
+    QApplication::clipboard()->setText(getPathString(m_treeWidget->currentItem(), Array));
 }
 
 void MainWindow::saveCurrentNodeToFile() {
     auto node = static_cast<NodeItem *>(m_treeWidget->currentItem())->node;
 
     if (node.data_type() == nl::node::type::none) {
-        QMessageBox::information(
-            this, "LOL WUT",
-            "It doesn't make sense to save a node of type \"none\"");
+        QMessageBox::information(this, "LOL WUT",
+                                 "It doesn't make sense to save a node of type \"none\"");
         return;
     }
 
-    QString filename = QFileDialog::getSaveFileName(
-        this, "Save " + nodeUtil::nodeTypeAsString(node) + " to ");
+    QString filename =
+        QFileDialog::getSaveFileName(this, "Save " + nodeUtil::nodeTypeAsString(node) + " to ");
     if (filename.isNull()) {
         return;
     }
@@ -313,8 +301,7 @@ void MainWindow::saveCurrentNodeToFile() {
     switch (node.data_type()) {
     case nl::node::type::bitmap: {
         QImage image(static_cast<uchar const *>(nodeUtil::getBitmapData(node)),
-                     node.get_bitmap().width(), node.get_bitmap().height(),
-                     QImage::Format_ARGB32);
+                     node.get_bitmap().width(), node.get_bitmap().height(), QImage::Format_ARGB32);
         image.save(filename);
         break;
     }
@@ -322,8 +309,7 @@ void MainWindow::saveCurrentNodeToFile() {
         QFile f;
         f.setFileName(filename);
         f.open(QIODevice::WriteOnly);
-        f.write(static_cast<char const *>(node.get_audio().data()),
-                node.get_audio().length());
+        f.write(static_cast<char const *>(node.get_audio().data()), node.get_audio().length());
         break;
     }
     default: {
@@ -356,12 +342,11 @@ void MainWindow::findNodes(nl::node root) {
             for (auto s : nodes) {
                 lw->addItem(s);
             }
-            connect(lw, &QListWidget::itemActivated,
-                    [=](QListWidgetItem * item) {
-                        goToNodeItem(item->text());
-                        lw->close();
-                        lw->deleteLater();
-                    });
+            connect(lw, &QListWidget::itemActivated, [=](QListWidgetItem * item) {
+                goToNodeItem(item->text());
+                lw->close();
+                lw->deleteLater();
+            });
             lw->show();
         } else {
             QMessageBox::information(this, "No results", "No results found.");
