@@ -1,4 +1,7 @@
-NoLifeExplorer is a tool to explore NX files.
+# NoLifeExplorer
+
+A tool to explore NX files.
+
 ![Screen shot](screenshot.png)
 
 ## Features ##
